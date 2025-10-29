@@ -98,10 +98,11 @@ bool is_hotpin_server_at_ip(const char *ip)
 
     int status_code = esp_http_client_get_status_code(client);
     
-    // Read the response body to check for HotPin-specific response
+    // For stack efficiency, only check status codes first, and only read response body if needed
     if (status_code == 200) {
-        // Try to read response body to confirm it's a HotPin server
-        char response_buffer[512];
+        // Try to read a small portion to check for HotPin-specific response
+        // Use a smaller buffer to reduce stack usage
+        char response_buffer[128];  // Reduced size to save stack space
         int content_length = esp_http_client_get_content_length(client);
         
         if (content_length > 0 && content_length < sizeof(response_buffer) - 1) {
@@ -119,6 +120,7 @@ bool is_hotpin_server_at_ip(const char *ip)
                 }
             }
         }
+        // If we couldn't read or validate the content, we'll do a simpler check
     } else if (status_code == 401 || status_code == 403) {
         // Even if unauthorized, check if it's a HotPin server by headers
         esp_http_client_cleanup(client);
@@ -126,15 +128,16 @@ bool is_hotpin_server_at_ip(const char *ip)
     }
 
     esp_http_client_cleanup(client);
-    return false;
+    return (status_code == 200 || status_code == 401 || status_code == 403);  // Simplified return
 }
 
 /**
  * @brief Discover the HotPin WebServer on the local network
  * 
  * This function attempts to locate the HotPin WebServer using multiple methods:
- * 1. Scanning common local IPs
+ * 1. Targeted scanning around common server IP ranges
  * 2. Using the local network gateway
+ * 3. Trying common local IPs
  * 
  * @param[out] ws_url Output buffer to store the WebSocket URL (should be at least 256 chars)
  * @param[in] buffer_size Size of the output buffer
@@ -149,13 +152,19 @@ bool discover_server(char *ws_url, size_t buffer_size)
     esp_netif_t *netif = esp_netif_get_handle_from_ifkey("WIFI_STA_DEF");
     
     if (esp_netif_get_ip_info(netif, &ip_info) == ESP_OK) {
-        // Try changing the last octet to scan IPs in the same subnet
-        uint8_t *ip = (uint8_t*)&ip_info.ip.addr;
-        for (int i = 1; i <= 254; i++) {  // Scan all IPs in the subnet (except broadcast)
-            if (i == ip[3]) continue;  // Skip our own IP
+        // Get our own IP parts
+        uint8_t *my_ip = (uint8_t*)&ip_info.ip.addr;
+        
+        // Try targeted IP ranges that are more likely to have servers
+        // Check near our own IP (e.g. if we're 10.143.111.105, check .100-.110)
+        int start_range = (my_ip[3] > 10) ? (my_ip[3] - 10) : 1;
+        int end_range = (my_ip[3] < 244) ? (my_ip[3] + 10) : 254;
+        
+        for (int i = start_range; i <= end_range; i++) {
+            if (i == my_ip[3]) continue;  // Skip our own IP
             
             char server_ip[16];
-            snprintf(server_ip, sizeof(server_ip), "%d.%d.%d.%d", ip[0], ip[1], ip[2], i);
+            snprintf(server_ip, sizeof(server_ip), "%d.%d.%d.%d", my_ip[0], my_ip[1], my_ip[2], i);
             
             ESP_LOGD("DISCOVERY", "Scanning IP: %s", server_ip);
             if (is_hotpin_server_at_ip(server_ip)) {
@@ -165,7 +174,7 @@ bool discover_server(char *ws_url, size_t buffer_size)
             }
         }
         
-        // If subnet scan didn't work, try the gateway as well
+        // If targeted scan didn't work, try the gateway
         char gateway_ip[16];
         uint8_t *gw = (uint8_t*)&ip_info.gw.addr;
         snprintf(gateway_ip, sizeof(gateway_ip), "%d.%d.%d.%d", gw[0], gw[1], gw[2], gw[3]);

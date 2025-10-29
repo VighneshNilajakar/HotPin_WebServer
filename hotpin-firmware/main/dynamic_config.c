@@ -274,8 +274,6 @@ void update_dynamic_config() {
     fetch_dynamic_config();
 }
 
-#include "network_discovery.h"
-
 /**
  * @brief Initialize dynamic configuration management
  * 

@@ -1,0 +1,17 @@
+[0;33m--- Warning: GDB cannot open serial ports accessed as COMx[0m
+[0;33m--- Using \\.\COM7 instead...[0m
+[0;33m--- esp-idf-monitor 1.7.0 on \\.\COM7 115200[0m
+[0;33m--- Quit: Ctrl+] | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H[0m
+[0m--- 0x40081ef8: [0;33mpanic_abort[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/esp_system/panic.c[0m[0m:[1;31m469[0m
+[0m--- 0x4008dba9: [0;33mesp_system_abort[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4008ea72: [0;33mvApplicationStackOverflowHook[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c[0m[0m:[1;31m563[0m
+[0m--- 0x4008fe03: [0;33mvTaskSwitchContext[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/freertos/FreeRTOS-Kernel/tasks.c[0m[0m:[1;31m3689[0m
+[0m--- 0x4008eb7c: [0;33m_frxt_dispatch[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/freertos/FreeRTOS-Kernel/portable/xtensa/portasm.S[0m[0m:[1;31m451[0m
+[0m--- 0x4008eb2e: [0;33m_frxt_int_exit[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/freertos/FreeRTOS-Kernel/portable/xtensa/portasm.S[0m[0m:[1;31m246[0m
+[0m--- 0x40081ef8: [0;33mpanic_abort[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/esp_system/panic.c[0m[0m:[1;31m469[0m
+[0m--- 0x4008dba9: [0;33mesp_system_abort[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4008ea72: [0;33mvApplicationStackOverflowHook[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c[0m[0m:[1;31m563[0m
+[0m--- 0x4008fe03: [0;33mvTaskSwitchContext[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/freertos/FreeRTOS-Kernel/tasks.c[0m[0m:[1;31m3689[0m
+[0m--- 0x4008eb7c: [0;33m_frxt_dispatch[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/freertos/FreeRTOS-Kernel/portable/xtensa/portasm.S[0m[0m:[1;31m451[0m
+[0m--- 0x4008eb2e: [0;33m_frxt_int_exit[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/freertos/FreeRTOS-Kernel/portable/xtensa/portasm.S[0m[0m:[1;31m246[0m
+[0m

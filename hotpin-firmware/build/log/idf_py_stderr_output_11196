@@ -1,0 +1,45 @@
+[0;33m--- Warning: GDB cannot open serial ports accessed as COMx[0m
+[0;33m--- Using \\.\COM7 instead...[0m
+[0;33m--- esp-idf-monitor 1.7.0 on \\.\COM7 115200[0m
+[0;33m--- Quit: Ctrl+] | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H[0m
+[0m--- 0x400d910c: [0;33mesp_vfs_write[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/vfs/vfs.c[0m[0m:[1;31m945[0m
+[0m--- 0x4008b88d: [0;33mstrlen[0m[0m at [0;32m/builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/machine/xtensa/strlen.S[0m[0m:[1;31m84[0m
+[0m--- 0x4008b89d: [0;33mstrlen[0m[0m at [0;32m/builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/machine/xtensa/strlen.S[0m[0m:[1;31m96[0m
+[0m--- 0x400d9109: [0;33mesp_vfs_write[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/vfs/vfs.c[0m[0m:[1;31m942[0m
+[0m--- 0x4008b4ed: [0;33m__swrite[0m[0m at [0;32m/builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/stdio.c[0m[0m:[1;31m94[0m
+[0m--- 0x4008a8b9: [0;33m__sflush_r[0m[0m at [0;32m/builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/fflush.c[0m[0m:[1;31m224[0m
+[0m--- 0x4008a90e: [0;33m_fflush_r[0m[0m at [0;32m/builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/fflush.c[0m[0m:[1;31m278[0m
+[0m--- 0x4008ae29: [0;33m__sfvwrite_r[0m[0m at [0;32m/builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/fvwrite.c[0m[0m:[1;31m251[0m
+[0m--- 0x401760ff: [0;33m__sprint_r[0m[0m at [0;32m/builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/vfprintf.c[0m[0m:[1;31m429[0m
+[0m--- (inlined by) [0;33m__sprint_r[0m[0m at [0;32m/builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/vfprintf.c[0m[0m:[1;31m399[0m
+[0m--- 0x40175b06: [0;33m_vfprintf_r[0m[0m at [0;32m/builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/vfprintf.c[0m[0m:[1;31m1774[0m
+[0m--- 0x40169dd1: [0;33mvprintf[0m[0m at [0;32m/builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/vprintf.c[0m[0m:[1;31m34[0m
+[0m--- 0x400943c1: [0;33mesp_log_writev[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/log/src/os/log_write.c[0m[0m:[1;31m34[0m
+[0m--- 0x40094389: [0;33mesp_log_write[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/log/src/os/log_write.c[0m[0m:[1;31m44[0m
+[0m--- 0x4013af52: [0;33mesp_phy_load_cal_and_init[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/esp_phy/src/phy_init.c[0m[0m:[1;31m897[0m
+[0m--- 0x4013afcd: [0;33mesp_phy_enable[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/esp_phy/src/phy_init.c[0m[0m:[1;31m300[0m
+[0m--- 0x4018319d: [0;33mesp_phy_enable_wrapper[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/esp_wifi/esp32/esp_adapter.c[0m[0m:[1;31m613[0m
+[0m--- 0x401220d5: [0;33mwifi_hw_start[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x40122a40: [0;33mwifi_start_process[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x40120a8a: [0;33mieee80211_ioctl_process[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x40096d59: [0;33mppTask[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x4008e6c9: [0;33mvPortTaskWrapper[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c[0m[0m:[1;31m139[0m
+[0m--- 0x400803c0: [0;33m_DoubleExceptionVector[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/xtensa/xtensa_vectors.S[0m[0m:[1;31m564[0m
+[0m--- 0x4009bd66: [0;33m_xt_context_save[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/xtensa/xtensa_context.S[0m[0m:[1;31m191[0m
+[0m--- 0x4008717f: [0;33m_xt_panic[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/esp_system/port/arch/xtensa/panic_handler_asm.S[0m[0m:[1;31m48[0m
+[0m--- 0x4009bd6a: [0;33m_xt_context_save[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/xtensa/xtensa_context.S[0m[0m:[1;31m192[0m
+[0m--- 0x4000c2e0: [0;33mmemcpy[0m[0m in [0;32mROM[0m
+[0m--- 0x4000c2f6: [0;33mmemcpy[0m[0m in [0;32mROM[0m
+[0m--- 0x400803bd: [0;33m_UserExceptionVector[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x4009bd63: [0;33m_xt_context_save[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/xtensa/xtensa_context.S[0m[0m:[1;31m167[0m
+[0m--- 0x401638e6: [0;33mbb_init[0m[0m at [0;32m/home/lxf/gittree/chip7.1_phy/chip_7.1/board_code/app_test/pp/phy/phy_chip_v7.c[0m[0m:[1;31m2829[0m
+[0m--- 0x40164767: [0;33mregister_chipv7_phy[0m[0m at [0;32m/home/lxf/gittree/chip7.1_phy/chip_7.1/board_code/app_test/pp/phy/phy_chip_v7.c[0m[0m:[1;31m4017[0m
+[0m--- 0x4013af33: [0;33mesp_phy_load_cal_and_init[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/esp_phy/src/phy_init.c[0m[0m:[1;31m895[0m
+[0m--- 0x4013afcd: [0;33mesp_phy_enable[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/esp_phy/src/phy_init.c[0m[0m:[1;31m300[0m
+[0m--- 0x4018319d: [0;33mesp_phy_enable_wrapper[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/esp_wifi/esp32/esp_adapter.c[0m[0m:[1;31m613[0m
+[0m--- 0x401220d5: [0;33mwifi_hw_start[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x40122a40: [0;33mwifi_start_process[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x40120a8a: [0;33mieee80211_ioctl_process[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x40096d59: [0;33mppTask[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x4008e6c9: [0;33mvPortTaskWrapper[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c[0m[0m:[1;31m139[0m
+[0m
