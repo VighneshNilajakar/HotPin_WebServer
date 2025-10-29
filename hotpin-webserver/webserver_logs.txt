@@ -1,10 +1,11 @@
+((venv) ) ~/HotPin_WebServer $ cd hotpin-webserver/
 ((venv) ) ~/HotPin_WebServer/hotpin-webserver $ python -m hotpin.server
-2025-10-29 19:48:14,741 - STTWorker - INFO - ✅ Groq Whisper STT Worker initialized
-2025-10-29 19:48:14,741 - STTWorker - INFO -    Model: whisper-large-v3-turbo (fast & accurate)
-2025-10-29 19:48:14,741 - STTWorker - INFO -    Pricing: $0.04/min (FREE tier available)
-2025-10-29 19:48:14,741 - STTWorker - INFO -    Same API key as LLM - no additional setup needed
-2025-10-29 19:48:14,791 - TTSWorker - ERROR - Failed to initialize TTS engine: This means you probably do not have eSpeak or eSpeak-ng installed!
-2025-10-29 19:48:14,792 - StorageManager - INFO - Temp directory ensured: ./temp
+2025-10-29 20:26:06,535 - STTWorker - INFO - ✅ Groq Whisper STT Worker initialized
+2025-10-29 20:26:06,535 - STTWorker - INFO -    Model: whisper-large-v3-turbo (fast & accurate)
+2025-10-29 20:26:06,535 - STTWorker - INFO -    Pricing: $0.04/min (FREE tier available)
+2025-10-29 20:26:06,536 - STTWorker - INFO -    Same API key as LLM - no additional setup needed
+2025-10-29 20:26:06,579 - TTSWorker - ERROR - Failed to initialize TTS engine: This means you probably do not have eSpeak or eSpeak-ng installed!
+2025-10-29 20:26:06,580 - StorageManager - INFO - Temp directory ensured: ./temp
 zeroconf not available - mDNS advertising disabled
 /data/data/com.termux/files/home/HotPin_WebServer/hotpin-webserver/hotpin/server.py:58: DeprecationWarning: 
         on_event is deprecated, use lifespan event handlers instead.
@@ -20,7 +21,7 @@ zeroconf not available - mDNS advertising disabled
         [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
 
   @app.on_event("shutdown")
-INFO:     Started server process [15585]
+INFO:     Started server process [16933]
 INFO:     Waiting for application startup.
 
 ==================================================
@@ -47,7 +48,7 @@ ws://10.88.188.211:8000/ws
 ==================================================
 
 Zeroconf not available, skipping mDNS advertisement
-2025-10-29 19:48:14,893 - StorageManager - INFO - Started storage cleanup task
-2025-10-29 19:48:14,893 - hotpin.server - INFO - HotPin WebServer started
+2025-10-29 20:26:06,676 - StorageManager - INFO - Started storage cleanup task
+2025-10-29 20:26:06,676 - hotpin.server - INFO - HotPin WebServer started
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)

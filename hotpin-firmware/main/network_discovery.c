@@ -44,7 +44,7 @@ bool ping_server_at_ip(const char *ip)
     esp_http_client_config_t config = {
         .url = health_url,
         .event_handler = discovery_http_event_handler,
-        .timeout_ms = 3000,  // 3 second timeout for discovery
+        .timeout_ms = 2000,  // Reduced timeout to prevent long blocking
     };
 
     esp_http_client_handle_t client = esp_http_client_init(&config);
@@ -79,10 +79,11 @@ bool is_hotpin_server_at_ip(const char *ip)
     char health_url[256];
     snprintf(health_url, sizeof(health_url), "http://%s:8000/health", ip);
 
+    // Set up short timeout to avoid blocking for too long on unreachable IPs
     esp_http_client_config_t config = {
         .url = health_url,
         .event_handler = discovery_http_event_handler,
-        .timeout_ms = 3000,
+        .timeout_ms = 2000,  // Shorter timeout to prevent blocking
     };
 
     esp_http_client_handle_t client = esp_http_client_init(&config);
@@ -90,6 +91,7 @@ bool is_hotpin_server_at_ip(const char *ip)
         return false;
     }
 
+    // Perform the request with shorter timeout
     esp_err_t err = esp_http_client_perform(client);
     if (err != ESP_OK) {
         esp_http_client_cleanup(client);
@@ -120,15 +122,14 @@ bool is_hotpin_server_at_ip(const char *ip)
                 }
             }
         }
-        // If we couldn't read or validate the content, we'll do a simpler check
     } else if (status_code == 401 || status_code == 403) {
-        // Even if unauthorized, check if it's a HotPin server by headers
+        // Even if unauthorized, it's likely a HotPin server (correct status code)
         esp_http_client_cleanup(client);
-        return true; // Assume it's a HotPin server if it responds to auth-protected endpoints
+        return true;
     }
 
     esp_http_client_cleanup(client);
-    return (status_code == 200 || status_code == 401 || status_code == 403);  // Simplified return
+    return false;  // Only return true for verified HotPin servers
 }
 
 /**
@@ -157,10 +158,13 @@ bool discover_server(char *ws_url, size_t buffer_size)
         
         // Try targeted IP ranges that are more likely to have servers
         // Check near our own IP (e.g. if we're 10.143.111.105, check .100-.110)
-        int start_range = (my_ip[3] > 10) ? (my_ip[3] - 10) : 1;
-        int end_range = (my_ip[3] < 244) ? (my_ip[3] + 10) : 254;
+        int start_range = (my_ip[3] > 10) ? (my_ip[3] - 5) : 1;  // Reduced range from 10 to 5
+        int end_range = (my_ip[3] < 249) ? (my_ip[3] + 5) : 254;  // Reduced range from 10 to 5
         
-        for (int i = start_range; i <= end_range; i++) {
+        int attempts = 0;
+        const int max_attempts = 20;  // Limit total attempts to prevent long blocking
+        
+        for (int i = start_range; i <= end_range && attempts < max_attempts; i++, attempts++) {
             if (i == my_ip[3]) continue;  // Skip our own IP
             
             char server_ip[24];  // Increased size to safely accommodate "255.255.255.255" + null terminator with extra safety margin
@@ -172,6 +176,9 @@ bool discover_server(char *ws_url, size_t buffer_size)
                 ESP_LOGI("DISCOVERY", "HotPin server found: %s", ws_url);
                 return true;
             }
+            
+            // Add small delay between requests to prevent overwhelming network
+            vTaskDelay(pdMS_TO_TICKS(50));
         }
         
         // If targeted scan didn't work, try the gateway
@@ -179,6 +186,7 @@ bool discover_server(char *ws_url, size_t buffer_size)
         uint8_t *gw = (uint8_t*)&ip_info.gw.addr;
         snprintf(gateway_ip, sizeof(gateway_ip), "%d.%d.%d.%d", gw[0], gw[1], gw[2], gw[3]);
         
+        ESP_LOGD("DISCOVERY", "Trying gateway IP: %s", gateway_ip);
         if (is_hotpin_server_at_ip(gateway_ip)) {
             snprintf(ws_url, buffer_size, "ws://%s:8000/ws", gateway_ip);
             ESP_LOGI("DISCOVERY", "HotPin server found at gateway: %s", ws_url);
@@ -186,14 +194,17 @@ bool discover_server(char *ws_url, size_t buffer_size)
         }
     }
     
-    // Try common local IPs if the above didn't work
-    for (int i = 0; common_local_ips[i] != NULL; i++) {
+    // Try common local IPs if the above didn't work, with a limit on attempts
+    for (int i = 0; common_local_ips[i] != NULL && i < 3; i++) {  // Limit to first 3 common IPs
         ESP_LOGD("DISCOVERY", "Trying common IP: %s", common_local_ips[i]);
         if (is_hotpin_server_at_ip(common_local_ips[i])) {
             snprintf(ws_url, buffer_size, "ws://%s:8000/ws", common_local_ips[i]);
             ESP_LOGI("DISCOVERY", "HotPin server found: %s", ws_url);
             return true;
         }
+        
+        // Add delay between requests
+        vTaskDelay(pdMS_TO_TICKS(100));
     }
     
     ESP_LOGW("DISCOVERY", "Server discovery failed - no HotPin server detected");

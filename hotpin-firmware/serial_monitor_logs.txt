@@ -11,8 +11,48 @@ Executing "C:\Espressif\python_env\idf5.4_py3.11_env\Scripts\python.exe C:\Espre
 --- Using \\.\COM7 instead...
 --- esp-idf-monitor 1.7.0 on \\.\COM7 115200
 --- Quit: Ctrl+] | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H
-���I (13) boot: ESP-IDF HEAD-HASH-NOTFOUND 2nd stage bootloader
-I (13) boot: compile time Oct 29 2025 19:49:40
+ets Jul 29 2019 12:21:46
+
+rst:0x1 (POWERON_RESET),boot:0x33 (SPI_FAST_FLASH_BOOT)
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+ets Jul 29 2019 12:21:46
+
+rst:0x10 (RTCWDT_RTC_RESET),boot:0x33 (SPI_FAST_FLASH_BOOT)
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+ets Jul 29 2019 12:21:46
+
+rst:0x10 (RTCWDT_RTC_RESET),boot:0x33 (SPI_FAST_FLASH_BOOT)
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+ets Jul 29 2019 12:21:46
+
+rst:0x10 (RTCWDT_RTC_RESET),boot:0x33 (SPI_FAST_FLASH_BOOT)
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+I (13) boot: ESP-IDF HEAD-HASH-NOTFOUND 2nd stage bootloader
+I (13) boot: compile time Oct 29 2025 20:48:59
 I (13) boot: Multicore bootloader
 I (15) boot: chip revision: v3.1
 I (17) boot.esp32: SPI Speed      : 40MHz
@@ -29,10 +69,10 @@ I (64) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=26abch (158396) 
 I (126) esp_image: segment 1: paddr=00036ae4 vaddr=3ff80000 size=0001ch (    28) load
 I (126) esp_image: segment 2: paddr=00036b08 vaddr=3ffb0000 size=040f8h ( 16632) load
 I (136) esp_image: segment 3: paddr=0003ac08 vaddr=40080000 size=05410h ( 21520) load
-I (146) esp_image: segment 4: paddr=00040020 vaddr=400d0020 size=b5630h (742960) map
-I (400) esp_image: segment 5: paddr=000f5658 vaddr=40085410 size=16ac8h ( 92872) load
+I (146) esp_image: segment 4: paddr=00040020 vaddr=400d0020 size=b566ch (743020) map
+I (400) esp_image: segment 5: paddr=000f5694 vaddr=40085410 size=16ac8h ( 92872) load
 I (449) boot: Loaded app from partition at offset 0x10000
-I (449) boot: Disabling RNG early entropy source...
+I (450) boot: Disabling RNG early entropy source...
 I (460) quad_psram: This chip is ESP32-D0WD
 I (462) esp_psram: Found 8MB PSRAM device
 I (462) esp_psram: Speed: 40MHz
@@ -44,16 +84,16 @@ I (1392) cpu_start: Pro cpu start user code
 I (1392) cpu_start: cpu freq: 240000000 Hz
 I (1392) app_init: Application information:
 I (1392) app_init: Project name:     hotpin-firmware
-I (1397) app_init: App version:      af593fd-dirty
-I (1402) app_init: Compile time:     Oct 29 2025 19:49:31
-I (1407) app_init: ELF file SHA256:  3e0fb3ba3...
+I (1397) app_init: App version:      6e643cd-dirty
+I (1402) app_init: Compile time:     Oct 29 2025 20:48:50
+I (1407) app_init: ELF file SHA256:  a5d6816e5...
 I (1411) app_init: ESP-IDF:          HEAD-HASH-NOTFOUND
 I (1416) efuse_init: Min chip rev:     v0.0
 I (1420) efuse_init: Max chip rev:     v3.99
 I (1424) efuse_init: Chip rev:         v3.1
 I (1428) heap_init: Initializing. RAM available for dynamic allocation:
 I (1434) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
-I (1439) heap_init: At 3FFB8A20 len 000275E0 (157 KiB): DRAM
+I (1440) heap_init: At 3FFB8A20 len 000275E0 (157 KiB): DRAM
 I (1445) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
 I (1450) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
 I (1456) heap_init: At 4009BED8 len 00004128 (16 KiB): IRAM
@@ -103,31 +143,72 @@ I (1957) wifi:mode : sta (2c:bc:bb:84:62:e0)
 I (1957) wifi:enable tsf
 I (1957) WIFI: Connecting to WiFi network: wifi
 I (1967) WIFI: WiFi initialization complete
-I (1967) wifi:new:<11,0>, old:<1,0>, ap:<255,255>, sta:<11,0>, prof:1, snd_ch_cfg:0x0
+I (1977) wifi:new:<11,0>, old:<1,0>, ap:<255,255>, sta:<11,0>, prof:1, snd_ch_cfg:0x0
 I (1977) wifi:state: init -> auth (0xb0)
-I (2557) HOTPIN: Waiting for IP address before starting WebSocket...
-I (3017) wifi:state: auth -> assoc (0x0)
-I (3027) wifi:state: assoc -> run (0x10)
-I (3057) wifi:connected with wifi, aid = 2, channel 11, BW20, bssid = ee:d4:b9:ed:90:50
-I (3057) wifi:security: WPA3-SAE, phy: bgn, rssi: -66
-I (3057) wifi:pm start, type: 1
+I (2537) HOTPIN: Waiting for IP address before starting WebSocket...
+I (2957) wifi:state: auth -> assoc (0x0)
+I (2967) wifi:state: assoc -> run (0x10)
+I (2997) wifi:connected with wifi, aid = 2, channel 11, BW20, bssid = ee:d4:b9:ed:90:50
+I (2997) wifi:security: WPA3-SAE, phy: bgn, rssi: -52
+I (2997) wifi:pm start, type: 1
 
-I (3057) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us
-I (3067) wifi:dp: 2, bi: 102400, li: 4, scale listen interval from 307200 us to 409600 us
-I (3077) wifi:AP's beacon interval = 102400 us, DTIM period = 2
-I (3087) wifi:<ba-add>idx:0 (ifx:0, ee:d4:b9:ed:90:50), tid:0, ssn:0, winSize:64
-I (4117) esp_netif_handlers: sta ip: 10.143.111.105, mask: 255.255.255.0, gw: 10.143.111.248
-I (4117) HOTPIN: IP address obtained, initializing WebSocket
-I (4117) WS: Initializing WebSocket client
-I (4117) CONFIG: Initializing dynamic configuration management
-I (4127) CONFIG: Fetching dynamic configuration from webserver
-I (4127) DISCOVERY: Starting server discovery...
-E (7157) esp-tls: [sock=54] select() timeout
+I (2997) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us
+I (3007) wifi:<ba-add>idx:0 (ifx:0, ee:d4:b9:ed:90:50), tid:0, ssn:0, winSize:64
+I (3037) wifi:dp: 2, bi: 102400, li: 4, scale listen interval from 307200 us to 409600 us
+I (3037) wifi:AP's beacon interval = 102400 us, DTIM period = 2
+I (4037) esp_netif_handlers: sta ip: 10.143.111.105, mask: 255.255.255.0, gw: 10.143.111.248
+I (4047) HOTPIN: IP address obtained, initializing WebSocket
+I (4047) WS: Initializing WebSocket client
+I (4047) CONFIG: Initializing dynamic configuration management
+I (4047) CONFIG: Fetching dynamic configuration from webserver
+I (4057) DISCOVERY: Starting server discovery...
+E (6077) esp-tls: [sock=54] select() timeout
+E (6077) transport_base: Failed to open a new connection: 32774
+E (6077) HTTP_CLIENT: Connection failed, sock < 0
+E (8137) esp-tls: [sock=54] select() timeout
+E (8137) transport_base: Failed to open a new connection: 32774
+E (8137) HTTP_CLIENT: Connection failed, sock < 0
+E (10197) esp-tls: [sock=54] select() timeout
+E (10197) transport_base: Failed to open a new connection: 32774
+E (10197) HTTP_CLIENT: Connection failed, sock < 0
+E (12257) esp-tls: [sock=54] select() timeout
+E (12257) transport_base: Failed to open a new connection: 32774
+E (12257) HTTP_CLIENT: Connection failed, sock < 0
+E (14317) esp-tls: [sock=54] select() timeout
+E (14317) transport_base: Failed to open a new connection: 32774
+E (14317) HTTP_CLIENT: Connection failed, sock < 0
+E (16377) esp-tls: [sock=54] select() timeout
+E (16377) transport_base: Failed to open a new connection: 32774
+E (16377) HTTP_CLIENT: Connection failed, sock < 0
+E (18437) esp-tls: [sock=54] select() timeout
+E (18437) transport_base: Failed to open a new connection: 32774
+E (18437) HTTP_CLIENT: Connection failed, sock < 0
+E (20497) esp-tls: [sock=54] select() timeout
+E (20497) transport_base: Failed to open a new connection: 32774
+E (20497) HTTP_CLIENT: Connection failed, sock < 0
+E (22557) esp-tls: [sock=54] select() timeout
+E (22557) transport_base: Failed to open a new connection: 32774
+E (22557) HTTP_CLIENT: Connection failed, sock < 0
+E (24617) esp-tls: [sock=54] select() timeout
+E (24617) transport_base: Failed to open a new connection: 32774
+E (24617) HTTP_CLIENT: Connection failed, sock < 0
+E (26727) esp-tls: [sock=54] select() timeout
+E (26727) transport_base: Failed to open a new connection: 32774
+E (26727) HTTP_CLIENT: Connection failed, sock < 0
+E (28837) esp-tls: [sock=54] select() timeout
+E (28837) transport_base: Failed to open a new connection: 32774
+E (28837) HTTP_CLIENT: Connection failed, sock < 0
+E (30947) esp-tls: [sock=54] select() timeout
+E (30947) transport_base: Failed to open a new connection: 32774
+E (30947) HTTP_CLIENT: Connection failed, sock < 0
+W (31047) DISCOVERY: Server discovery failed - no HotPin server detected
+I (31047) CONFIG: Fetching dynamic configuration from server IP: 10.143.111.105
+E (31047) esp-tls: [sock=54] delayed connect error: Connection reset by peer
 
 ***ERROR*** A stack overflow in task main has been detected.
 
 
-Backtrace: 0x40081ef8:0x3ffb9ed0 0x4008dba9:0x3ffb9ef0 0x4008ea72:0x3ffb9f10 0x4008fe03:0x3ffb9f90 0x4008eb7c:0x3ffb9fb0 0x4008eb2e:0x3ffb0884 |<-CORRUPTED
+Backtrace: 0x40081ef8:0x3ffb9f20 0x4008dba9:0x3ffb9f40 0x4008ea72:0x3ffb9f60 0x4008fe03:0x3ffb9fe0 0x4008eb7c:0x3ffba000 0x4008eb2e:0x3ffb0884 |<-CORRUPTED
 --- 0x40081ef8: panic_abort at C:/Espressif/frameworks/esp-idf-v5.4.2/components/esp_system/panic.c:469
 --- 0x4008dba9: esp_system_abort at C:/Espressif/frameworks/esp-idf-v5.4.2/components/esp_system/port/esp_system_chip.c:87
 --- 0x4008ea72: vApplicationStackOverflowHook at C:/Espressif/frameworks/esp-idf-v5.4.2/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:563
@@ -138,11 +219,11 @@ Backtrace: 0x40081ef8:0x3ffb9ed0 0x4008dba9:0x3ffb9ef0 0x4008ea72:0x3ffb9f10 0x4
 
 
 
-ELF file SHA256: 3e0fb3ba3
+ELF file SHA256: a5d6816e5
 
 Rebooting...
 I (13) boot: ESP-IDF HEAD-HASH-NOTFOUND 2nd stage bootloader
-I (13) boot: compile time Oct 29 2025 19:49:40
+I (13) boot: compile time Oct 29 2025 20:48:59
 I (13) boot: Multicore bootloader
 I (14) boot: chip revision: v3.1
 I (17) boot.esp32: SPI Speed      : 40MHz
@@ -159,8 +240,8 @@ I (64) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=26abch (158396) 
 I (126) esp_image: segment 1: paddr=00036ae4 vaddr=3ff80000 size=0001ch (    28) load
 I (126) esp_image: segment 2: paddr=00036b08 vaddr=3ffb0000 size=040f8h ( 16632) load
 I (136) esp_image: segment 3: paddr=0003ac08 vaddr=40080000 size=05410h ( 21520) load
-I (146) esp_image: segment 4: paddr=00040020 vaddr=400d0020 size=b5630h (742960) map
-I (400) esp_image: segment 5: paddr=000f5658 vaddr=40085410 size=16ac8h ( 92872) load
+I (146) esp_image: segment 4: paddr=00040020 vaddr=400d0020 size=b566ch (743020) map
+I (400) esp_image: segment 5: paddr=000f5694 vaddr=40085410 size=16ac8h ( 92872) load
 I (449) boot: Loaded app from partition at offset 0x10000
 I (449) boot: Disabling RNG early entropy source...
 I (460) quad_psram: This chip is ESP32-D0WD
@@ -174,130 +255,11 @@ I (1392) cpu_start: Pro cpu start user code
 I (1392) cpu_start: cpu freq: 240000000 Hz
 I (1392) app_init: Application information:
 I (1392) app_init: Project name:     hotpin-firmware
-I (1397) app_init: App version:      af593fd-dirty
-I (1401) app_init: Compile time:     Oct 29 2025 19:49:31
-I (1406) app_init: ELF file SHA256:  3e0fb3ba3...
+I (1397) app_init: App version:      6e643cd-dirty
+I (1401) app_init: Compile time:     Oct 29 2025 20:48:50
+I (1406) app_init: ELF file SHA256:  a5d6816e5...
 I (1411) app_init: ESP-IDF:          HEAD-HASH-NOTFOUND
 I (1416) efuse_init: Min chip rev:     v0.0
 I (1420) efuse_init: Max chip rev:     v3.99
 I (1424) efuse_init: Chip rev:         v3.1
-I (1428) heap_init: Initializing. RAM available for dynamic allocation:
-I (1434) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
-I (1439) heap_init: At 3FFB8A20 len 000275E0 (157 KiB): DRAM
-I (1444) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
-I (1450) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
-I (1455) heap_init: At 4009BED8 len 00004128 (16 KiB): IRAM
-I (1461) esp_psram: Adding pool of 4096K of PSRAM memory to heap allocator
-I (1468) spi_flash: detected chip: generic
-I (1471) spi_flash: flash io: dio
-W (1474) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.
-W (1487) ADC: legacy driver is deprecated, please migrate to `esp_adc/adc_oneshot.h`
-W (1494) i2s(legacy): legacy i2s driver is deprecated, please migrate to use driver/i2s_std.h, driver/i2s_pdm.h or driver/i2s_tdm.h
-I (1507) main_task: Started on CPU0
-I (1517) esp_psram: Reserving pool of 32K of internal memory for DMA/internal allocations
-I (1517) main_task: Calling app_main()
-I (1517) HOTPIN: Starting HotPin Firmware
-I (1547) PSRAM: PSRAM available: 8388608 bytes
-I (1547) GPIO: Initializing GPIO pins
-I (1547) gpio: GPIO[12]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 1| Pulldown: 0| Intr:0
-I (1547) gpio: GPIO[33]| InputEn: 0| OutputEn: 1| OpenDrain: 0| Pullup: 0| Pulldown: 0| Intr:0
-I (1557) GPIO: GPIO initialization complete
-I (1707) POOL: Allocated 256000 bytes chunk pool from PSRAM
-I (1757) WIFI: Initializing WiFi
-I (1767) wifi:wifi driver task: 3ffc9038, prio:23, stack:6656, core=0
-I (1777) wifi:wifi firmware version: bea31f3
-I (1777) wifi:wifi certification version: v7.0
-I (1777) wifi:config NVS flash: enabled
-I (1777) wifi:config nano formatting: disabled
-I (1777) wifi:Init data frame dynamic rx buffer num: 32
-I (1787) wifi:Init static rx mgmt buffer num: 5
-I (1787) wifi:Init management short buffer num: 32
-I (1797) wifi:Init dynamic tx buffer num: 32
-I (1797) wifi:Init static rx buffer size: 1600
-I (1797) wifi:Init static rx buffer num: 10
-I (1807) wifi:Init dynamic rx buffer num: 32
-I (1807) wifi_init: rx ba win: 6
-I (1807) wifi_init: accept mbox: 6
-I (1817) wifi_init: tcpip mbox: 32
-I (1817) wifi_init: udp mbox: 6
-I (1817) wifi_init: tcp mbox: 6
-I (1827) wifi_init: tcp tx win: 5760
-I (1827) wifi_init: tcp rx win: 5760
-I (1827) wifi_init: tcp mss: 1440
-I (1837) wifi_init: WiFi IRAM OP enabled
-I (1837) wifi_init: WiFi RX IRAM OP enabled
-I (1837) WIFI: Starting WiFi...
-I (1847) phy_init: phy_version 4860,6b7a6e5,Feb  6 2025,14:47:07
-I (1927) wifi:mode : sta (2c:bc:bb:84:62:e0)
-I (1927) wifi:enable tsf
-I (1927) WIFI: Connecting to WiFi network: wifi
-I (1927) WIFI: WiFi initialization complete
-I (1937) wifi:new:<11,0>, old:<1,0>, ap:<255,255>, sta:<11,0>, prof:1, snd_ch_cfg:0x0
-I (1937) wifi:state: init -> auth (0xb0)
-I (2527) HOTPIN: Waiting for IP address before starting WebSocket...
-I (2987) wifi:state: auth -> assoc (0x0)
-I (2997) wifi:Association refused temporarily time 1100, comeback time 1200 (TUs)
-I (4227) wifi:state: assoc -> auth (0xb0)
-I (5267) wifi:state: auth -> assoc (0x0)
-I (5277) wifi:state: assoc -> run (0x10)
-I (5297) wifi:connected with wifi, aid = 2, channel 11, BW20, bssid = ee:d4:b9:ed:90:50
-I (5297) wifi:security: WPA3-SAE, phy: bgn, rssi: -69
-I (5297) wifi:pm start, type: 1
-
-I (5297) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us
-I (5307) wifi:dp: 2, bi: 102400, li: 4, scale listen interval from 307200 us to 409600 us
-I (5317) wifi:AP's beacon interval = 102400 us, DTIM period = 2
-I (5327) wifi:<ba-add>idx:0 (ifx:0, ee:d4:b9:ed:90:50), tid:0, ssn:0, winSize:64
-I (6367) esp_netif_handlers: sta ip: 10.143.111.105, mask: 255.255.255.0, gw: 10.143.111.248
-I (6457) HOTPIN: IP address obtained, initializing WebSocket
-I (6457) WS: Initializing WebSocket client
-I (6457) CONFIG: Initializing dynamic configuration management
-I (6457) CONFIG: Fetching dynamic configuration from webserver
-I (6457) DISCOVERY: Starting server discovery...
-E (9487) esp-tls: [sock=54] select() timeout
-
-***ERROR*** A stack overflow in task main has been detected.
-
-
-Backtrace: 0x40081ef8:0x3ffb9ed0 0x4008dba9:0x3ffb9ef0 0x4008ea72:0x3ffb9f10 0x4008fe03:0x3ffb9f90 0x4008eb7c:0x3ffb9fb0 0x4008eb2e:0x3ffb0884 |<-CORRUPTED
---- 0x40081ef8: panic_abort at C:/Espressif/frameworks/esp-idf-v5.4.2/components/esp_system/panic.c:469
---- 0x4008dba9: esp_system_abort at C:/Espressif/frameworks/esp-idf-v5.4.2/components/esp_system/port/esp_system_chip.c:87
---- 0x4008ea72: vApplicationStackOverflowHook at C:/Espressif/frameworks/esp-idf-v5.4.2/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:563
---- 0x4008fe03: vTaskSwitchContext at C:/Espressif/frameworks/esp-idf-v5.4.2/components/freertos/FreeRTOS-Kernel/tasks.c:3689
---- 0x4008eb7c: _frxt_dispatch at C:/Espressif/frameworks/esp-idf-v5.4.2/components/freertos/FreeRTOS-Kernel/portable/xtensa/portasm.S:451
---- 0x4008eb2e: _frxt_int_exit at C:/Espressif/frameworks/esp-idf-v5.4.2/components/freertos/FreeRTOS-Kernel/portable/xtensa/portasm.S:246
-
-
-
-
-ELF file SHA256: 3e0fb3ba3
-
-Rebooting...
-I (13) boot: ESP-IDF HEAD-HASH-NOTFOUND 2nd stage bootloader
-I (13) boot: compile time Oct 29 2025 19:49:40
-I (13) boot: Multicore bootloader
-I (14) boot: chip revision: v3.1
-I (17) boot.esp32: SPI Speed      : 40MHz
-I (21) boot.esp32: SPI Mode       : DIO
-I (24) boot.esp32: SPI Flash Size : 2MB
-I (28) boot: Enabling RNG early entropy source...
-I (32) boot: Partition Table:
-I (35) boot: ## Label            Usage          Type ST Offset   Length
-I (41) boot:  0 nvs              WiFi data        01 02 00009000 00006000
-I (48) boot:  1 phy_init         RF data          01 01 0000f000 00001000
-I (54) boot:  2 factory          factory app      00 00 00010000 00100000
-I (61) boot: End of partition table
-I (64) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=26abch (158396) map
-I (126) esp_image: segment 1: paddr=00036ae4 vaddr=3ff80000 size=0001ch (    28) load
-I (126) esp_image: segment 2: paddr=00036b08 vaddr=3ffb0000 size=040f8h ( 16632) load
-I (136) esp_image: segment 3: paddr=0003ac08 vaddr=40080000 size=05410h ( 21520) load
-I (146) esp_image: segment 4: paddr=00040020 vaddr=400d0020 size=b5630h (742960) map
-I (400) esp_image: segment 5: paddr=000f5658 vaddr=40085410 size=16ac8h ( 92872) load
-I (449) boot: Loaded app from partition at offset 0x10000
-I (449) boot: Disabling RNG early entropy source...
-I (460) quad_psram: This chip is ESP32-D0WD
-I (461) esp_psram: Found 8MB PSRAM device
-I (461) esp_psram: Speed: 40MHz
-I (461) esp_psram: PSRAM initialized, cache is in low/high (2-core) mode.
-W (467) esp_psram: Virtual address not enough for PSRAM, map as much as we can. 4MB is mapped
-I (475) cpu_start: Multicore app
+I (1428) heap_init: Initializin

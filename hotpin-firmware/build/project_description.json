@@ -1,7 +1,7 @@
 {
     "version":            "1.2",
     "project_name":       "hotpin-firmware",
-    "project_version":    "46d0fcf-dirty",
+    "project_version":    "6e643cd-dirty",
     "project_path":       "F:/Documents/HOTPIN/Re-Build/WebServer/hotpin-firmware",
     "idf_path":           "C:/Espressif/frameworks/esp-idf-v5.4.2",
     "build_dir":          "F:/Documents/HOTPIN/Re-Build/WebServer/hotpin-firmware/build",

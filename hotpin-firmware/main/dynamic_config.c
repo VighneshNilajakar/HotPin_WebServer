@@ -73,11 +73,11 @@ static bool fetch_dynamic_config_from_ip(const char *server_ip) {
     
     ESP_LOGD("CONFIG", "Configuration URL: %s", config_url);
     
-    // Create HTTP client configuration
+    // Create HTTP client configuration with shorter timeout
     esp_http_client_config_t config = {
         .url = config_url,
         .event_handler = http_event_handler,
-        .timeout_ms = 5000,  // 5 second timeout
+        .timeout_ms = 3000,  // Reduced timeout to prevent long blocking
     };
     
     // Initialize HTTP client
@@ -278,20 +278,52 @@ void update_dynamic_config() {
  * @brief Initialize dynamic configuration management
  * 
  * Sets up the dynamic configuration system and fetches initial configuration.
- * If HTTP-based config fetch fails, attempts network discovery as fallback.
+ * First attempts to use the pre-configured URL from .env file.
+ * If that fails, attempts network discovery as fallback.
  * 
  * @return true if initialization was successful, false otherwise
  */
 bool init_dynamic_config() {
     ESP_LOGI("CONFIG", "Initializing dynamic configuration management");
     
-    // Try to fetch initial configuration via HTTP
-    if (fetch_dynamic_config()) {
-        ESP_LOGI("CONFIG", "Dynamic configuration initialized successfully via HTTP");
-        return true;
+    // First, try to use the pre-configured URL from the .env file before attempting discovery
+    ESP_LOGI("CONFIG", "Attempting to use pre-configured WebSocket URL from .env");
+    
+    char preconfigured_url[256];
+    snprintf(preconfigured_url, sizeof(preconfigured_url), "%s", HOTPIN_WS_URL);
+    
+    // If the pre-configured URL is not the default/placeholder, try to use it directly
+    if (strlen(HOTPIN_WS_URL) > 10 && strstr(HOTPIN_WS_URL, "localhost") == NULL && 
+        strstr(HOTPIN_WS_URL, "127.0.0.1") == NULL) {
+        // Extract the server IP from the configured URL to try fetching config from it
+        char server_ip[64] = {0};
+        
+        // Parse the IP from the WebSocket URL: ws://IP:port/path -> extract IP
+        char *start = strstr(HOTPIN_WS_URL, "ws://");
+        if (start) {
+            start += 5; // Skip "ws://"
+            char *end = strchr(start, ':'); // Find the port separator
+            if (end) {
+                size_t ip_len = end - start;
+                strncpy(server_ip, start, ip_len);
+                server_ip[ip_len] = '\0';
+                
+                ESP_LOGI("CONFIG", "Using server IP from pre-configured URL: %s", server_ip);
+                
+                // Try to fetch config from the pre-configured server IP
+                if (fetch_dynamic_config_from_ip(server_ip)) {
+                    ESP_LOGI("CONFIG", "Dynamic configuration initialized successfully from pre-configured server: %s", server_ip);
+                    return true;
+                } else {
+                    ESP_LOGW("CONFIG", "Failed to fetch config from pre-configured server, will try network discovery");
+                }
+            }
+        }
+        
+        // If pre-configured URL doesn't have a valid IP, try network discovery as fallback
     }
     
-    // If HTTP fetch failed, try network discovery as fallback
+    // If pre-configured approach failed, try network discovery as fallback
     char discovered_ws_url[256];
     if (discover_server(discovered_ws_url, sizeof(discovered_ws_url))) {
         // Use the discovered URL as the dynamic WebSocket URL
