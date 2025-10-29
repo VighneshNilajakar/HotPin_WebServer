@@ -1,0 +1,35 @@
+# HotPin Firmware Configuration
+
+menu "HotPin Configuration"
+
+config HOTPIN_WS_URL
+    string "WebSocket Server URL"
+    default "ws://10.50.92.58:8000/ws "
+    help
+      WebSocket URL for the HotPin server
+
+config HOTPIN_WS_TOKEN
+    string "WebSocket Authentication Token"
+    default "mysecrettoken123"
+    help
+      Authentication token for WebSocket connection
+
+config ESP_WIFI_SSID
+    string "WiFi SSID"
+    default ""
+    help
+      WiFi network name to connect to (leave empty to disable WiFi)
+
+config ESP_WIFI_PASSWORD
+    string "WiFi Password"
+    default ""
+    help
+      WiFi network password (leave empty for open networks)
+
+config CAMERA_MODEL_AI_THINKER
+    bool "AI-Thinker ESP-CAM Module"
+    default y
+    help
+      Enable support for AI-Thinker ESP-CAM module with OV2640 camera
+
+endmenu

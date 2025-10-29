@@ -27,3 +27,19 @@ hotpin-webserver/.env
 
 # Large model assets (avoid pushing heavy binaries to git; use Git LFS or Releases)
 hotpin-webserver/model/
+
+# ESP32 firmware build artifacts and binaries
+hotpin-firmware/build/
+hotpin-firmware/managed_components/
+hotpin-firmware/.env
+hotpin-firmware/sdkconfig
+hotpin-firmware/sdkconfig.local
+hotpin-firmware/*.log
+hotpin-firmware/*.bin
+hotpin-firmware/*.elf
+hotpin-firmware/*.map
+hotpin-firmware/build_logs.txt
+hotpin-firmware/serial_monitor_logs.txt
+
+# If you want to completely exclude the firmware folder, uncomment this:
+# hotpin-firmware/

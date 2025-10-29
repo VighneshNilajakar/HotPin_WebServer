@@ -1,0 +1,20 @@
+# HotPin Firmware Configuration File
+# Copy this file to sdkconfig.local and update with your network credentials
+
+# WiFi Configuration
+CONFIG_ESP_WIFI_SSID=""
+CONFIG_ESP_WIFI_PASSWORD=""
+
+# WebSocket Configuration
+CONFIG_HOTPIN_WS_URL="ws://10.50.92.58:8000/ws"
+CONFIG_HOTPIN_WS_TOKEN="mysecrettoken123"
+
+# Audio Configuration
+CONFIG_CHUNK_SIZE_BYTES=16000
+CONFIG_SAMPLE_RATE=16000
+
+# Camera Configuration
+CONFIG_CAMERA_ENABLED=y
+
+# Debug Configuration
+CONFIG_LOG_LEVEL=INFO
