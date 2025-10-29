@@ -6,6 +6,7 @@ idf_component_register(
          "network_handling.c"
          "globals.c"
          "dynamic_config.c"
+         "network_discovery.c"
     INCLUDE_DIRS "."
     REQUIRES esp_websocket_client esp_http_client esp_timer json driver nvs_flash esp_event spi_flash esp_wifi esp_psram
 )

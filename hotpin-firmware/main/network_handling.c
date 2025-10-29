@@ -123,6 +123,7 @@ bool init_websocket() {
     const char* ws_url = get_current_ws_url();
     ESP_LOGI("WS", "Using WebSocket URL: %s", ws_url);
     
+    // Initialize WebSocket client with authentication headers
     esp_websocket_client_config_t websocket_cfg = {
         .uri = ws_url,
         .user_agent = "HotPin-Firmware-Client/1.0"

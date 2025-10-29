@@ -47,6 +47,7 @@
 
 #include "esp_http_client.h"
 #include "dynamic_config.h"
+#include "network_discovery.h"
 
 // WebSocket configuration
 // Use values from generated config.h

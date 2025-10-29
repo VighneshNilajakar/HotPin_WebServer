@@ -155,8 +155,18 @@ bool fetch_dynamic_config() {
         return false;
     }
     
+    // Check if the URL already contains query parameters
+    char full_ws_url[256];
+    if (strchr(ws_url, '?')) {
+        // URL already has query params, append with &
+        snprintf(full_ws_url, sizeof(full_ws_url), "%s&session=%s&token=%s", ws_url, SESSION_ID, HOTPIN_WS_TOKEN);
+    } else {
+        // URL has no query params, append with ?
+        snprintf(full_ws_url, sizeof(full_ws_url), "%s?session=%s&token=%s", ws_url, SESSION_ID, HOTPIN_WS_TOKEN);
+    }
+    
     // Update dynamic configuration
-    strncpy(dynamic_ws_url, ws_url, sizeof(dynamic_ws_url) - 1);
+    strncpy(dynamic_ws_url, full_ws_url, sizeof(dynamic_ws_url) - 1);
     dynamic_ws_url[sizeof(dynamic_ws_url) - 1] = '\0';  // Ensure null termination
     dynamic_config_available = true;
     
@@ -178,11 +188,22 @@ bool fetch_dynamic_config() {
  * @return Pointer to the WebSocket URL string
  */
 const char* get_current_ws_url() {
+    static char fallback_ws_url[256];
+    
     if (dynamic_config_available && strlen(dynamic_ws_url) > 0) {
         return dynamic_ws_url;
     }
     
-    return HOTPIN_WS_URL;
+    // Format the fallback URL with session and token parameters
+    if (strchr(HOTPIN_WS_URL, '?')) {
+        // URL already has query params, append with &
+        snprintf(fallback_ws_url, sizeof(fallback_ws_url), "%s&session=%s&token=%s", HOTPIN_WS_URL, SESSION_ID, HOTPIN_WS_TOKEN);
+    } else {
+        // URL has no query params, append with ?
+        snprintf(fallback_ws_url, sizeof(fallback_ws_url), "%s?session=%s&token=%s", HOTPIN_WS_URL, SESSION_ID, HOTPIN_WS_TOKEN);
+    }
+    
+    return fallback_ws_url;
 }
 
 /**
@@ -204,22 +225,37 @@ void update_dynamic_config() {
     fetch_dynamic_config();
 }
 
+#include "network_discovery.h"
+
 /**
  * @brief Initialize dynamic configuration management
  * 
  * Sets up the dynamic configuration system and fetches initial configuration.
+ * If HTTP-based config fetch fails, attempts network discovery as fallback.
  * 
  * @return true if initialization was successful, false otherwise
  */
 bool init_dynamic_config() {
     ESP_LOGI("CONFIG", "Initializing dynamic configuration management");
     
-    // Fetch initial configuration
+    // Try to fetch initial configuration via HTTP
     if (fetch_dynamic_config()) {
-        ESP_LOGI("CONFIG", "Dynamic configuration initialized successfully");
+        ESP_LOGI("CONFIG", "Dynamic configuration initialized successfully via HTTP");
         return true;
     }
     
-    ESP_LOGW("CONFIG", "Failed to fetch dynamic configuration, using compiled defaults");
+    // If HTTP fetch failed, try network discovery as fallback
+    char discovered_ws_url[256];
+    if (discover_server(discovered_ws_url, sizeof(discovered_ws_url))) {
+        // Use the discovered URL as the dynamic WebSocket URL
+        strncpy(dynamic_ws_url, discovered_ws_url, sizeof(dynamic_ws_url) - 1);
+        dynamic_ws_url[sizeof(dynamic_ws_url) - 1] = '\0';  // Ensure null termination
+        dynamic_config_available = true;
+        
+        ESP_LOGI("CONFIG", "Dynamic configuration initialized via network discovery: %s", dynamic_ws_url);
+        return true;
+    }
+    
+    ESP_LOGW("CONFIG", "Failed to fetch dynamic configuration and network discovery failed, using compiled defaults");
     return true; // Continue with defaults
 }
