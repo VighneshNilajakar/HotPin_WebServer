@@ -17,11 +17,8 @@ def test_config_loading():
     
     # Check that required config values exist
     assert hasattr(Config, 'WS_TOKEN'), "WS_TOKEN should be in config"
-    assert hasattr(Config, 'MODEL_PATH_VOSK'), "MODEL_PATH_VOSK should be in config"
+    assert hasattr(Config, 'POCKETSPHINX_MODEL'), "POCKETSPHINX_MODEL should be in config"
     assert hasattr(Config, 'GROQ_API_KEY'), "GROQ_API_KEY should be in config"
-    
-    # Check model path exists
-    assert os.path.exists(Config.MODEL_PATH_VOSK), f"Model should exist at {Config.MODEL_PATH_VOSK}"
     
     print("✓ Configuration loaded successfully")
 

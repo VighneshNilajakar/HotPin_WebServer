@@ -35,16 +35,16 @@ class Config:
     BROADCAST_INTERVAL_SEC: int = int(os.getenv("BROADCAST_INTERVAL_SEC", "5"))
     PRINT_QR: bool = os.getenv("PRINT_QR", "false").lower() == "true"
     
-    # Model paths
-    MODEL_PATH_VOSK: str = os.getenv("MODEL_PATH_VOSK", _DEFAULT_MODEL_PATH)
+    # STT settings (PocketSphinx)
+    POCKETSPHINX_MODEL: str = os.getenv("POCKETSPHINX_MODEL", "en-us")  # PocketSphinx model name
+    STT_CONF_THRESHOLD: float = float(os.getenv("STT_CONF_THRESHOLD", "0.5"))  # Confidence threshold for STT
     
     # Audio settings
     CHUNK_SIZE_BYTES: int = int(os.getenv("CHUNK_SIZE_BYTES", "16000"))  # ~0.5s at 16kHz PCM16
     MIN_RECORD_DURATION_SEC: float = float(os.getenv("MIN_RECORD_DURATION_SEC", "0.5"))
     MAX_CHUNKS_PER_SEC: int = int(os.getenv("MAX_CHUNKS_PER_SEC", "10"))
     
-    # STT settings
-    VOSK_CONF_THRESHOLD: float = float(os.getenv("VOSK_CONF_THRESHOLD", "0.5"))
+
     
     # Image settings
     MAX_IMAGE_SIZE_BYTES: int = int(os.getenv("MAX_IMAGE_SIZE_BYTES", "2097152"))  # 2MB
@@ -82,10 +82,6 @@ class Config:
                 os.makedirs(cls.TEMP_DIR, exist_ok=True)
             except Exception:
                 errors.append(f"Cannot create temp directory: {cls.TEMP_DIR}")
-        
-        # Check if VOSK model exists
-        if not os.path.isdir(cls.MODEL_PATH_VOSK):
-            errors.append(f"Vosk model directory not found at: {cls.MODEL_PATH_VOSK}")
         
         # Check if GROQ API key is provided
         if not cls.GROQ_API_KEY:

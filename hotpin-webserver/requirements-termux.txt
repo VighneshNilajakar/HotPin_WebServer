@@ -1,0 +1,33 @@
+# Termux/Android compatible requirements
+# Install with: pip install -r requirements-termux.txt
+
+# SPEECH-TO-TEXT: PocketSphinx
+# - Fully offline, lightweight (~30MB)
+# - Good accuracy for command recognition
+# - Pure Python, no compilation needed
+# - Works natively on Termux/Android
+
+# Core web framework (minimal, no optional dependencies)
+# Using older FastAPI version that works with Pydantic v1
+fastapi==0.68.2
+pydantic==1.10.13  # v1.x doesn't require Rust compilation
+uvicorn==0.24.0
+python-multipart==0.0.6
+python-dotenv==1.0.0
+websockets==12.0
+httpx==0.25.2
+
+# Image processing
+Pillow==10.1.0
+
+# STT - PocketSphinx (works on Termux!)
+pocketsphinx>=5.0.0
+
+# Basic utilities that work on Termux
+psutil>=5.9.0
+qrcode>=7.4.2
+
+# Note: The following packages are NOT compatible with Termux:
+# - pyttsx3 (requires system TTS engines)
+# - zeroconf (compilation issues on some Termux versions)
+# - uvicorn[standard] extras (watchfiles requires Rust)

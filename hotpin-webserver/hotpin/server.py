@@ -541,7 +541,7 @@ async def health_check():
     return {
         "ok": True,
         "timestamp": datetime.utcnow().isoformat(),
-        "models": ["vosk", "groq"],
+        "models": ["pocketsphinx", "groq"],
         "uptime": "N/A",  # Would track actual uptime in a real implementation
         "disk_usage": disk_usage,
         "active_sessions": active_sessions
