@@ -1,7 +1,7 @@
 {
     "version":            "1.2",
     "project_name":       "hotpin-firmware",
-    "project_version":    "78eb89d-dirty",
+    "project_version":    "3002eaf-dirty",
     "project_path":       "F:/Documents/HOTPIN/Re-Build/WebServer/hotpin-firmware",
     "idf_path":           "C:/Espressif/frameworks/esp-idf-v5.4.2",
     "build_dir":          "F:/Documents/HOTPIN/Re-Build/WebServer/hotpin-firmware/build",
@@ -1210,7 +1210,7 @@
             "managed_reqs": [],
             "managed_priv_reqs": [ "espressif__esp_websocket_client" ],
             "file": "F:/Documents/HOTPIN/Re-Build/WebServer/hotpin-firmware/build/esp-idf/main/libmain.a",
-            "sources": [ "F:/Documents/HOTPIN/Re-Build/WebServer/hotpin-firmware/main/main.c", "F:/Documents/HOTPIN/Re-Build/WebServer/hotpin-firmware/main/state_management.c", "F:/Documents/HOTPIN/Re-Build/WebServer/hotpin-firmware/main/audio_handling.c", "F:/Documents/HOTPIN/Re-Build/WebServer/hotpin-firmware/main/camera_handling.c", "F:/Documents/HOTPIN/Re-Build/WebServer/hotpin-firmware/main/network_handling.c", "F:/Documents/HOTPIN/Re-Build/WebServer/hotpin-firmware/main/globals.c", "F:/Documents/HOTPIN/Re-Build/WebServer/hotpin-firmware/main/dynamic_config.c" ],
+            "sources": [ "F:/Documents/HOTPIN/Re-Build/WebServer/hotpin-firmware/main/main.c", "F:/Documents/HOTPIN/Re-Build/WebServer/hotpin-firmware/main/state_management.c", "F:/Documents/HOTPIN/Re-Build/WebServer/hotpin-firmware/main/audio_handling.c", "F:/Documents/HOTPIN/Re-Build/WebServer/hotpin-firmware/main/camera_handling.c", "F:/Documents/HOTPIN/Re-Build/WebServer/hotpin-firmware/main/network_handling.c", "F:/Documents/HOTPIN/Re-Build/WebServer/hotpin-firmware/main/globals.c", "F:/Documents/HOTPIN/Re-Build/WebServer/hotpin-firmware/main/dynamic_config.c", "F:/Documents/HOTPIN/Re-Build/WebServer/hotpin-firmware/main/network_discovery.c" ],
             "include_dirs": [ "." ]
         },
         "mbedtls": {

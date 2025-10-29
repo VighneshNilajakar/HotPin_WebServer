@@ -123,10 +123,15 @@ bool init_websocket() {
     const char* ws_url = get_current_ws_url();
     ESP_LOGI("WS", "Using WebSocket URL: %s", ws_url);
     
+    // Set up WebSocket headers with authorization
+    char auth_header[256];
+    snprintf(auth_header, sizeof(auth_header), "Authorization: Bearer %s\r\n", HOTPIN_WS_TOKEN);
+    
     // Initialize WebSocket client with authentication headers
     esp_websocket_client_config_t websocket_cfg = {
         .uri = ws_url,
-        .user_agent = "HotPin-Firmware-Client/1.0"
+        .user_agent = "HotPin-Firmware-Client/1.0",
+        .headers = auth_header
     };
     
     // Initialize WebSocket client

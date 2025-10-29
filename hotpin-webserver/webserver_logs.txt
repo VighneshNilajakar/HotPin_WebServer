@@ -1,0 +1,57 @@
+((venv) ) ~/HotPin_WebServer/hotpin-webserver $ python -m hotpin.server
+2025-10-29 19:34:17,737 - STTWorker - INFO - ✅ Groq Whisper STT Worker initialized
+2025-10-29 19:34:17,737 - STTWorker - INFO -    Model: whisper-large-v3-turbo (fast & accurate)
+2025-10-29 19:34:17,737 - STTWorker - INFO -    Pricing: $0.04/min (FREE tier available)
+2025-10-29 19:34:17,737 - STTWorker - INFO -    Same API key as LLM - no additional setup needed
+2025-10-29 19:34:17,781 - TTSWorker - ERROR - Failed to initialize TTS engine: This means you probably do not have eSpeak or eSpeak-ng installed!
+2025-10-29 19:34:17,782 - StorageManager - INFO - Temp directory ensured: ./temp
+zeroconf not available - mDNS advertising disabled
+/data/data/com.termux/files/home/HotPin_WebServer/hotpin-webserver/hotpin/server.py:58: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+/data/data/com.termux/files/home/HotPin_WebServer/hotpin-webserver/hotpin/server.py:93: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("shutdown")
+INFO:     Started server process [15080]
+INFO:     Waiting for application startup.
+
+==================================================
+HotPin Device WebSocket URL (QR Code):
+ws://10.88.188.211:8000/ws
+--------------------------------------------------
+                                 
+                                 
+    █▀▀▀▀▀█ ▀▀ ▄▀██   █▀▀▀▀▀█    
+    █ ███ █ ▄▀██ █ ██ █ ███ █    
+    █ ▀▀▀ █ █▀ █▄▄▀   █ ▀▀▀ █    
+    ▀▀▀▀▀▀▀ █ █ █ █▄▀ ▀▀▀▀▀▀▀    
+    █   █▄▀▀▀ ▄▀ ██ ▄█▀▀█▀  ▀    
+    ▄▄▀▀ █▀▀▄▄▀▀▄▄   ▄▄ ▄█▀▀▄    
+    ▄████▄▀█▄ ▀ ▀▀▀▄█▄▀▄ █▀▄▀    
+      █▄▀█▀▀ ▀  ▄▄██▄█▄ ▄   ▄    
+    ▀▀   ▀▀ █▀▄▀▄▀  █▀▀▀█▄▀█▀    
+    █▀▀▀▀▀█ ▀ ▀█▀▄▀██ ▀ █  ▄▄    
+    █ ███ █ ▀█  ▀█▄▄▀█▀█▀▀▀ █    
+    █ ▀▀▀ █  ▄  ▄  ▀▄█▀ ▀█▄█     
+    ▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀  ▀▀    
+                                 
+                                 
+==================================================
+
+Zeroconf not available, skipping mDNS advertisement
+2025-10-29 19:34:17,880 - StorageManager - INFO - Started storage cleanup task
+2025-10-29 19:34:17,880 - hotpin.server - INFO - HotPin WebServer started
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     10.143.111.105:58758 - "GET /health HTTP/1.1" 200 OK
+INFO:     ('10.143.111.105', 58759) - "WebSocket /ws" 403
+INFO:     connection rejected (403 Forbidden)
+INFO:     connection closed

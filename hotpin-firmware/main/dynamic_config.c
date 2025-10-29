@@ -8,6 +8,8 @@
 #include "main.h"
 #include "esp_http_client.h"
 #include "cJSON.h"
+#include "network_discovery.h"
+#include <string.h>
 
 // Global configuration variables
 static char dynamic_ws_url[256] = {0};
@@ -54,29 +56,20 @@ static esp_err_t http_event_handler(esp_http_client_event_t *evt)
 }
 
 /**
- * @brief Fetch dynamic configuration from webserver
+ * @brief Fetch dynamic configuration from a specific server IP
  * 
  * This function contacts the webserver to fetch the latest configuration
  * including the current WebSocket URL for this device.
  * 
+ * @param server_ip The IP address of the server to fetch config from
  * @return true if configuration was successfully fetched, false otherwise
  */
-bool fetch_dynamic_config() {
-    ESP_LOGI("CONFIG", "Fetching dynamic configuration from webserver");
-    
-    // Get the local IP address to create a configuration URL
-    esp_netif_ip_info_t ip_info;
-    esp_netif_t *netif = esp_netif_get_handle_from_ifkey("WIFI_STA_DEF");
-    
-    if (esp_netif_get_ip_info(netif, &ip_info) != ESP_OK) {
-        ESP_LOGW("CONFIG", "Failed to get local IP for dynamic configuration");
-        return false;
-    }
+static bool fetch_dynamic_config_from_ip(const char *server_ip) {
+    ESP_LOGI("CONFIG", "Fetching dynamic configuration from server IP: %s", server_ip);
     
     // Format the configuration URL
     char config_url[256];
-    uint8_t *ip = (uint8_t*)&ip_info.ip.addr;
-    snprintf(config_url, sizeof(config_url), "http://%d.%d.%d.%d:8000/config", ip[0], ip[1], ip[2], ip[3]);
+    snprintf(config_url, sizeof(config_url), "http://%s:8000/config", server_ip);
     
     ESP_LOGD("CONFIG", "Configuration URL: %s", config_url);
     
@@ -177,6 +170,62 @@ bool fetch_dynamic_config() {
     esp_http_client_cleanup(client);
     
     return true;
+}
+
+/**
+ * @brief Fetch dynamic configuration from webserver
+ * 
+ * This function contacts the webserver to fetch the latest configuration
+ * including the current WebSocket URL for this device.
+ * First tries network discovery to find the server, then fetches config.
+ * 
+ * @return true if configuration was successfully fetched, false otherwise
+ */
+bool fetch_dynamic_config() {
+    ESP_LOGI("CONFIG", "Fetching dynamic configuration from webserver");
+    
+    // First try to discover the server using our network discovery
+    char discovered_server_ip[256] = {0};
+    
+    // Try network discovery
+    if (discover_server(discovered_server_ip, sizeof(discovered_server_ip))) {
+        // Extract just the IP part from the returned WebSocket URL
+        // Format is ws://IP:port/path
+        char *start = strstr(discovered_server_ip, "ws://");
+        if (start) {
+            start += 5; // Skip "ws://"
+            char *end = strchr(start, ':'); // Find the port separator
+            if (end) {
+                size_t ip_len = end - start;
+                char server_ip[64];
+                strncpy(server_ip, start, ip_len);
+                server_ip[ip_len] = '\0';
+                
+                // Now try to fetch config from the discovered server IP
+                if (fetch_dynamic_config_from_ip(server_ip)) {
+                    return true;
+                }
+            }
+        }
+    }
+    
+    // If discovery + fetch failed, try the original approach with our own IP
+    // (This is for cases where the server has different architecture)
+    esp_netif_ip_info_t ip_info;
+    esp_netif_t *netif = esp_netif_get_handle_from_ifkey("WIFI_STA_DEF");
+    
+    if (esp_netif_get_ip_info(netif, &ip_info) == ESP_OK) {
+        uint8_t *ip = (uint8_t*)&ip_info.ip.addr;
+        char server_own_ip[32];
+        snprintf(server_own_ip, sizeof(server_own_ip), "%d.%d.%d.%d", ip[0], ip[1], ip[2], ip[3]);
+        
+        if (fetch_dynamic_config_from_ip(server_own_ip)) {
+            return true;
+        }
+    }
+    
+    ESP_LOGW("CONFIG", "Failed to fetch dynamic configuration from any server");
+    return false;
 }
 
 /**

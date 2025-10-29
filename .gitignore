@@ -19,7 +19,6 @@ env/
 .vscode/
 
 # Project-specific
-hotpin-webserver/webserver_logs.txt
 hotpin-webserver/temp/
 hotpin-webserver/**/__pycache__/
 hotpin-webserver/venv/

@@ -1,0 +1,163 @@
+[0;32mI (13) boot: ESP-IDF HEAD-HASH-NOTFOUND 2nd stage bootloader[0m
+[0;32mI (13) boot: compile time Oct 29 2025 19:30:48[0m
+[0;32mI (13) boot: Multicore bootloader[0m
+[0;32mI (15) boot: chip revision: v3.1[0m
+[0;32mI (17) boot.esp32: SPI Speed      : 40MHz[0m
+[0;32mI (21) boot.esp32: SPI Mode       : DIO[0m
+[0;32mI (25) boot.esp32: SPI Flash Size : 2MB[0m
+[0;32mI (28) boot: Enabling RNG early entropy source...[0m
+[0;32mI (33) boot: Partition Table:[0m
+[0;32mI (35) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (42) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (48) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (55) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (61) boot: End of partition table[0m
+[0;32mI (64) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=26a7ch (158332) map[0m
+[0;32mI (126) esp_image: segment 1: paddr=00036aa4 vaddr=3ff80000 size=0001ch (    28) load[0m
+[0;32mI (126) esp_image: segment 2: paddr=00036ac8 vaddr=3ffb0000 size=040f8h ( 16632) load[0m
+[0;32mI (136) esp_image: segment 3: paddr=0003abc8 vaddr=40080000 size=05450h ( 21584) load[0m
+[0;32mI (146) esp_image: segment 4: paddr=00040020 vaddr=400d0020 size=b553ch (742716) map[0m
+[0;32mI (400) esp_image: segment 5: paddr=000f5564 vaddr=40085450 size=16a88h ( 92808) load[0m
+[0;32mI (449) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (449) boot: Disabling RNG early entropy source...[0m
+[0;32mI (460) quad_psram: This chip is ESP32-D0WD[0m
+[0;32mI (461) esp_psram: Found 8MB PSRAM device[0m
+[0;32mI (462) esp_psram: Speed: 40MHz[0m
+[0;32mI (462) esp_psram: PSRAM initialized, cache is in low/high (2-core) mode.[0m
+[0;33mW (467) esp_psram: Virtual address not enough for PSRAM, map as much as we can. 4MB is mapped[0m
+[0;32mI (475) cpu_start: Multicore app[0m
+[0;32mI (1384) esp_psram: SPI SRAM memory test OK[0m
+[0;32mI (1392) cpu_start: Pro cpu start user code[0m
+[0;32mI (1392) cpu_start: cpu freq: 240000000 Hz[0m
+[0;32mI (1392) app_init: Application information:[0m
+[0;32mI (1392) app_init: Project name:     hotpin-firmware[0m
+[0;32mI (1397) app_init: App version:      3002eaf-dirty[0m
+[0;32mI (1401) app_init: Compile time:     Oct 29 2025 19:30:33[0m
+[0;32mI (1407) app_init: ELF file SHA256:  b27076aec...[0m
+[0;32mI (1411) app_init: ESP-IDF:          HEAD-HASH-NOTFOUND[0m
+[0;32mI (1416) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (1420) efuse_init: Max chip rev:     v3.99 [0m
+[0;32mI (1424) efuse_init: Chip rev:         v3.1[0m
+[0;32mI (1428) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (1434) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM[0m
+[0;32mI (1439) heap_init: At 3FFB8A20 len 000275E0 (157 KiB): DRAM[0m
+[0;32mI (1445) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM[0m
+[0;32mI (1450) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM[0m
+[0;32mI (1456) heap_init: At 4009BED8 len 00004128 (16 KiB): IRAM[0m
+[0;32mI (1462) esp_psram: Adding pool of 4096K of PSRAM memory to heap allocator[0m
+[0;32mI (1469) spi_flash: detected chip: generic[0m
+[0;32mI (1471) spi_flash: flash io: dio[0m
+[0;33mW (1475) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;33mW (1487) ADC: legacy driver is deprecated, please migrate to `esp_adc/adc_oneshot.h`[0m
+[0;33mW (1494) i2s(legacy): legacy i2s driver is deprecated, please migrate to use driver/i2s_std.h, driver/i2s_pdm.h or driver/i2s_tdm.h[0m
+[0;32mI (1507) main_task: Started on CPU0[0m
+[0;32mI (1517) esp_psram: Reserving pool of 32K of internal memory for DMA/internal allocations[0m
+[0;32mI (1517) main_task: Calling app_main()[0m
+[0;32mI (1517) HOTPIN: Starting HotPin Firmware[0m
+[0;32mI (1547) PSRAM: PSRAM available: 8388608 bytes[0m
+[0;32mI (1547) GPIO: Initializing GPIO pins[0m
+[0;32mI (1547) gpio: GPIO[12]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 1| Pulldown: 0| Intr:0 [0m
+[0;32mI (1547) gpio: GPIO[33]| InputEn: 0| OutputEn: 1| OpenDrain: 0| Pullup: 0| Pulldown: 0| Intr:0 [0m
+[0;32mI (1557) GPIO: GPIO initialization complete[0m
+[0;32mI (1717) POOL: Allocated 256000 bytes chunk pool from PSRAM[0m
+[0;32mI (1767) WIFI: Initializing WiFi[0m
+[0;32mI (1777) wifi:wifi driver task: 3ffc90bc, prio:23, stack:6656, core=0[0m
+[0;32mI (1787) wifi:wifi firmware version: bea31f3[0m
+[0;32mI (1787) wifi:wifi certification version: v7.0[0m
+[0;32mI (1787) wifi:config NVS flash: enabled[0m
+[0;32mI (1787) wifi:config nano formatting: disabled[0m
+[0;32mI (1787) wifi:Init data frame dynamic rx buffer num: 32[0m
+[0;32mI (1797) wifi:Init static rx mgmt buffer num: 5[0m
+[0;32mI (1797) wifi:Init management short buffer num: 32[0m
+[0;32mI (1807) wifi:Init dynamic tx buffer num: 32[0m
+[0;32mI (1807) wifi:Init static rx buffer size: 1600[0m
+[0;32mI (1807) wifi:Init static rx buffer num: 10[0m
+[0;32mI (1817) wifi:Init dynamic rx buffer num: 32[0m
+[0;32mI (1817) wifi_init: rx ba win: 6[0m
+[0;32mI (1817) wifi_init: accept mbox: 6[0m
+[0;32mI (1827) wifi_init: tcpip mbox: 32[0m
+[0;32mI (1827) wifi_init: udp mbox: 6[0m
+[0;32mI (1827) wifi_init: tcp mbox: 6[0m
+[0;32mI (1837) wifi_init: tcp tx win: 5760[0m
+[0;32mI (1837) wifi_init: tcp rx win: 5760[0m
+[0;32mI (1837) wifi_init: tcp mss: 1440[0m
+[0;32mI (1847) wifi_init: WiFi IRAM OP enabled[0m
+[0;32mI (1847) wifi_init: WiFi RX IRAM OP enabled[0m
+[0;32mI (1847) WIFI: Starting WiFi...[0m
+[0;32mI (1857) phy_init: phy_version 4860,6b7a6e5,Feb  6 2025,14:47:07[0m
+[0;32mI (1927) wifi:mode : sta (2c:bc:bb:84:62:e0)[0m
+[0;32mI (1937) wifi:enable tsf[0m
+[0;32mI (1937) WIFI: Connecting to WiFi network: wifi[0m
+[0;32mI (1937) WIFI: WiFi initialization complete[0m
+[0;32mI (1967) wifi:new:<11,0>, old:<1,0>, ap:<255,255>, sta:<11,0>, prof:1, snd_ch_cfg:0x0[0m
+[0;32mI (1967) wifi:state: init -> auth (0xb0)[0m
+[0;32mI (2477) HOTPIN: Waiting for IP address before starting WebSocket...[0m
+[0;32mI (2847) wifi:state: auth -> assoc (0x0)[0m
+[0;32mI (2857) wifi:state: assoc -> run (0x10)[0m
+[0;32mI (2887) wifi:connected with wifi, aid = 2, channel 11, BW20, bssid = ee:d4:b9:ed:90:50[0m
+[0;32mI (2887) wifi:security: WPA3-SAE, phy: bgn, rssi: -63[0m
+[0;32mI (2897) wifi:pm start, type: 1[0m
+
+[0;32mI (2897) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us[0m
+[0;32mI (2907) wifi:<ba-add>idx:0 (ifx:0, ee:d4:b9:ed:90:50), tid:0, ssn:0, winSize:64[0m
+[0;32mI (2977) wifi:dp: 2, bi: 102400, li: 4, scale listen interval from 307200 us to 409600 us[0m
+[0;32mI (2987) wifi:AP's beacon interval = 102400 us, DTIM period = 2[0m
+[0;32mI (3937) esp_netif_handlers: sta ip: 10.143.111.105, mask: 255.255.255.0, gw: 10.143.111.248[0m
+[0;32mI (3937) HOTPIN: IP address obtained, initializing WebSocket[0m
+[0;32mI (3937) WS: Initializing WebSocket client[0m
+[0;32mI (3937) CONFIG: Initializing dynamic configuration management[0m
+[0;32mI (3947) CONFIG: Fetching dynamic configuration from webserver[0m
+[1;31mE (3957) esp-tls: [sock=54] delayed connect error: Connection reset by peer[0m
+[1;31mE (3957) transport_base: Failed to open a new connection: 32772[0m
+[1;31mE (3967) HTTP_CLIENT: Connection failed, sock < 0[0m
+[1;31mE (3967) CONFIG: HTTP GET request failed: ESP_ERR_HTTP_CONNECT[0m
+[0;32mI (3977) DISCOVERY: Starting server discovery...[0m
+[0;32mI (3977) DISCOVERY: Trying gateway IP: 10.143.111.248[0m
+[0;32mI (4037) DISCOVERY: Server found at gateway: ws://10.143.111.248:8000/ws[0m
+[0;32mI (4037) CONFIG: Dynamic configuration initialized via network discovery: ws://10.143.111.248:8000/ws[0m
+[0;32mI (4037) WS: Local WebSocket URL for client connections: ws://10.143.111.105:8000/ws[0m
+[0;32mI (4047) WS: Connect other devices to this URL to interact with this HotPin device on the local network[0m
+[0;32mI (4057) WS: Using WebSocket URL: ws://10.143.111.248:8000/ws[0m
+[0;33mW (4067) websocket_client: `reconnect_timeout_ms` is not set, or it is less than or equal to zero, using default time out 10000 (milliseconds)[0m
+[0;33mW (4077) websocket_client: `network_timeout_ms` is not set, or it is less than or equal to zero, using default time out 10000 (milliseconds)[0m
+[0;32mI (4097) websocket_client: Started[0m
+[0;32mI (4097) WS: WebSocket client initialized[0m
+[0;32mI (4097) I2S: I2S initialized successfully[0m
+[1;31mE (4127) transport_ws: Sec-WebSocket-Accept not found[0m
+[1;31mE (4127) websocket_client: esp_transport_connect() failed with -1, transport_error=ESP_OK, tls_error_code=0, tls_flags=0, esp_ws_handshake_status_code=403, errno=119[0m
+[1;31mE (4137) WS: WebSocket error[0m
+[0;32mI (4137) websocket_client: Reconnect after 10000 ms[0m
+[0;33mW (4147) WS: WebSocket disconnected[0m
+[0;32mI (4147) STATE: State changed: BOOTING -> STALLED[0m
+[0;32mI (4147) WS: Attempting WebSocket reconnection in 1 seconds...[0m
+[0;32mI (4197) WS: Starting WebSocket task - handling handshake and connection management[0m
+[0;32mI (4197) WS: Starting WebSocket message processing task[0m
+[0;33mW (4197) CAMERA: Camera task started but camera is disabled[0m
+[0;32mI (4197) HOTPIN: All tasks created, system ready[0m
+[1;31mE (5157) websocket_client: The client has started[0m
+[1;31mE (5157) WS: WebSocket reconnection failed: ESP_FAIL[0m
+[0;32mI (5157) WS: Attempting WebSocket reconnection in 2 seconds...[0m
+[1;31mE (7157) websocket_client: The client has started[0m
+[1;31mE (7157) WS: WebSocket reconnection failed: ESP_FAIL[0m
+[0;32mI (7157) WS: Attempting WebSocket reconnection in 4 seconds...[0m
+[0;33mW (9197) WS: WebSocket connection not established after timeout, will continue to monitor[0m
+[0;32mI (9197) WS: Attempting to reconnect WebSocket...[0m
+[0;32mI (9197) WS: Attempting WebSocket reconnection in 1 seconds...[0m
+[1;31mE (10197) websocket_client: The client has started[0m
+[1;31mE (10197) WS: WebSocket reconnection failed: ESP_FAIL[0m
+[0;32mI (10197) WS: Attempting WebSocket reconnection in 2 seconds...[0m
+[1;31mE (11157) websocket_client: The client has started[0m
+[1;31mE (11157) WS: WebSocket reconnection failed: ESP_FAIL[0m
+[0;32mI (11157) WS: Attempting WebSocket reconnection in 8 seconds...[0m
+[1;31mE (12197) websocket_client: The client has started[0m
+[1;31mE (12197) WS: WebSocket reconnection failed: ESP_FAIL[0m
+[0;32mI (12197) WS: Attempting WebSocket reconnection in 4 seconds...[0m
+[1;31mE (16197) websocket_client: The client has started[0m
+[1;31mE (16197) WS: WebSocket reconnection failed: ESP_FAIL[0m
+[0;32mI (16197) WS: Attempting WebSocket reconnection in 8 seconds...[0m
+[1;31mE (19157) websocket_client: The client has started[0m
+[1;31mE (19157) WS: WebSocket reconnection failed: ESP_FAIL[0m
+[0;32mI (19157) WS: Attempting WebSocket reconnection in 16 seconds...[0m
+[1;31mE (24197) websocket_client: The client has started[0m
+[1;31mE (24197) WS: WebSocket reconnection failed: ESP_FAIL[0m
+[0;32mI (24197) WS: Attempting WebSocket reconnection in 16 seconds...[0m
