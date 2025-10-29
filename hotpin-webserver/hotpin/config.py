@@ -35,8 +35,10 @@ class Config:
     BROADCAST_INTERVAL_SEC: int = int(os.getenv("BROADCAST_INTERVAL_SEC", "5"))
     PRINT_QR: bool = os.getenv("PRINT_QR", "false").lower() == "true"
     
-    # STT settings (PocketSphinx)
-    POCKETSPHINX_MODEL: str = os.getenv("POCKETSPHINX_MODEL", "en-us")  # PocketSphinx model name
+    # STT settings (Groq Whisper API)
+    GROQ_STT_MODEL: str = os.getenv("GROQ_STT_MODEL", "whisper-large-v3-turbo")  # Groq Whisper model
+    STT_LANGUAGE: str = os.getenv("STT_LANGUAGE", "en")  # Language for STT (ISO 639-1 code)
+    STT_TEMPERATURE: float = float(os.getenv("STT_TEMPERATURE", "0.0"))  # Temperature for STT (0.0 = deterministic)
     STT_CONF_THRESHOLD: float = float(os.getenv("STT_CONF_THRESHOLD", "0.5"))  # Confidence threshold for STT
     
     # Audio settings

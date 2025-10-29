@@ -17,7 +17,7 @@ def test_config_loading():
     
     # Check that required config values exist
     assert hasattr(Config, 'WS_TOKEN'), "WS_TOKEN should be in config"
-    assert hasattr(Config, 'POCKETSPHINX_MODEL'), "POCKETSPHINX_MODEL should be in config"
+    assert hasattr(Config, 'GROQ_STT_MODEL'), "GROQ_STT_MODEL should be in config"
     assert hasattr(Config, 'GROQ_API_KEY'), "GROQ_API_KEY should be in config"
     
     print("✓ Configuration loaded successfully")

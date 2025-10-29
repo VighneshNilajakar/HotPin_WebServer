@@ -26,10 +26,12 @@ The HotPin WebServer is designed as an authoritative, low-latency multimodal ass
 ### Technology Stack
 - **Runtime**: Python 3.10+ with FastAPI/uvicorn
 - **WebSocket Protocol**: Real-time bidirectional communication
-- **STT Engine**: Vosk speech recognition (Indian English model)
+- **STT Engine**: ~~Vosk speech recognition (Indian English model)~~ **→ Groq Whisper API (Cloud-based, updated Oct 2025)**
 - **LLM Integration**: Groq Cloud multimodal API
 - **TTS Engine**: pyttsx3 (prototype) for audio synthesis
 - **Audio Format**: PCM16 LE, mono, 16 kHz
+
+> **⚠️ Note:** STT implementation changed from Vosk to Groq Whisper API. See `GROQ_WHISPER_IMPLEMENTATION.md`.
 
 ---
 
@@ -41,7 +43,7 @@ The configuration module centralizes all environment variables and settings:
 **Key Configuration Parameters**:
 - Authentication: `WS_TOKEN`, `TOKEN_TTL_SEC`
 - Audio: `CHUNK_SIZE_BYTES` (16000 bytes ≈ 0.5s at 16kHz), `MIN_RECORD_DURATION_SEC`
-- STT: `VOSK_CONF_THRESHOLD` (default 0.5)
+- STT: `GROQ_STT_MODEL`, `STT_LANGUAGE`, `STT_TEMPERATURE`, `STT_CONF_THRESHOLD`
 - Image: `MAX_IMAGE_SIZE_BYTES`, `IMAGE_MAX_DIMENSION`
 - Resource: `MAX_SESSION_DISK_MB`, `SESSION_GRACE_SEC`
 - API: `GROQ_API_KEY`, `GROQ_RETRY_ATTEMPTS`
@@ -101,21 +103,23 @@ class AudioIngestor:
 - Disk usage monitoring
 
 ### 5. STT Worker (`stt_worker.py`)
-Performs speech-to-text processing using Vosk in separate processes:
+Performs speech-to-text processing using Groq Whisper API (cloud-based):
 
 ```python
 class STTWorker:
-    # Vosk model loading and recognition
-    # Session-specific recognizers
-    # Partial and final result callbacks
+    # Groq client initialization and API calls
+    # Session-specific audio accumulation
+    # WAV file creation from PCM chunks
+    # Transcription via Groq Whisper API
     # Audio quality detection
 ```
 
 **Processing Features**:
-- Session-specific recognizer instances
-- Streaming recognition (partial + final results)
+- Session-based audio chunk accumulation
+- Batch processing (accumulate audio, then transcribe)
 - Audio quality metrics (RMS energy, duration)
-- Confidence threshold validation (0.5 default)
+- Temporary WAV file creation for API upload
+- Synchronous transcription results (no streaming partials)
 
 ### 6. LLM Client (`llm_client.py`)
 Integrates with Groq Cloud's multimodal API:

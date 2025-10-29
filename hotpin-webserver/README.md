@@ -5,7 +5,7 @@ A multimodal assistant server designed to work with ESP32-CAM devices, providing
 ## Features
 
 - WebSocket-based communication with token authentication
-- Streaming audio processing with Vosk STT
+- Cloud-based speech recognition with Groq Whisper API
 - Multimodal AI processing with Groq Cloud API
 - Text-to-speech generation with pyttsx3
 - Client state management and recovery mechanisms
@@ -14,11 +14,12 @@ A multimodal assistant server designed to work with ESP32-CAM devices, providing
 
 ## Prerequisites
 
-- Python 3.10+
-- Vosk speech recognition model (specifically `vosk-model-small-en-in-0.4`)
-- Groq Cloud API key for multimodal processing
+- Python 3.10+ (Python 3.12 recommended for Termux/Android)
+- Groq Cloud API key (for both STT and multimodal processing)
 
 ## Setup
+
+### Standard Installation (Windows/Linux/Mac)
 
 1. Create a virtual environment:
 ```bash
@@ -34,10 +35,34 @@ pip install -r requirements.txt
 3. Copy and configure environment variables:
 ```bash
 cp .env.example .env
-# Edit .env with your configuration, especially GROQ_API_KEY
+# Edit .env with your GROQ_API_KEY
 ```
 
-4. Ensure Vosk model is available at the path specified in `MODEL_PATH_VOSK`
+### Termux Installation (Android)
+
+1. Install Python and dependencies:
+```bash
+pkg update
+pkg install python git
+```
+
+2. Clone and install:
+```bash
+cd ~/storage/shared
+git clone <repository-url>
+cd hotpin-webserver
+pip install --upgrade pip
+pip install -r requirements-termux.txt
+```
+
+3. Configure environment:
+```bash
+cp .env.example .env
+# Edit .env with your GROQ_API_KEY
+export GROQ_API_KEY="your_api_key_here"
+```
+
+See `GROQ_WHISPER_IMPLEMENTATION.md` for detailed Termux setup and STT configuration.
 
 ## Configuration
 
@@ -45,8 +70,9 @@ Key configuration options (see `.env.example` for full list):
 
 - `HOST`/`PORT`: Server host and port
 - `WS_TOKEN`: Authentication token for WebSocket connections
-- `MODEL_PATH_VOSK`: Path to Vosk model directory
-- `GROQ_API_KEY`: API key for Groq Cloud multimodal processing
+- `GROQ_API_KEY`: API key for Groq Cloud (STT and multimodal processing)
+- `GROQ_STT_MODEL`: Whisper model to use (default: `whisper-large-v3-turbo`)
+- `STT_LANGUAGE`: Language code for STT (default: `en`)
 - `TEMP_DIR`: Directory for temporary file storage
 - `MAX_SESSION_DISK_MB`: Disk quota per session
 
@@ -141,12 +167,19 @@ When `PRINT_QR=true`, the server prints an ASCII QR code of the primary WebSocke
 - **WebSocket Manager**: Handles connections with single-session enforcement
 - **Session Manager**: Maintains per-session state and event logs
 - **Audio Ingestor**: Processes streaming PCM audio chunks with buffering
-- **STT Worker**: Uses Vosk for streaming speech recognition
+- **STT Worker**: Uses Groq Whisper API for cloud-based speech recognition
 - **LLM Client**: Integrates with Groq Cloud's multimodal API
 - **Image Handler**: Manages image uploads and validation
 - **TTS Worker**: Generates speech from text
 - **TTS Streamer**: Streams audio back to client
 - **Storage Manager**: Handles temp file management and cleanup
+
+## Documentation
+
+- **`GROQ_WHISPER_IMPLEMENTATION.md`**: Detailed guide for Groq Whisper STT setup
+- **`HOTPIN_WEBSERVER_SYSTEM_DESIGN.md`**: System architecture and design patterns
+- **`HotPin WebServer Product Requirement.md`**: Original product requirements (Note: References Vosk, now using Groq Whisper)
+- **`HotPin Firmware Product Requirement.md`**: ESP32-CAM firmware specifications
 
 ## Error Handling
 

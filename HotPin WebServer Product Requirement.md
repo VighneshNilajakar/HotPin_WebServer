@@ -1,11 +1,19 @@
 # HotPin WebServer — Product Requirements Document (Final, detailed)
 
-**Version:** 2.0
-**Target runtime:** Linux laptop (prototype), Python 3.10+ (FastAPI + Uvicorn/uvloop)
-**Primary client:** HotPin (ESP32-CAM) — extremely resource constrained
-**LLM & Vision:** Groq Cloud `meta-llama/llama-4-maverick-17b-128e-instruct` (multimodal)
-**STT:** Vosk `vosk-model-small-en-in-0.4` (Indian English)
+**Version:** 2.0  
+**Target runtime:** Linux laptop (prototype), Python 3.10+ (FastAPI + Uvicorn/uvloop)  
+**Primary client:** HotPin (ESP32-CAM) — extremely resource constrained  
+**LLM & Vision:** Groq Cloud `meta-llama/llama-4-maverick-17b-128e-instruct` (multimodal)  
+**STT:** ~~Vosk `vosk-model-small-en-in-0.4` (Indian English)~~ **→ Groq Whisper API `whisper-large-v3-turbo` (Cloud-based, updated Oct 2025)**  
 **TTS (prototype):** pyttsx3 (local), WAV PCM16@16k
+
+> **⚠️ Implementation Note (Oct 2025):**  
+> STT has been migrated from Vosk (local, offline) to **Groq Whisper API** (cloud-based) due to:
+> - Vosk compilation issues on Termux/Android (Rust dependencies)
+> - PocketSphinx ABI incompatibility with Python 3.12
+> - Groq Whisper provides better accuracy, FREE tier, and uses existing API key
+> 
+> See `GROQ_WHISPER_IMPLEMENTATION.md` for current implementation details.
 
 ---
 

@@ -1,31 +1,30 @@
-# Termux/Android compatible requirements
+# Termux/Android compatible requirements for Python 3.12
 # Install with: pip install -r requirements-termux.txt
-#
-# ⚠️ IMPORTANT: Use Python 3.11 (NOT 3.12)
-# Python 3.12 requires Pydantic v2 which needs Rust compilation (fails on Termux)
-# Install Python 3.11: pkg install python-3.11
-# Then: python3.11 -m venv venv
 
-# SPEECH-TO-TEXT: PocketSphinx
-# - Fully offline, lightweight (~30MB)
-# - Good accuracy for command recognition
-# - Pure Python, no compilation needed
-# - Works natively on Termux/Android
+# SPEECH-TO-TEXT: Groq Whisper API (Cloud-based, FREE tier available)
+# - Uses whisper-large-v3-turbo model (fast & accurate)
+# - Same API key as LLM (no additional cost for reasonable usage)
+# - 25MB file limit (free tier), 100MB (paid tier)
+# - $0.04 per minute of audio (free tier included in credits)
+# - No compilation needed, works on Termux Python 3.12
 
-# Core web framework (NO Rust compilation needed with Python 3.11)
-fastapi==0.68.2
-pydantic==1.10.13
+# Core web framework (Python 3.12 compatible)
+fastapi==0.104.1
+pydantic==1.10.24
 uvicorn==0.24.0
 python-multipart==0.0.6
 python-dotenv==1.0.0
 websockets==12.0
 httpx==0.25.2
-
 # Image processing
 Pillow==10.1.0
 
-# STT - PocketSphinx (works on Termux!)
-pocketsphinx>=5.0.0
+# STT - Groq API (already installed for LLM)
+# Uses the same groq package for both chat and speech-to-text
+
+# Audio processing
+# pydub is optional for audio format conversion if needed
+# For basic usage, wave (built-in) is sufficient
 
 # Basic utilities that work on Termux
 psutil>=5.9.0
@@ -35,3 +34,4 @@ qrcode>=7.4.2
 # - pyttsx3 (requires system TTS engines)
 # - zeroconf (compilation issues on some Termux versions)
 # - uvicorn[standard] extras (watchfiles requires Rust)
+# - pocketsphinx (Python 3.12 ABI incompatibility on ARM64)

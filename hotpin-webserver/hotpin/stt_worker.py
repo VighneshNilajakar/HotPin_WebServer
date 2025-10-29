@@ -1,14 +1,16 @@
-"""STT worker for HotPin WebServer using PocketSphinx."""
-import json
-import logging
+"""STT worker for HotPin WebServer using Groq Whisper API."""
+import os
+import tempfile
+import wave
 from typing import Dict, Optional, Callable, Any
+from io import BytesIO
 
 try:
-    from pocketsphinx import Pocketsphinx, get_model_path
-    POCKETSPHINX_AVAILABLE = True
+    from groq import Groq
+    GROQ_AVAILABLE = True
 except ImportError:
-    POCKETSPHINX_AVAILABLE = False
-    print("WARNING: PocketSphinx not installed. Install with: pip install pocketsphinx")
+    GROQ_AVAILABLE = False
+    print("WARNING: Groq not installed. Install with: pip install groq")
 
 from .config import Config
 from .utils import create_logger, calculate_rms_energy
@@ -17,146 +19,151 @@ logger = create_logger(__name__)
 
 
 class STTWorker:
-    """Handles STT processing using PocketSphinx."""
+    """Handles STT processing using Groq Whisper API."""
     
     def __init__(self):
         self.logger = create_logger(self.__class__.__name__)
+        self.available = False
         
-        if not POCKETSPHINX_AVAILABLE:
-            raise ImportError("PocketSphinx not installed. Install with: pip install pocketsphinx")
+        # Check if Groq is available
+        if not GROQ_AVAILABLE:
+            self.logger.warning("⚠️ Groq not installed - STT will be disabled")
+            self.logger.warning("Install with: pip install groq")
+            self.sessions = {}
+            return
         
-        self.recognizers: Dict[str, Pocketsphinx] = {}  # session_id -> recognizer
-        self.partial_callbacks: Dict[str, Callable] = {}  # session_id -> callback for partial results
-        self.final_callbacks: Dict[str, Callable] = {}  # session_id -> callback for final results
+        # Check if API key is set
+        if not Config.GROQ_API_KEY:
+            self.logger.warning("⚠️ GROQ_API_KEY not set - STT will be disabled")
+            self.logger.warning("Set GROQ_API_KEY in .env file")
+            self.sessions = {}
+            return
         
-        # Get model paths
-        self.model_path = get_model_path(Config.POCKETSPHINX_MODEL)
-        self.dict_path = get_model_path('cmudict-en-us.dict')
-        
-        self.logger.info(f"PocketSphinx STT Worker initialized")
-        self.logger.info(f"Model: {self.model_path}")
-        self.logger.info(f"Dictionary: {self.dict_path}")
+        # Initialize Groq client
+        try:
+            self.client = Groq(api_key=Config.GROQ_API_KEY)
+            self.available = True
+            self.sessions: Dict[str, Dict[str, Any]] = {}
+            
+            self.logger.info("✅ Groq Whisper STT Worker initialized")
+            self.logger.info("   Model: whisper-large-v3-turbo (fast & accurate)")
+            self.logger.info("   Pricing: $0.04/min (FREE tier available)")
+            self.logger.info("   Same API key as LLM - no additional setup needed")
+        except Exception as e:
+            self.logger.error(f"Failed to initialize Groq client: {e}")
+            self.available = False
+            self.sessions = {}
     
     def start_recognition_session(self, session_id: str, sample_rate: int = 16000):
         """Start a new recognition session for a given session."""
+        if not self.available:
+            self.logger.warning(f"STT not available - cannot start session {session_id}")
+            return False
+        
         try:
-            # Create PocketSphinx decoder config
-            config = {
-                'hmm': self.model_path,
-                'dict': self.dict_path,
-                'samprate': sample_rate,
-                'verbose': False
+            # Create session to accumulate audio chunks
+            self.sessions[session_id] = {
+                'audio_chunks': [],
+                'sample_rate': sample_rate,
+                'channels': 1,  # Mono
+                'sample_width': 2,  # 16-bit
             }
-            
-            # Create recognizer
-            recognizer = Pocketsphinx(**config)
-            recognizer.start_utt()  # Start utterance processing
-            
-            self.recognizers[session_id] = recognizer
-            self.logger.info(f"Started STT recognition session for {session_id} (sample_rate={sample_rate}Hz)")
+            self.logger.info(f"Started STT session for {session_id} (sample_rate={sample_rate}Hz)")
+            return True
         
         except Exception as e:
             self.logger.error(f"Failed to start recognition session {session_id}: {e}")
-            raise
+            return False
     
     def accept_audio_chunk(self, session_id: str, audio_chunk: bytes) -> bool:
-        """Accept an audio chunk for recognition."""
-        if session_id not in self.recognizers:
-            self.logger.error(f"No recognizer found for session {session_id}")
+        """Accept an audio chunk for recognition (accumulate for final transcription)."""
+        if not self.available:
+            return False
+            
+        if session_id not in self.sessions:
+            self.logger.error(f"No session found for {session_id}")
             return False
         
-        recognizer = self.recognizers[session_id]
-        
         try:
-            # Process audio data
-            recognizer.process_raw(audio_chunk, False, False)
-            
-            # Get hypothesis (partial result)
-            hyp = recognizer.hyp()
-            
-            if hyp:
-                text = hyp.hypstr
-                
-                # Get score and normalize to confidence (0-1 range)
-                score = hyp.prob if hasattr(hyp, 'prob') else 0
-                confidence = max(0.0, min(1.0, (score + 30000) / 30000))
-                
-                # Check if confidence meets threshold
-                if confidence >= Config.STT_CONF_THRESHOLD:
-                    # End utterance and get final result
-                    recognizer.end_utt()
-                    
-                    # Notify final callback
-                    if session_id in self.final_callbacks:
-                        try:
-                            self.final_callbacks[session_id](session_id, text)
-                        except Exception as callback_error:
-                            self.logger.error(f"Final callback failed for {session_id}: {callback_error}")
-                    
-                    # Also notify partial callback as stable segment
-                    if session_id in self.partial_callbacks:
-                        try:
-                            self.partial_callbacks[session_id](session_id, text, False)
-                        except Exception as callback_error:
-                            self.logger.error(f"Partial callback failed for {session_id}: {callback_error}")
-                    
-                    # Restart utterance for next chunk
-                    recognizer.start_utt()
-                    
-                    self.logger.debug(f"STT result for {session_id}: {text} (confidence: {confidence:.2f})")
-                else:
-                    # Send as partial result
-                    if session_id in self.partial_callbacks:
-                        try:
-                            self.partial_callbacks[session_id](session_id, text, True)
-                        except Exception as callback_error:
-                            self.logger.error(f"Partial callback failed for {session_id}: {callback_error}")
-
+            # Accumulate audio chunks for final transcription
+            self.sessions[session_id]['audio_chunks'].append(audio_chunk)
             return True
         except Exception as e:
             self.logger.error(f"Error processing audio chunk for session {session_id}: {e}")
             return False
     
     def finalize_recognition(self, session_id: str) -> Optional[str]:
-        """Finalize recognition and return the final transcript."""
-        if session_id not in self.recognizers:
-            self.logger.error(f"No recognizer found for session {session_id}")
+        """Finalize recognition and return the final transcript using Groq Whisper API."""
+        if not self.available:
+            return None
+            
+        if session_id not in self.sessions:
+            self.logger.error(f"No session found for {session_id}")
             return None
         
-        recognizer = self.recognizers[session_id]
+        session = self.sessions.pop(session_id)
+        audio_chunks = session['audio_chunks']
+        
+        if not audio_chunks:
+            self.logger.warning(f"No audio data in session {session_id}")
+            return ""
+        
+        # Combine audio chunks
+        audio_data = b''.join(audio_chunks)
         
         try:
-            # End the current utterance
-            recognizer.end_utt()
+            # Create temporary WAV file for Groq API
+            with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as temp_wav:
+                temp_path = temp_wav.name
+                
+                # Write WAV file
+                with wave.open(temp_wav, 'wb') as wav_file:
+                    wav_file.setnchannels(session.get('channels', 1))
+                    wav_file.setsampwidth(session.get('sample_width', 2))
+                    wav_file.setframerate(session.get('sample_rate', 16000))
+                    wav_file.writeframes(audio_data)
             
-            # Get final hypothesis
-            hyp = recognizer.hyp()
-            
-            text = ""
-            if hyp:
-                text = hyp.hypstr
-                self.logger.info(f"Final STT result for {session_id}: '{text}'")
-            else:
-                self.logger.warning(f"Empty STT result for {session_id}")
-            
-            # Clean up recognizer for this session
-            del self.recognizers[session_id]
-            
-            return text
+            # Call Groq Whisper API
+            try:
+                with open(temp_path, 'rb') as audio_file:
+                    transcription = self.client.audio.transcriptions.create(
+                        file=(temp_path, audio_file.read()),
+                        model="whisper-large-v3-turbo",  # Fast & accurate, $0.04/min
+                        response_format="json",
+                        language="en",  # Optimize for English (change if needed)
+                        temperature=0.0,  # Deterministic output
+                    )
+                
+                text = transcription.text.strip()
+                
+                if text:
+                    self.logger.info(f"✅ Groq Whisper transcribed '{text}' for session {session_id}")
+                else:
+                    self.logger.warning(f"Empty transcription for session {session_id}")
+                
+                return text
+                
+            finally:
+                # Clean up temp file
+                try:
+                    os.unlink(temp_path)
+                except Exception as cleanup_error:
+                    self.logger.warning(f"Failed to cleanup temp file: {cleanup_error}")
+        
         except Exception as e:
-            self.logger.error(f"Error finalizing recognition for session {session_id}: {e}")
-            # Clean up recognizer even if there was an error
-            if session_id in self.recognizers:
-                del self.recognizers[session_id]
+            self.logger.error(f"Error during Groq Whisper transcription for {session_id}: {e}")
             return None
     
     def set_partial_callback(self, session_id: str, callback: Callable):
-        """Set the callback function for partial STT results."""
-        self.partial_callbacks[session_id] = callback
+        """Set the callback function for partial STT results (not supported with cloud API)."""
+        # Groq Whisper API doesn't support streaming/partial results
+        # Results are only available after finalize_recognition()
+        pass
     
     def set_final_callback(self, session_id: str, callback: Callable):
-        """Set the callback function for final STT results."""
-        self.final_callbacks[session_id] = callback
+        """Set the callback function for final STT results (not needed with cloud API)."""
+        # With cloud API, results are returned synchronously from finalize_recognition()
+        pass
     
     def check_audio_quality(self, audio_chunk: bytes) -> Dict[str, Any]:
         """Check audio quality metrics."""
