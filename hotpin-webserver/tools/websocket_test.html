@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HotPin WebSocket Test Client</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .log { height: 300px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px; margin: 10px 0; }
+        .message { margin: 5px 0; padding: 5px; border-radius: 3px; }
+        .in { background-color: #e3f2fd; }
+        .out { background-color: #f3e5f5; }
+        .error { background-color: #ffebee; }
+        .controls { margin: 20px 0; }
+        button { margin: 5px; padding: 10px; }
+        input, select { padding: 5px; margin: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>HotPin WebSocket Test Client</h1>
+        
+        <div class="controls">
+            <label>Server URL: <input type="text" id="serverUrl" value="ws://localhost:8000/ws" style="width: 200px;"></label>
+            <label>Session ID: <input type="text" id="sessionId" placeholder="auto-generated" style="width: 150px;"></label>
+            <label>Token: <input type="text" id="token" value="mysecrettoken123" style="width: 150px;"></label>
+            <button id="connectBtn">Connect</button>
+            <button id="disconnectBtn" disabled>Disconnect</button>
+        </div>
+        
+        <div class="controls">
+            <button id="helloBtn" disabled>Send Hello</button>
+            <button id="clientOnBtn" disabled>Client On</button>
+            <button id="startRecordBtn" disabled>Start Recording</button>
+            <button id="stopRecordBtn" disabled>Stop Recording</button>
+            <button id="readyPlaybackBtn" disabled>Ready for Playback</button>
+            <button id="completePlaybackBtn" disabled>Playback Complete</button>
+        </div>
+        
+        <h3>Messages:</h3>
+        <div id="log" class="log"></div>
+        
+        <h3>Send Custom Message:</h3>
+        <textarea id="customMessage" rows="3" cols="50" placeholder='{"type": "your_message_type", ...}'></textarea><br>
+        <button id="sendCustomBtn">Send</button>
+    </div>
+
+    <script>
+        let ws = null;
+        let isConnected = false;
+        let recording = false;
+        let seqNumber = 0;
+
+        // DOM elements
+        const serverUrlInput = document.getElementById('serverUrl');
+        const sessionIdInput = document.getElementById('sessionId');
+        const tokenInput = document.getElementById('token');
+        const connectBtn = document.getElementById('connectBtn');
+        const disconnectBtn = document.getElementById('disconnectBtn');
+        const helloBtn = document.getElementById('helloBtn');
+        const clientOnBtn = document.getElementById('clientOnBtn');
+        const startRecordBtn = document.getElementById('startRecordBtn');
+        const stopRecordBtn = document.getElementById('stopRecordBtn');
+        const readyPlaybackBtn = document.getElementById('readyPlaybackBtn');
+        const completePlaybackBtn = document.getElementById('completePlaybackBtn');
+        const sendCustomBtn = document.getElementById('sendCustomBtn');
+        const customMessageInput = document.getElementById('customMessage');
+        const logDiv = document.getElementById('log');
+
+        // Generate a random session ID
+        function generateSessionId() {
+            return 'session_' + Math.random().toString(36).substr(2, 9);
+        }
+
+        // Add message to log
+        function logMessage(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const msgElement = document.createElement('div');
+            msgElement.className = `message ${type}`;
+            msgElement.innerHTML = `<strong>[${timestamp}]</strong> ${message}`;
+            logDiv.appendChild(msgElement);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        // Connect to WebSocket
+        function connect() {
+            if (isConnected) return;
+            
+            const sessionId = sessionIdInput.value || generateSessionId();
+            sessionIdInput.value = sessionId;
+            
+            const url = `${serverUrlInput.value}?session=${sessionId}&token=${tokenInput.value}`;
+            
+            try {
+                ws = new WebSocket(url);
+                
+                ws.onopen = function(event) {
+                    isConnected = true;
+                    logMessage('Connected to server', 'in');
+                    updateUI();
+                };
+                
+                ws.onmessage = function(event) {
+                    logMessage(`Received: ${event.data}`, 'in');
+                    
+                    // Try to parse as JSON to check for special messages
+                    try {
+                        const msg = JSON.parse(event.data);
+                        if (msg.type === 'ready') {
+                            logMessage('Server is ready - you can start sending messages', 'info');
+                        } else if (msg.type === 'request_rerecord') {
+                            logMessage(`Server requested re-record: ${msg.reason}`, 'error');
+                        }
+                    } catch (e) {
+                        // Not JSON, ignore
+                    }
+                };
+                
+                ws.onclose = function(event) {
+                    isConnected = false;
+                    logMessage(`Disconnected from server (code: ${event.code}, reason: ${event.reason})`, 'error');
+                    updateUI();
+                };
+                
+                ws.onerror = function(error) {
+                    logMessage(`WebSocket error: ${error}`, 'error');
+                };
+            } catch (e) {
+                logMessage(`Error connecting: ${e}`, 'error');
+            }
+        }
+
+        // Disconnect from WebSocket
+        function disconnect() {
+            if (ws) {
+                ws.close();
+                ws = null;
+            }
+            isConnected = false;
+            updateUI();
+        }
+
+        // Send a message
+        function sendMessage(message) {
+            if (!isConnected || !ws) {
+                logMessage('Not connected to server', 'error');
+                return;
+            }
+            
+            try {
+                const msgStr = typeof message === 'string' ? message : JSON.stringify(message);
+                ws.send(msgStr);
+                logMessage(`Sent: ${msgStr}`, 'out');
+            } catch (e) {
+                logMessage(`Error sending message: ${e}`, 'error');
+            }
+        }
+
+        // Update UI based on connection state
+        function updateUI() {
+            connectBtn.disabled = isConnected;
+            disconnectBtn.disabled = !isConnected;
+            helloBtn.disabled = !isConnected;
+            clientOnBtn.disabled = !isConnected;
+            startRecordBtn.disabled = !isConnected || recording;
+            stopRecordBtn.disabled = !isConnected || !recording;
+            readyPlaybackBtn.disabled = !isConnected;
+            completePlaybackBtn.disabled = !isConnected;
+        }
+
+        // Event listeners
+        connectBtn.addEventListener('click', connect);
+        disconnectBtn.addEventListener('click', disconnect);
+        
+        helloBtn.addEventListener('click', () => {
+            const helloMsg = {
+                type: "hello",
+                session: sessionIdInput.value,
+                device: "test_client",
+                capabilities: {
+                    psram: false,
+                    max_chunk_bytes: 16000
+                }
+            };
+            sendMessage(helloMsg);
+        });
+        
+        clientOnBtn.addEventListener('click', () => {
+            sendMessage({type: "client_on"});
+        });
+        
+        startRecordBtn.addEventListener('click', () => {
+            recording = true;
+            sendMessage({type: "recording_started", ts: Date.now()});
+            updateUI();
+            
+            // Simulate sending audio chunks periodically
+            const chunkInterval = setInterval(() => {
+                if (!recording || !isConnected) {
+                    clearInterval(chunkInterval);
+                    return;
+                }
+                
+                // Send a dummy audio chunk
+                const chunkMsg = {
+                    type: "audio_chunk_meta",
+                    seq: seqNumber++,
+                    len_bytes: 160  // Small dummy chunk
+                };
+                sendMessage(chunkMsg);
+            }, 500); // Send a chunk every 500ms
+        });
+        
+        stopRecordBtn.addEventListener('click', () => {
+            recording = false;
+            sendMessage({type: "recording_stopped"});
+            updateUI();
+        });
+        
+        readyPlaybackBtn.addEventListener('click', () => {
+            sendMessage({type: "ready_for_playback"});
+        });
+        
+        completePlaybackBtn.addEventListener('click', () => {
+            sendMessage({type: "playback_complete"});
+        });
+        
+        sendCustomBtn.addEventListener('click', () => {
+            const customMsg = customMessageInput.value.trim();
+            if (customMsg) {
+                sendMessage(customMsg);
+                customMessageInput.value = '';
+            }
+        });
+
+        // Initialize UI
+        sessionIdInput.value = generateSessionId();
+        updateUI();
+    </script>
+</body>
+</html>

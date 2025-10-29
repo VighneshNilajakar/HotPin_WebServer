@@ -1,0 +1,1 @@
+"""HotPin WebServer package."""

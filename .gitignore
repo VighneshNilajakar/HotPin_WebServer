@@ -1,0 +1,29 @@
+# Global ignores
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.log
+*.tmp
+*.swp
+.DS_Store
+Thumbs.db
+
+# Python environments
+.venv/
+venv/
+ENV/
+env/
+
+# VS Code
+.vscode/
+
+# Project-specific
+hotpin-webserver/webserver_logs.txt
+hotpin-webserver/temp/
+hotpin-webserver/**/__pycache__/
+hotpin-webserver/venv/
+hotpin-webserver/.env
+
+# Large model assets (avoid pushing heavy binaries to git; use Git LFS or Releases)
+hotpin-webserver/model/
