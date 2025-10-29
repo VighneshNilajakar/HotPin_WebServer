@@ -163,7 +163,7 @@ bool discover_server(char *ws_url, size_t buffer_size)
         for (int i = start_range; i <= end_range; i++) {
             if (i == my_ip[3]) continue;  // Skip our own IP
             
-            char server_ip[16];
+            char server_ip[24];  // Increased size to safely accommodate "255.255.255.255" + null terminator with extra safety margin
             snprintf(server_ip, sizeof(server_ip), "%d.%d.%d.%d", my_ip[0], my_ip[1], my_ip[2], i);
             
             ESP_LOGD("DISCOVERY", "Scanning IP: %s", server_ip);
@@ -175,7 +175,7 @@ bool discover_server(char *ws_url, size_t buffer_size)
         }
         
         // If targeted scan didn't work, try the gateway
-        char gateway_ip[16];
+        char gateway_ip[24];  // Increased size to safely accommodate "255.255.255.255" + null terminator with extra safety margin
         uint8_t *gw = (uint8_t*)&ip_info.gw.addr;
         snprintf(gateway_ip, sizeof(gateway_ip), "%d.%d.%d.%d", gw[0], gw[1], gw[2], gw[3]);
         

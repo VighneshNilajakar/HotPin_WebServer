@@ -29,7 +29,7 @@
 #include "esp_websocket_client.h"
 
 #include "driver/gpio.h"
-#include "driver/i2s.h"
+#include "driver/i2s.h"  // Legacy I2S API (with deprecation warning)
 #include "driver/ledc.h"
 
 #include "cJSON.h"
