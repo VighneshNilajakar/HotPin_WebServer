@@ -1,5 +1,10 @@
 # Termux/Android compatible requirements
 # Install with: pip install -r requirements-termux.txt
+#
+# ⚠️ IMPORTANT: Use Python 3.11 (NOT 3.12)
+# Python 3.12 requires Pydantic v2 which needs Rust compilation (fails on Termux)
+# Install Python 3.11: pkg install python-3.11
+# Then: python3.11 -m venv venv
 
 # SPEECH-TO-TEXT: PocketSphinx
 # - Fully offline, lightweight (~30MB)
@@ -7,10 +12,9 @@
 # - Pure Python, no compilation needed
 # - Works natively on Termux/Android
 
-# Core web framework (minimal, no optional dependencies)
-# Using older FastAPI version that works with Pydantic v1
+# Core web framework (NO Rust compilation needed with Python 3.11)
 fastapi==0.68.2
-pydantic==1.10.13  # v1.x doesn't require Rust compilation
+pydantic==1.10.13
 uvicorn==0.24.0
 python-multipart==0.0.6
 python-dotenv==1.0.0
