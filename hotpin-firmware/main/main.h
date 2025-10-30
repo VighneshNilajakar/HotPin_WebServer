@@ -18,8 +18,8 @@
 #include "freertos/semphr.h"
 
 #include "esp_system.h"
+#include "esp_mac.h"  // Required for MAC address functions in ESP-IDF v5.4+
 #include "esp_heap_caps.h"
-#include "esp_system.h"
 #include "esp_wifi.h"
 #include "esp_event.h"
 #include "esp_log.h"
@@ -53,7 +53,8 @@
 // Use values from generated config.h
 #define HOTPIN_WS_URL WEBSOCKET_URL
 #define HOTPIN_WS_TOKEN WEBSOCKET_TOKEN
-#define SESSION_ID "hotpin-01"
+// SESSION_ID will be dynamically generated to be unique per device
+extern char SESSION_ID[32];  // Dynamically generated unique session ID
 
 // GPIO mapping
 #define GPIO_MIC_SD     2   // I2S data in from INMP441
@@ -175,6 +176,8 @@ bool init_i2s();
 bool uninstall_i2s();
 bool init_wifi();
 bool init_websocket();
+void cleanup_websocket();  // Add WebSocket cleanup function
+void reconnect_websocket();  // Add WebSocket reconnection function
 void button_task(void *pvParameters);
 void audio_capture_task(void *pvParameters);
 void audio_send_task(void *pvParameters);

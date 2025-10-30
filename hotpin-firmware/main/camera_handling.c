@@ -95,8 +95,11 @@ void camera_task(void *pvParameters) {
             cJSON_AddStringToObject(json, "error", "camera_init_failed");
             cJSON_AddStringToObject(json, "detail", esp_err_to_name(err));
             
+            // ws_send_json takes ownership of the JSON object
+            // It will delete the object whether it succeeds or fails
             ws_send_json(json);
-            cJSON_Delete(json);
+            // NOTE: json object is already deleted by ws_send_json
+            // Do not call cJSON_Delete(json) here to avoid double-free
             
             // Try to reinstall I2S if possible
             init_i2s();
@@ -119,7 +122,8 @@ void camera_task(void *pvParameters) {
             cJSON_AddStringToObject(json, "detail", "Failed to get frame buffer");
             
             ws_send_json(json);
-            cJSON_Delete(json);
+            // NOTE: json object is already deleted by ws_send_json
+            // Do not call cJSON_Delete(json) here to avoid double-free
             
             // Deinit camera and reinstall I2S
             esp_camera_deinit();
@@ -139,7 +143,8 @@ void camera_task(void *pvParameters) {
         cJSON_AddNumberToObject(captured_json, "size", fb->len);
         
         ws_send_json(captured_json);
-        cJSON_Delete(captured_json);
+        // NOTE: captured_json object is already deleted by ws_send_json
+        // Do not call cJSON_Delete(captured_json) here to avoid double-free
 
         // Upload image via HTTP POST
         bool upload_success = upload_image_to_server(fb->buf, fb->len);
@@ -153,7 +158,8 @@ void camera_task(void *pvParameters) {
             cJSON_AddStringToObject(success_json, "filename", "image.jpg");
             
             ws_send_json(success_json);
-            cJSON_Delete(success_json);
+            // NOTE: success_json object is already deleted by ws_send_json
+            // Do not call cJSON_Delete(success_json) here to avoid double-free
         } else {
             ESP_LOGE("CAMERA", "Image upload failed");
         }
@@ -188,7 +194,8 @@ void camera_task(void *pvParameters) {
         cJSON_AddStringToObject(json, "detail", "Camera support not enabled in firmware");
         
         ws_send_json(json);
-        cJSON_Delete(json);
+        // NOTE: json object is already deleted by ws_send_json
+        // Do not call cJSON_Delete(json) here to avoid double-free
         
         set_state(CLIENT_STATE_IDLE);
 #endif
@@ -256,7 +263,8 @@ void camera_task(void *pvParameters) {
             cJSON_AddStringToObject(json, "detail", "Camera support not enabled in firmware");
             
             ws_send_json(json);
-            cJSON_Delete(json);
+            // NOTE: json object is already deleted by ws_send_json
+            // Do not call cJSON_Delete(json) here to avoid double-free
             
             set_state(CLIENT_STATE_IDLE);
         }

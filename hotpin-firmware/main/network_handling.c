@@ -10,7 +10,7 @@ void websocket_message_task(void *pvParameters);
 static esp_websocket_client_handle_t ws_client = NULL;
 static bool ws_connected = false;
 static bool ws_handshake_complete = false;  // Track if initial handshake is done
-static char effective_ws_url[256] = {0};
+// static char effective_ws_url[256] = {0};  // No longer used, commented out to avoid warning
 
 bool init_wifi() {
     ESP_LOGI("WIFI", "Initializing WiFi");
@@ -131,11 +131,42 @@ bool init_websocket() {
     esp_websocket_client_config_t websocket_cfg = {
         .uri = ws_url,
         .user_agent = "HotPin-Firmware-Client/1.0",
-        .headers = auth_header
+        .headers = auth_header,
+        .task_stack = 8192,  // Increase WebSocket task stack to prevent stack overflow
+        .task_prio = 5,      // Standard priority
+        .reconnect_timeout_ms = 10000,  // 10 second reconnect timeout
+        .network_timeout_ms = 10000,    // 10 second network timeout
+        .pingpong_timeout_sec = 15,     // 15 second ping/pong timeout
+        .keep_alive_idle = 60,          // 60 second keep-alive idle
+        .keep_alive_interval = 10,       // 10 second keep-alive interval
+        .keep_alive_count = 3,          // 3 keep-alive probes
+        .disable_auto_reconnect = false, // Allow auto-reconnect
+        .buffer_size = 2048,            // Increase buffer size for better performance
+        .cert_pem = NULL,               // No certificate validation for now
+        .transport = WEBSOCKET_TRANSPORT_OVER_TCP, // Use TCP transport
+        .subprotocol = NULL,            // No subprotocol
+        .user_context = NULL,           // No user context
+        .auto_reconnect = true,         // Enable automatic reconnection
+        .ping_interval_sec = 30,        // Ping every 30 seconds
+        .handshake_timeout_sec = 10,    // 10 second handshake timeout
     };
+    
+    // Clean up any existing WebSocket client before creating a new one
+    if (ws_client) {
+        ESP_LOGI("WS", "Cleaning up existing WebSocket client");
+        // Properly stop and destroy the WebSocket client
+        esp_websocket_client_stop(ws_client);
+        vTaskDelay(pdMS_TO_TICKS(500)); // Give time for cleanup
+        esp_websocket_client_destroy(ws_client);
+        ws_client = NULL;
+    }
     
     // Initialize WebSocket client
     ws_client = esp_websocket_client_init(&websocket_cfg);
+    if (!ws_client) {
+        ESP_LOGE("WS", "Failed to initialize WebSocket client");
+        return false;
+    }
     
     // Set event handler
     esp_websocket_register_events(ws_client, WEBSOCKET_EVENT_ANY, websocket_event_handler, (void*)ws_client);
@@ -144,6 +175,8 @@ bool init_websocket() {
     esp_err_t err = esp_websocket_client_start(ws_client);
     if (err != ESP_OK) {
         ESP_LOGE("WS", "Failed to start WebSocket client: %s", esp_err_to_name(err));
+        esp_websocket_client_destroy(ws_client);
+        ws_client = NULL;
         return false;
     }
     
@@ -190,6 +223,16 @@ void websocket_event_handler(void *handler_args, esp_event_base_t base, int32_t 
         case WEBSOCKET_EVENT_ERROR:
             ESP_LOGE("WS", "WebSocket error");
             ws_connected = false;
+            
+            // Handle error gracefully by signaling for reconnection
+            if (current_state != CLIENT_STATE_SHUTDOWN) {
+                set_state(CLIENT_STATE_STALLED);
+                
+                // Schedule reconnection from a separate task to avoid WebSocket task deadlock
+                // Don't call client stop/restart from within WebSocket event handler
+                // The WebSocket client will handle reconnection automatically if configured properly
+                ESP_LOGI("WS", "WebSocket error - scheduling reconnection");
+            }
             break;
     }
 }
@@ -374,6 +417,12 @@ bool ws_send_json(cJSON *json) {
         return false;
     }
     
+    // Validate that we have a valid JSON object before queuing
+    if (!json) {
+        ESP_LOGW("WS", "Invalid JSON object provided for sending");
+        return false;
+    }
+    
     // Create message structure for queue
     struct {
         cJSON *json;
@@ -387,8 +436,8 @@ bool ws_send_json(cJSON *json) {
         .len = 0
     };
     
-    // Add message to queue
-    if (xQueueSend(q_ws_messages, &message, pdMS_TO_TICKS(100)) != pdTRUE) {
+    // Add message to queue with timeout
+    if (q_ws_messages && xQueueSend(q_ws_messages, &message, pdMS_TO_TICKS(100)) != pdTRUE) {
         ESP_LOGE("WS", "Failed to queue WebSocket JSON message");
         // Clean up the JSON object since we couldn't queue it
         if (json) {
@@ -420,6 +469,16 @@ bool ws_send_binary(uint8_t *data, size_t len) {
         return false;
     }
     
+    // Validate binary data before queuing
+    if (!data || len == 0) {
+        ESP_LOGW("WS", "Invalid binary data provided for sending");
+        // Clean up the data since it's invalid
+        if (data) {
+            free(data);
+        }
+        return false;
+    }
+    
     // Create message structure for queue
     struct {
         cJSON *json;
@@ -433,8 +492,8 @@ bool ws_send_binary(uint8_t *data, size_t len) {
         .len = len
     };
     
-    // Add message to queue
-    if (xQueueSend(q_ws_messages, &message, pdMS_TO_TICKS(100)) != pdTRUE) {
+    // Add message to queue with timeout
+    if (q_ws_messages && xQueueSend(q_ws_messages, &message, pdMS_TO_TICKS(100)) != pdTRUE) {
         ESP_LOGE("WS", "Failed to queue WebSocket binary message");
         // Clean up the data since we couldn't queue it
         if (data) {
@@ -451,6 +510,10 @@ esp_websocket_client_handle_t get_ws_client() {
 }
 
 void reconnect_websocket() {
+    // Add a delay to allow the server to clean up the previous session
+    ESP_LOGI("WS", "Waiting for server session cleanup...");
+    vTaskDelay(pdMS_TO_TICKS(3000)); // 3 second delay to allow server cleanup
+    
     // Exponential backoff: 1s, 2s, 4s, 8s, 16s, 32s, 60s cap
     int delay_seconds = 1;
     const int max_delay = 60; // 60 seconds max
@@ -465,6 +528,8 @@ void reconnect_websocket() {
             break;
         }
         
+        // Use proper API to restart the WebSocket client
+        // Don't call stop from within WebSocket task to avoid deadlock
         esp_err_t err = esp_websocket_client_start(ws_client);
         if (err == ESP_OK) {
             ESP_LOGI("WS", "WebSocket reconnected successfully");
@@ -492,6 +557,12 @@ void reconnect_websocket() {
 void websocket_task(void *pvParameters)
 {
     ESP_LOGI("WS", "Starting WebSocket task - handling handshake and connection management");
+    
+    // Connection monitoring variables
+    int connection_failures = 0;
+    const int max_connection_failures = 10; // Maximum consecutive connection failures before system restart
+    TickType_t last_successful_connection = xTaskGetTickCount();
+    const TickType_t connection_timeout_ticks = pdMS_TO_TICKS(300000); // 5 minutes timeout
     
     // Wait for WebSocket to be connected
     int wait_count = 0;
@@ -539,12 +610,35 @@ void websocket_task(void *pvParameters)
     // Continue monitoring connection status and handle reconnection if needed
     while (current_state != CLIENT_STATE_SHUTDOWN) {
         if (!ws_connected) {
-            // Attempt to reconnect
-            ESP_LOGI("WS", "Attempting to reconnect WebSocket...");
-            reconnect_websocket();
+            // Update connection failure counter
+            connection_failures++;
+            
+            // Check if we've exceeded maximum consecutive failures
+            if (connection_failures >= max_connection_failures) {
+                ESP_LOGE("WS", "Maximum consecutive connection failures (%d) exceeded - restarting system", max_connection_failures);
+                esp_restart(); // Restart the entire system to recover
+            }
+            
+            // Check if we've been disconnected for too long
+            TickType_t time_since_last_connection = xTaskGetTickCount() - last_successful_connection;
+            if (time_since_last_connection > connection_timeout_ticks) {
+                ESP_LOGE("WS", "Connection timeout exceeded (%lu ms) - restarting system", time_since_last_connection * portTICK_PERIOD_MS);
+                esp_restart(); // Restart the entire system to recover
+            }
+            
+            // Log connection failure but continue monitoring
+            ESP_LOGW("WS", "WebSocket disconnected (failure %d/%d), will continue to monitor", connection_failures, max_connection_failures);
+            
+            // Small delay before checking again
+            vTaskDelay(pdMS_TO_TICKS(5000)); // Check every 5 seconds
+        } else {
+            // WebSocket is connected, reset failure counter
+            connection_failures = 0;
+            last_successful_connection = xTaskGetTickCount();
+            
+            // Small delay to prevent busy looping
+            vTaskDelay(pdMS_TO_TICKS(1000)); // Check every second when connected
         }
-        
-        vTaskDelay(pdMS_TO_TICKS(1000)); // Check connection status every second
     }
     
     ESP_LOGI("WS", "WebSocket task stopping");
@@ -566,11 +660,12 @@ void websocket_message_task(void *pvParameters)
     while (current_state != CLIENT_STATE_SHUTDOWN) {
         // Wait for messages in the queue with a timeout
         if (xQueueReceive(q_ws_messages, &message, pdMS_TO_TICKS(1000)) == pdTRUE) {
-            // Process the message directly without recursion
+            // Validate message data before processing to prevent corruption
             if (message.is_binary) {
-                // Send binary message directly using ESP-IDF API
-                if (message.data && message.len > 0 && ws_client) {
-                    if (esp_websocket_client_is_connected(ws_client)) {
+                // Validate binary message data
+                if (message.data && message.len > 0) {
+                    // Send binary message directly using ESP-IDF API
+                    if (ws_client && esp_websocket_client_is_connected(ws_client)) {
                         esp_err_t err = esp_websocket_client_send_bin(ws_client, (char*)message.data, message.len, pdMS_TO_TICKS(5000));
                         if (err != ESP_OK) {
                             ESP_LOGE("WS", "Failed to send WebSocket binary: %s (0x%x)", esp_err_to_name(err), err);
@@ -579,11 +674,18 @@ void websocket_message_task(void *pvParameters)
                         ESP_LOGW("WS", "WebSocket not connected, cannot send binary message");
                     }
                     free(message.data);
+                } else {
+                    ESP_LOGW("WS", "Invalid binary message data - ignoring");
+                    // Still free the data pointer if it exists to prevent memory leaks
+                    if (message.data) {
+                        free(message.data);
+                    }
                 }
             } else {
-                // Send JSON message directly using ESP-IDF API
-                if (message.json && ws_client) {
-                    if (esp_websocket_client_is_connected(ws_client)) {
+                // Validate JSON message data
+                if (message.json) {
+                    // Send JSON message directly using ESP-IDF API
+                    if (ws_client && esp_websocket_client_is_connected(ws_client)) {
                         char *json_str = cJSON_PrintUnformatted(message.json);
                         if (json_str) {
                             size_t json_len = strlen(json_str);
@@ -599,6 +701,8 @@ void websocket_message_task(void *pvParameters)
                         ESP_LOGW("WS", "WebSocket not connected, cannot send JSON message");
                     }
                     cJSON_Delete(message.json);
+                } else {
+                    ESP_LOGW("WS", "Invalid JSON message data - ignoring");
                 }
             }
         }

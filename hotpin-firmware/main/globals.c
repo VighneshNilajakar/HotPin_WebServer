@@ -3,6 +3,8 @@
  */
 
 #include "main.h"
+#include "esp_system.h"
+#include "esp_mac.h"
 
 // Global state variables definition
 client_state_t current_state = CLIENT_STATE_BOOTING;
@@ -20,3 +22,6 @@ int pool_size = 0;
 
 // Also define the camera_task_handle here
 TaskHandle_t camera_task_handle = NULL;
+
+// Define the dynamically generated session ID
+char SESSION_ID[32] = {0};

@@ -67,6 +67,12 @@ static esp_err_t http_event_handler(esp_http_client_event_t *evt)
 static bool fetch_dynamic_config_from_ip(const char *server_ip) {
     ESP_LOGI("CONFIG", "Fetching dynamic configuration from server IP: %s", server_ip);
     
+    // Early exit if we're in a critical state where stack overflow is likely
+    if (current_state == CLIENT_STATE_BOOTING) {
+        ESP_LOGW("CONFIG", "Skipping HTTP fetch during critical boot phase to prevent stack overflow");
+        return false;
+    }
+    
     // Format the configuration URL
     char config_url[256];
     snprintf(config_url, sizeof(config_url), "http://%s:8000/config", server_ip);
@@ -77,7 +83,7 @@ static bool fetch_dynamic_config_from_ip(const char *server_ip) {
     esp_http_client_config_t config = {
         .url = config_url,
         .event_handler = http_event_handler,
-        .timeout_ms = 3000,  // Reduced timeout to prevent long blocking
+        .timeout_ms = 2000,  // Shorter timeout to prevent long blocking
     };
     
     // Initialize HTTP client
@@ -103,16 +109,16 @@ static bool fetch_dynamic_config_from_ip(const char *server_ip) {
         return false;
     }
     
-    // Get response length
+    // Get response length and validate it's reasonable
     int content_length = esp_http_client_get_content_length(client);
-    if (content_length <= 0 || content_length > sizeof(dynamic_ws_url)) {
+    if (content_length <= 0 || content_length > 512) {  // Limit response size to prevent stack overflow
         ESP_LOGW("CONFIG", "Invalid content length: %d", content_length);
         esp_http_client_cleanup(client);
         return false;
     }
     
-    // Read response data
-    char response_buffer[sizeof(dynamic_ws_url)];
+    // Read response data - use smaller buffer to reduce stack usage
+    char response_buffer[512];  // Smaller buffer to reduce stack usage
     int read_len = esp_http_client_read(client, response_buffer, sizeof(response_buffer) - 1);
     if (read_len <= 0) {
         ESP_LOGW("CONFIG", "Failed to read HTTP response");
@@ -123,7 +129,7 @@ static bool fetch_dynamic_config_from_ip(const char *server_ip) {
     // Null terminate the response
     response_buffer[read_len] = '\0';
     
-    // Parse JSON response
+    // Parse JSON response - do this carefully to avoid stack issues
     cJSON *json = cJSON_Parse(response_buffer);
     if (!json) {
         ESP_LOGW("CONFIG", "Failed to parse JSON response: %s", response_buffer);
@@ -148,14 +154,24 @@ static bool fetch_dynamic_config_from_ip(const char *server_ip) {
         return false;
     }
     
-    // Check if the URL already contains query parameters
-    char full_ws_url[256];
+    // Check if the URL already contains query parameters - use smaller buffer
+    char full_ws_url[256];  // Reasonable size for URL with params
     if (strchr(ws_url, '?')) {
         // URL already has query params, append with &
-        snprintf(full_ws_url, sizeof(full_ws_url), "%s&session=%s&token=%s", ws_url, SESSION_ID, HOTPIN_WS_TOKEN);
+        if (snprintf(full_ws_url, sizeof(full_ws_url), "%s&session=%s&token=%s", ws_url, SESSION_ID, HOTPIN_WS_TOKEN) >= sizeof(full_ws_url)) {
+            ESP_LOGE("CONFIG", "Full WebSocket URL would be too long");
+            cJSON_Delete(json);
+            esp_http_client_cleanup(client);
+            return false;
+        }
     } else {
         // URL has no query params, append with ?
-        snprintf(full_ws_url, sizeof(full_ws_url), "%s?session=%s&token=%s", ws_url, SESSION_ID, HOTPIN_WS_TOKEN);
+        if (snprintf(full_ws_url, sizeof(full_ws_url), "%s?session=%s&token=%s", ws_url, SESSION_ID, HOTPIN_WS_TOKEN) >= sizeof(full_ws_url)) {
+            ESP_LOGE("CONFIG", "Full WebSocket URL would be too long");
+            cJSON_Delete(json);
+            esp_http_client_cleanup(client);
+            return false;
+        }
     }
     
     // Update dynamic configuration
@@ -278,7 +294,8 @@ void update_dynamic_config() {
  * @brief Initialize dynamic configuration management
  * 
  * Sets up the dynamic configuration system and fetches initial configuration.
- * First attempts to use the pre-configured URL from .env file.
+ * Prioritizes using the pre-configured URL from .env file with authentication.
+ * Only attempts to fetch configuration from server if URL seems incomplete.
  * If that fails, attempts network discovery as fallback.
  * 
  * @return true if initialization was successful, false otherwise
@@ -286,44 +303,77 @@ void update_dynamic_config() {
 bool init_dynamic_config() {
     ESP_LOGI("CONFIG", "Initializing dynamic configuration management");
     
-    // First, try to use the pre-configured URL from the .env file before attempting discovery
-    ESP_LOGI("CONFIG", "Attempting to use pre-configured WebSocket URL from .env");
-    
-    char preconfigured_url[256];
-    snprintf(preconfigured_url, sizeof(preconfigured_url), "%s", HOTPIN_WS_URL);
-    
-    // If the pre-configured URL is not the default/placeholder, try to use it directly
+    // If the pre-configured URL is valid, use it directly with authentication parameters
+    // This avoids HTTP requests during initialization which can cause stack overflow
     if (strlen(HOTPIN_WS_URL) > 10 && strstr(HOTPIN_WS_URL, "localhost") == NULL && 
         strstr(HOTPIN_WS_URL, "127.0.0.1") == NULL) {
-        // Extract the server IP from the configured URL to try fetching config from it
-        char server_ip[64] = {0};
         
-        // Parse the IP from the WebSocket URL: ws://IP:port/path -> extract IP
-        char *start = strstr(HOTPIN_WS_URL, "ws://");
-        if (start) {
-            start += 5; // Skip "ws://"
-            char *end = strchr(start, ':'); // Find the port separator
-            if (end) {
-                size_t ip_len = end - start;
-                strncpy(server_ip, start, ip_len);
-                server_ip[ip_len] = '\0';
-                
-                ESP_LOGI("CONFIG", "Using server IP from pre-configured URL: %s", server_ip);
-                
-                // Try to fetch config from the pre-configured server IP
-                if (fetch_dynamic_config_from_ip(server_ip)) {
-                    ESP_LOGI("CONFIG", "Dynamic configuration initialized successfully from pre-configured server: %s", server_ip);
-                    return true;
-                } else {
-                    ESP_LOGW("CONFIG", "Failed to fetch config from pre-configured server, will try network discovery");
-                }
+        ESP_LOGI("CONFIG", "Found pre-configured URL, applying authentication parameters without server fetch");
+        
+        // Format the pre-configured URL with authentication parameters directly
+        // This avoids HTTP requests during initialization which can cause stack overflow
+        if (strchr(HOTPIN_WS_URL, '?')) {
+            // URL already has query params, append with &
+            if (snprintf(dynamic_ws_url, sizeof(dynamic_ws_url), "%s&session=%s&token=%s", 
+                         HOTPIN_WS_URL, SESSION_ID, HOTPIN_WS_TOKEN) < sizeof(dynamic_ws_url)) {
+                dynamic_config_available = true;
+                ESP_LOGI("CONFIG", "Dynamic configuration initialized with pre-configured URL: %s", dynamic_ws_url);
+                return true;
+            }
+        } else {
+            // URL has no query params, append with ?
+            if (snprintf(dynamic_ws_url, sizeof(dynamic_ws_url), "%s?session=%s&token=%s", 
+                         HOTPIN_WS_URL, SESSION_ID, HOTPIN_WS_TOKEN) < sizeof(dynamic_ws_url)) {
+                dynamic_config_available = true;
+                ESP_LOGI("CONFIG", "Dynamic configuration initialized with pre-configured URL: %s", dynamic_ws_url);
+                return true;
             }
         }
         
-        // If pre-configured URL doesn't have a valid IP, try network discovery as fallback
+        ESP_LOGW("CONFIG", "Failed to format pre-configured URL with auth parameters");
     }
     
-    // If pre-configured approach failed, try network discovery as fallback
+    // Only try to fetch configuration from server if we have a valid URL but it seems incomplete
+    // This avoids unnecessary HTTP requests during initialization
+    if (strlen(HOTPIN_WS_URL) > 10) {
+        // Check if the URL appears to be incomplete (missing port, path, etc.)
+        bool url_seems_complete = (strstr(HOTPIN_WS_URL, ":8000/") != NULL) || 
+                                  (strstr(HOTPIN_WS_URL, ":8000") != NULL);
+        
+        if (!url_seems_complete) {
+            ESP_LOGI("CONFIG", "Pre-configured URL seems incomplete, attempting to fetch config from server");
+            
+            // Extract the server IP from the configured URL to try fetching config from it
+            char server_ip[64] = {0};
+            
+            // Parse the IP from the WebSocket URL: ws://IP:port/path -> extract IP
+            char *start = strstr(HOTPIN_WS_URL, "ws://");
+            if (start) {
+                start += 5; // Skip "ws://"
+                char *end = strchr(start, ':'); // Find the port separator
+                if (end) {
+                    size_t ip_len = end - start;
+                    strncpy(server_ip, start, ip_len);
+                    server_ip[ip_len] = '\0';
+                    
+                    ESP_LOGI("CONFIG", "Attempting to fetch config from server IP: %s", server_ip);
+                    
+                    // Try to fetch config from the pre-configured server IP
+                    if (fetch_dynamic_config_from_ip(server_ip)) {
+                        ESP_LOGI("CONFIG", "Dynamic configuration initialized successfully by fetching from server: %s", server_ip);
+                        return true;
+                    } else {
+                        ESP_LOGW("CONFIG", "Failed to fetch config from server, will try network discovery");
+                    }
+                }
+            }
+        } else {
+            ESP_LOGI("CONFIG", "Pre-configured URL appears complete, skipping server fetch to avoid stack overflow");
+        }
+    }
+    
+    // If we can't use the pre-configured URL directly and it's not incomplete, 
+    // try network discovery as fallback but only if we really need to
     char discovered_ws_url[256];
     if (discover_server(discovered_ws_url, sizeof(discovered_ws_url))) {
         // Use the discovered URL as the dynamic WebSocket URL
@@ -335,6 +385,6 @@ bool init_dynamic_config() {
         return true;
     }
     
-    ESP_LOGW("CONFIG", "Failed to fetch dynamic configuration and network discovery failed, using compiled defaults");
+    ESP_LOGW("CONFIG", "Failed to initialize configuration from pre-configured URL, fetch, or discovery. Using defaults.");
     return true; // Continue with defaults
 }

@@ -7,7 +7,7 @@ CONFIG_ESP_WIFI_SSID="wifi"
 CONFIG_ESP_WIFI_PASSWORD="123456780"
 
 # WebSocket Configuration
-CONFIG_HOTPIN_WS_URL="ws://10.88.188.211:8000/ws"
+CONFIG_HOTPIN_WS_URL="ws://10.70.101.155:8000/ws"
 CONFIG_HOTPIN_WS_TOKEN="mysecrettoken123"
 
 # Audio Configuration

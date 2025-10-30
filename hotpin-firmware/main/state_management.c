@@ -133,10 +133,13 @@ void set_state(client_state_t new_state) {
         // The WebSocket connection/disconnection events handle those
         
         if (json) {
+            // ws_send_json takes ownership of the JSON object
+            // It will delete the object whether it succeeds or fails
             if (!ws_send_json(json)) {
                 ESP_LOGE("STATE", "Failed to send state change to server");
             }
-            cJSON_Delete(json);
+            // NOTE: json object is already deleted by ws_send_json on failure
+            // Do not call cJSON_Delete(json) here to avoid double-free
         }
         
         // Update LED pattern
@@ -385,10 +388,15 @@ void send_reject_message(const char* reason, const char* current_state_str) {
     cJSON_AddStringToObject(json, "reason", reason);
     cJSON_AddStringToObject(json, "current_state", current_state_str);
     
+    // ws_send_json takes ownership of the JSON object
+    // It will delete the object whether it succeeds or fails
     if (!ws_send_json(json)) {
         ESP_LOGE("BUTTON", "Failed to send reject message to server");
+        // NOTE: json object is already deleted by ws_send_json on failure
+        // Do not call cJSON_Delete(json) here to avoid double-free
     }
-    cJSON_Delete(json);
+    // NOTE: json object is now owned by the WebSocket system on success
+    // Do not call cJSON_Delete(json) here to avoid premature deletion
     
     // Visual/audible feedback for reject
     for (int i = 0; i < 3; i++) {
@@ -458,6 +466,9 @@ void cleanup_resources() {
         vQueueDelete(q_ws_messages);
         q_ws_messages = NULL;
     }
+    
+    // Clean up WebSocket client
+    cleanup_websocket();
     
     // Delete mutex
     if (state_mutex) {

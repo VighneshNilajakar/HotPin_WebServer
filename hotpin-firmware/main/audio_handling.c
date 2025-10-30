@@ -130,8 +130,11 @@ void audio_capture_task(void *pvParameters) {
                 cJSON_AddStringToObject(json, "error", "buffer_overflow");
                 cJSON_AddStringToObject(json, "detail", "Free chunk pool exhausted");
                 
+                // ws_send_json takes ownership of the JSON object
+                // It will delete the object whether it succeeds or fails
                 ws_send_json(json);
-                cJSON_Delete(json);
+                // NOTE: json object is already deleted by ws_send_json
+                // Do not call cJSON_Delete(json) here to avoid double-free
                 
                 // Transition to processing state
                 set_state(CLIENT_STATE_PROCESSING);
@@ -170,7 +173,8 @@ void audio_capture_task(void *pvParameters) {
                 cJSON_AddStringToObject(json, "detail", "Failed to read expected bytes from I2S");
                 
                 ws_send_json(json);
-                cJSON_Delete(json);
+                // NOTE: json object is already deleted by ws_send_json
+                // Do not call cJSON_Delete(json) here to avoid double-free
                 
                 // Transition to processing state
                 set_state(CLIENT_STATE_PROCESSING);
@@ -225,13 +229,17 @@ void audio_send_task(void *pvParameters) {
             cJSON_AddNumberToObject(meta_json, "seq", chunk.seq);
             cJSON_AddNumberToObject(meta_json, "len", chunk.len);
 
+            // ws_send_json takes ownership of the JSON object
+            // It will delete the object whether it succeeds or fails
             if (!ws_send_json(meta_json)) {
                 ESP_LOGE("AUDIO", "Failed to send audio chunk metadata for seq %"PRIu32, chunk.seq);
-                cJSON_Delete(meta_json);
+                // NOTE: meta_json object is already deleted by ws_send_json on failure
+                // Do not call cJSON_Delete(meta_json) here to avoid double-free
                 free_chunk(chunk.data);
                 continue;
             }
-            cJSON_Delete(meta_json);
+            // NOTE: meta_json object is now owned by the WebSocket system on success
+            // Do not call cJSON_Delete(meta_json) here to avoid premature deletion
 
             // Small delay to let metadata be processed
             vTaskDelay(pdMS_TO_TICKS(20));
@@ -282,7 +290,8 @@ void audio_playback_task(void *pvParameters) {
                 cJSON_AddStringToObject(json, "detail", "Failed to write to I2S for playback");
                 
                 ws_send_json(json);
-                cJSON_Delete(json);
+                // NOTE: json object is already deleted by ws_send_json
+                // Do not call cJSON_Delete(json) here to avoid double-free
                 
                 // Free the chunk data
                 free_chunk(chunk.data);
