@@ -56,6 +56,7 @@
 #define HOTPIN_WS_TOKEN WEBSOCKET_TOKEN
 // SESSION_ID will be dynamically generated to be unique per device
 extern char SESSION_ID[32];  // Dynamically generated unique session ID
+void init_session_id(void);  // Function to initialize unique session ID
 
 // GPIO mapping
 #define GPIO_MIC_SD     2   // I2S data in from INMP441
@@ -177,8 +178,6 @@ bool init_i2s();
 bool uninstall_i2s();
 bool init_wifi();
 bool init_websocket();
-void cleanup_websocket();  // Add WebSocket cleanup function
-void reconnect_websocket();  // Add WebSocket reconnection function
 void button_task(void *pvParameters);
 void audio_capture_task(void *pvParameters);
 void audio_send_task(void *pvParameters);
@@ -194,6 +193,8 @@ void websocket_event_handler(void *handler_args, esp_event_base_t base, int32_t 
 bool ws_send_json(cJSON *json);
 bool ws_send_binary(uint8_t *data, size_t len);
 esp_websocket_client_handle_t get_ws_client();
+void cleanup_websocket(void);  // Add WebSocket cleanup function
+void reconnect_websocket(void);  // Add WebSocket reconnection function
 uint8_t* alloc_chunk();
 void free_chunk(uint8_t *buf);
 void cleanup_resources();
@@ -201,7 +202,6 @@ void send_reject_message(const char* reason, const char* current_state_str);
 #ifdef CONFIG_CAMERA_ENABLED
 bool upload_image_to_server(uint8_t *image_data, size_t image_len);
 #endif
-void reconnect_websocket();
 uint8_t* strip_wav_header(uint8_t *data, size_t *len);
 
 #endif // MAIN_H

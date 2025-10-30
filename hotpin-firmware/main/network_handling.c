@@ -6,6 +6,7 @@
 
 // Forward declaration for message processing task
 void websocket_message_task(void *pvParameters);
+void reconnect_websocket(void);  // Forward declaration for reconnect function
 
 static esp_websocket_client_handle_t ws_client = NULL;
 static bool ws_connected = false;
@@ -98,6 +99,10 @@ bool init_wifi() {
 bool init_websocket() {
     ESP_LOGI("WS", "Initializing WebSocket client");
     
+    // Regenerate session ID to ensure uniqueness for initial connection
+    ESP_LOGI("WS", "Regenerating session ID for initial connection");
+    init_session_id();
+    
     // Initialize dynamic configuration management
     if (!init_dynamic_config()) {
         ESP_LOGW("WS", "Failed to initialize dynamic configuration, continuing with defaults");
@@ -178,7 +183,7 @@ bool init_websocket() {
         return false;
     }
     
-    ESP_LOGI("WS", "WebSocket client initialized");
+    ESP_LOGI("WS", "WebSocket client initialized with session ID: %s", SESSION_ID);
     return true;
 }
 
@@ -508,9 +513,14 @@ esp_websocket_client_handle_t get_ws_client() {
 }
 
 void reconnect_websocket() {
+    // Regenerate session ID to ensure uniqueness for each connection attempt
+    // This prevents session conflicts when server still has previous session active
+    ESP_LOGI("WS", "Regenerating session ID for new connection attempt");
+    init_session_id();
+    
     // Add a delay to allow the server to clean up the previous session
     ESP_LOGI("WS", "Waiting for server session cleanup...");
-    vTaskDelay(pdMS_TO_TICKS(3000)); // 3 second delay to allow server cleanup
+    vTaskDelay(pdMS_TO_TICKS(5000)); // 5 second delay to allow server cleanup (increased from 3s)
     
     // Exponential backoff: 1s, 2s, 4s, 8s, 16s, 32s, 60s cap
     int delay_seconds = 1;
@@ -530,7 +540,7 @@ void reconnect_websocket() {
         // Don't call stop from within WebSocket task to avoid deadlock
         esp_err_t err = esp_websocket_client_start(ws_client);
         if (err == ESP_OK) {
-            ESP_LOGI("WS", "WebSocket reconnected successfully");
+            ESP_LOGI("WS", "WebSocket reconnected successfully with new session ID: %s", SESSION_ID);
             break;
         } else {
             ESP_LOGE("WS", "WebSocket reconnection failed: %s", esp_err_to_name(err));
@@ -711,4 +721,26 @@ void websocket_message_task(void *pvParameters)
     
     ESP_LOGI("WS", "WebSocket message processing task stopping");
     vTaskDelete(NULL);
+}
+
+void cleanup_websocket(void) {
+    ESP_LOGI("WS", "Cleaning up WebSocket client");
+    
+    // Stop WebSocket client if it's running
+    if (ws_client) {
+        ESP_LOGI("WS", "Stopping WebSocket client");
+        esp_websocket_client_stop(ws_client);
+        vTaskDelay(pdMS_TO_TICKS(500)); // Give time for graceful shutdown
+        
+        // Destroy WebSocket client
+        ESP_LOGI("WS", "Destroying WebSocket client");
+        esp_websocket_client_destroy(ws_client);
+        ws_client = NULL;
+    }
+    
+    // Reset connection state
+    ws_connected = false;
+    ws_handshake_complete = false;
+    
+    ESP_LOGI("WS", "WebSocket client cleanup complete");
 }

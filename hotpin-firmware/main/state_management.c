@@ -7,6 +7,7 @@
 
 // These are defined as global variables in main.c
 extern TaskHandle_t camera_task_handle;
+extern TaskHandle_t audio_capture_task_handle;  // Add audio capture task handle for suspend/resume control
 
 void set_state(client_state_t new_state) {
     if (xSemaphoreTake(state_mutex, portMAX_DELAY) == pdTRUE) {
@@ -17,10 +18,17 @@ void set_state(client_state_t new_state) {
         if (new_state == CLIENT_STATE_RECORDING && old_state != CLIENT_STATE_RECORDING) {
             // Entering RECORDING state - ensure I2S is in RX mode
             ESP_LOGI("STATE", "Switching I2S to RX mode for recording");
+            
+            // Pause audio capture task during I2S reconfiguration to prevent race conditions
+            if (audio_capture_task_handle) {
+                ESP_LOGI("STATE", "Pausing audio capture task during I2S reconfiguration");
+                vTaskSuspend(audio_capture_task_handle);
+            }
+            
             uninstall_i2s();  // Use the safe mutex-protected uninstall function
             
             // Wait a bit for uninstall to complete
-            vTaskDelay(pdMS_TO_TICKS(50));
+            vTaskDelay(pdMS_TO_TICKS(100));
             
             i2s_config_t i2s_config_rx = {
                 .mode = I2S_MODE_MASTER | I2S_MODE_RX,
@@ -55,13 +63,26 @@ void set_state(client_state_t new_state) {
                 }
                 xSemaphoreGive(i2s_mutex);
             }
+            
+            // Resume audio capture task after I2S reconfiguration
+            if (audio_capture_task_handle) {
+                ESP_LOGI("STATE", "Resuming audio capture task after I2S reconfiguration");
+                vTaskResume(audio_capture_task_handle);
+            }
         } else if (new_state == CLIENT_STATE_PLAYING && old_state != CLIENT_STATE_PLAYING) {
             // Entering PLAYING state - ensure I2S is in TX mode
             ESP_LOGI("STATE", "Switching I2S to TX mode for playback");
+            
+            // Pause audio capture task during I2S reconfiguration to prevent race conditions
+            if (audio_capture_task_handle) {
+                ESP_LOGI("STATE", "Pausing audio capture task during I2S reconfiguration");
+                vTaskSuspend(audio_capture_task_handle);
+            }
+            
             uninstall_i2s();  // Use the safe mutex-protected uninstall function
             
             // Wait a bit for uninstall to complete
-            vTaskDelay(pdMS_TO_TICKS(50));
+            vTaskDelay(pdMS_TO_TICKS(100));
             
             i2s_config_t i2s_config_tx = {
                 .mode = I2S_MODE_MASTER | I2S_MODE_TX,
@@ -95,6 +116,30 @@ void set_state(client_state_t new_state) {
                     ESP_LOGE("STATE", "Failed to configure I2S for TX mode");
                 }
                 xSemaphoreGive(i2s_mutex);
+            }
+            
+            // Resume audio capture task after I2S reconfiguration
+            if (audio_capture_task_handle) {
+                ESP_LOGI("STATE", "Resuming audio capture task after I2S reconfiguration");
+                vTaskResume(audio_capture_task_handle);
+            }
+        } else if ((new_state != CLIENT_STATE_RECORDING && old_state == CLIENT_STATE_RECORDING) ||
+                   (new_state != CLIENT_STATE_PLAYING && old_state == CLIENT_STATE_PLAYING)) {
+            // Leaving RECORDING or PLAYING state - clean up I2S
+            ESP_LOGI("STATE", "Leaving audio state, cleaning up I2S");
+            
+            // Pause audio capture task during I2S cleanup to prevent race conditions
+            if (audio_capture_task_handle) {
+                ESP_LOGI("STATE", "Pausing audio capture task during I2S cleanup");
+                vTaskSuspend(audio_capture_task_handle);
+            }
+            
+            uninstall_i2s();  // Use the safe mutex-protected uninstall function
+            
+            // Resume audio capture task after I2S cleanup
+            if (audio_capture_task_handle) {
+                ESP_LOGI("STATE", "Resuming audio capture task after I2S cleanup");
+                vTaskResume(audio_capture_task_handle);
             }
         }
         
@@ -476,8 +521,11 @@ void cleanup_resources() {
         state_mutex = NULL;
     }
     
-    // Uninstall I2S driver
-    i2s_driver_uninstall(I2S_PORT);
+    // Uninstall I2S driver only if it was initialized
+    if (audio_i2s_initialized) {
+        i2s_driver_uninstall(I2S_PORT);
+        audio_i2s_initialized = false;
+    }
 }
 
 bool init_gpio() {

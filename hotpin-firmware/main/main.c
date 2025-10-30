@@ -52,25 +52,6 @@
 // Forward declaration for configuration update task
 void config_update_task(void *pvParameters);
 
-// Function to generate unique session ID based on MAC address
-static void generate_unique_session_id() {
-    uint8_t mac[6];
-    esp_read_mac(mac, ESP_MAC_WIFI_STA);
-    
-    // Add timestamp and random component to make session IDs truly unique
-    // This prevents session conflicts when device reconnects quickly
-    uint32_t timestamp = (uint32_t)(esp_timer_get_time() / 1000000); // Seconds since boot
-    uint32_t random_val = esp_random();  // Add random component for extra uniqueness
-    
-    // Format as "hotpin-XXYYZZ-TTTTTT-RRRR" where:
-    // XXYYZZ are last 3 bytes of MAC 
-    // TTTTTT is timestamp (seconds since boot)
-    // RRRR is random value
-    snprintf(SESSION_ID, sizeof(SESSION_ID), "hotpin-%02x%02x%02x-%06lx-%04lx", 
-             mac[3], mac[4], mac[5], (unsigned long)(timestamp & 0xFFFFFF), (unsigned long)(random_val & 0xFFFF));
-    ESP_LOGI("HOTPIN", "Generated unique session ID: %s", SESSION_ID);
-}
-
 // Main application entry point
 void app_main()
 {
@@ -84,8 +65,8 @@ void app_main()
     }
     ESP_ERROR_CHECK(ret);
 
-    // Generate unique session ID based on device MAC address
-    generate_unique_session_id();
+    // Generate unique session ID based on device MAC address and timestamp
+    init_session_id();
 
     // Initialize state mutex
     state_mutex = xSemaphoreCreateMutex();

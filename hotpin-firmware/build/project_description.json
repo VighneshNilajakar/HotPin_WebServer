@@ -1,7 +1,7 @@
 {
     "version":            "1.2",
     "project_name":       "hotpin-firmware",
-    "project_version":    "f88446a-dirty",
+    "project_version":    "4bb67bd-dirty",
     "project_path":       "F:/Documents/HOTPIN/Re-Build/WebServer/hotpin-firmware",
     "idf_path":           "C:/Espressif/frameworks/esp-idf-v5.4.2",
     "build_dir":          "F:/Documents/HOTPIN/Re-Build/WebServer/hotpin-firmware/build",
@@ -11,7 +11,7 @@
     "app_elf":            "hotpin-firmware.elf",
     "app_bin":            "hotpin-firmware.bin",
     "build_type":         "flash_app",
-    "git_revision":       "HEAD-HASH-NOTFOUND",
+    "git_revision":       "v5.4.2-dirty",
     "target":             "esp32",
     "rev":                "0",
     "min_rev":            "0",
