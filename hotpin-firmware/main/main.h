@@ -19,6 +19,7 @@
 
 #include "esp_system.h"
 #include "esp_mac.h"  // Required for MAC address functions in ESP-IDF v5.4+
+#include "esp_timer.h"  // Required for esp_timer_get_time function
 #include "esp_heap_caps.h"
 #include "esp_wifi.h"
 #include "esp_event.h"

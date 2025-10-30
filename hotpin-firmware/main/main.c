@@ -66,8 +66,8 @@ static void generate_unique_session_id() {
     // XXYYZZ are last 3 bytes of MAC 
     // TTTTTT is timestamp (seconds since boot)
     // RRRR is random value
-    snprintf(SESSION_ID, sizeof(SESSION_ID), "hotpin-%02x%02x%02x-%06x-%04x", 
-             mac[3], mac[4], mac[5], timestamp & 0xFFFFFF, random_val & 0xFFFF);
+    snprintf(SESSION_ID, sizeof(SESSION_ID), "hotpin-%02x%02x%02x-%06lx-%04lx", 
+             mac[3], mac[4], mac[5], (unsigned long)(timestamp & 0xFFFFFF), (unsigned long)(random_val & 0xFFFF));
     ESP_LOGI("HOTPIN", "Generated unique session ID: %s", SESSION_ID);
 }
 

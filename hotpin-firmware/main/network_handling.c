@@ -146,9 +146,7 @@ bool init_websocket() {
         .transport = WEBSOCKET_TRANSPORT_OVER_TCP, // Use TCP transport
         .subprotocol = NULL,            // No subprotocol
         .user_context = NULL,           // No user context
-        .auto_reconnect = true,         // Enable automatic reconnection
         .ping_interval_sec = 30,        // Ping every 30 seconds
-        .handshake_timeout_sec = 10,    // 10 second handshake timeout
     };
     
     // Clean up any existing WebSocket client before creating a new one
