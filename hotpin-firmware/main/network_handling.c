@@ -258,10 +258,12 @@ void handle_text_message(char *message, size_t len) {
         set_state(CLIENT_STATE_IDLE);
     }
     else if (strcmp(type, "partial") == 0) {
-        ESP_LOGI("WS", "Partial STT: %s", cJSON_GetStringValue(cJSON_GetObjectItem(json, "text")));
+        const char *text = cJSON_GetStringValue(cJSON_GetObjectItem(json, "text"));
+        ESP_LOGI("WS", "Partial STT: %s", text ? text : "unknown");
     }
     else if (strcmp(type, "llm") == 0) {
-        ESP_LOGI("WS", "LLM Response: %s", cJSON_GetStringValue(cJSON_GetObjectItem(json, "text")));
+        const char *text = cJSON_GetStringValue(cJSON_GetObjectItem(json, "text"));
+        ESP_LOGI("WS", "LLM Response: %s", text ? text : "unknown");
     }
     else if (strcmp(type, "tts_ready") == 0) {
         // Server indicates TTS is ready for streaming

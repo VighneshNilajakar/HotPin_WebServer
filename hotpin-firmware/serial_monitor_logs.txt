@@ -1,7 +1,7 @@
 PS F:\Documents\HOTPIN\Re-Build\WebServer\hotpin-firmware> idf.py monitor
 Executing action: monitor
 Serial port COM7
-Connecting...........
+Connecting....
 Detecting chip type... Unsupported detection protocol, switching and trying again...
 Connecting...
 Detecting chip type... ESP32
@@ -11,55 +11,8 @@ Executing "C:\Espressif\python_env\idf5.4_py3.11_env\Scripts\python.exe C:\Espre
 --- Using \\.\COM7 instead...
 --- esp-idf-monitor 1.7.0 on \\.\COM7 115200
 --- Quit: Ctrl+] | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H
-ets Jul 29 2019 12:21:46
-
-rst:0x1 (POWERON_RESET),boot:0x33 (SPI_FAST_FLASH_BOOT)
-invalid header: 0xffffffff
-invalid header: 0xffffffff
-invalid header: 0xffffffff
-invalid header: 0xffffffff
-invalid header: 0xffffffff
-invalid header: 0xffffffff
-invalid header: 0xffffffff
-invalid header: 0xffffffff
-ets Jul 29 2019 12:21:46
-
-rst:0x10 (RTCWDT_RTC_RESET),boot:0x33 (SPI_FAST_FLASH_BOOT)
-invalid header: 0xffffffff
-invalid header: 0xffffffff
-invalid header: 0xffffffff
-invalid header: 0xffffffff
-invalid header: 0xffffffff
-invalid header: 0xffffffff
-invalid header: 0xffffffff
-invalid header: 0xffffffff
-ets Jul 29 2019 12:21:46
-
-rst:0x10 (RTCWDT_RTC_RESET),boot:0x33 (SPI_FAST_FLASH_BOOT)
-invalid header: 0xffffffff
-invalid header: 0xffffffff
-invalid header: 0xffffffff
-invalid header: 0xffffffff
-invalid header: 0xffffffff
-invalid header: 0xffffffff
-invalid header: 0xffffffff
-invalid header: 0xffffffff
-ets Jul 29 2019 12:21:46
-
-rst:0x10 (RTCWDT_RTC_RESET),boot:0x33 (SPI_FAST_FLASH_BOOT)
-invalid header: 0xffffffff
-invalid header: 0xffffffff
-invalid header: 0xffffffff
-invalid header: 0xffffffff
-invalid header: 0xffffffff
-invalid header: 0xffffffff
-invalid header: 0xffffffff
-invalid header: 0xffffffff
-ets Jul 29 2019 12:21:46
-
-rst:0x10 (RTCWDT_RTC_RESET),boot:0x33 (SPI_FAST_FLASH_BOOT)
 I (13) boot: ESP-IDF v5.4.2-dirty 2nd stage bootloader
-I (13) boot: compile time Oct 30 2025 18:21:17
+I (13) boot: compile time Oct 30 2025 20:57:18
 I (13) boot: Multicore bootloader
 I (14) boot: chip revision: v3.1
 I (17) boot.esp32: SPI Speed      : 40MHz
@@ -72,175 +25,111 @@ I (41) boot:  0 nvs              WiFi data        01 02 00009000 00006000
 I (48) boot:  1 phy_init         RF data          01 01 0000f000 00001000
 I (54) boot:  2 factory          factory app      00 00 00010000 00100000
 I (61) boot: End of partition table
-I (64) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=26f4ch (159564) map
-I (126) esp_image: segment 1: paddr=00036f74 vaddr=3ff80000 size=0001ch (    28) load
-I (126) esp_image: segment 2: paddr=00036f98 vaddr=3ffb0000 size=040f8h ( 16632) load
-I (136) esp_image: segment 3: paddr=0003b098 vaddr=40080000 size=04f80h ( 20352) load
-I (145) esp_image: segment 4: paddr=00040020 vaddr=400d0020 size=b564ch (742988) map
-I (399) esp_image: segment 5: paddr=000f5674 vaddr=40084f80 size=16f58h ( 94040) load
-I (449) boot: Loaded app from partition at offset 0x10000
-I (449) boot: Disabling RNG early entropy source...
+I (64) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=2716ch (160108) map
+I (126) esp_image: segment 1: paddr=00037194 vaddr=3ff80000 size=0001ch (    28) load
+I (126) esp_image: segment 2: paddr=000371b8 vaddr=3ffb0000 size=040f8h ( 16632) load
+I (136) esp_image: segment 3: paddr=0003b2b8 vaddr=40080000 size=04d60h ( 19808) load
+I (145) esp_image: segment 4: paddr=00040020 vaddr=400d0020 size=b57c8h (743368) map
+I (399) esp_image: segment 5: paddr=000f57f0 vaddr=40084d60 size=172bch ( 94908) load
+I (450) boot: Loaded app from partition at offset 0x10000
+I (450) boot: Disabling RNG early entropy source...
 I (460) quad_psram: This chip is ESP32-D0WD
-I (461) esp_psram: Found 8MB PSRAM device
+I (462) esp_psram: Found 8MB PSRAM device
 I (462) esp_psram: Speed: 40MHz
 I (462) esp_psram: PSRAM initialized, cache is in low/high (2-core) mode.
-W (467) esp_psram: Virtual address not enough for PSRAM, map as much as we can. 4MB is mapped
-I (475) cpu_start: Multicore app
-I (1383) esp_psram: SPI SRAM memory test OK
+W (468) esp_psram: Virtual address not enough for PSRAM, map as much as we can. 4MB is mapped
+I (476) cpu_start: Multicore app
+I (1384) esp_psram: SPI SRAM memory test OK
 I (1392) cpu_start: Pro cpu start user code
 I (1392) cpu_start: cpu freq: 240000000 Hz
 I (1392) app_init: Application information:
-I (1392) app_init: Project name:     hotpin-firmware
-I (1397) app_init: App version:      4bb67bd-dirty
-I (1401) app_init: Compile time:     Oct 30 2025 18:21:05
-I (1406) app_init: ELF file SHA256:  372060bc2...
+I (1393) app_init: Project name:     hotpin-firmware
+I (1397) app_init: App version:      f0a10b4-dirty
+I (1402) app_init: Compile time:     Oct 30 2025 20:57:03
+I (1407) app_init: ELF file SHA256:  2ec79e02b...
 I (1411) app_init: ESP-IDF:          v5.4.2-dirty
-I (1415) efuse_init: Min chip rev:     v0.0
-I (1419) efuse_init: Max chip rev:     v3.99
-I (1423) efuse_init: Chip rev:         v3.1
-I (1427) heap_init: Initializing. RAM available for dynamic allocation:
+I (1416) efuse_init: Min chip rev:     v0.0
+I (1420) efuse_init: Max chip rev:     v3.99
+I (1424) efuse_init: Chip rev:         v3.1
+I (1428) heap_init: Initializing. RAM available for dynamic allocation:
 I (1434) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
 I (1439) heap_init: At 3FFB8A40 len 000275C0 (157 KiB): DRAM
-I (1444) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
-I (1449) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
-I (1455) heap_init: At 4009BED8 len 00004128 (16 KiB): IRAM
+I (1445) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
+I (1450) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
+I (1456) heap_init: At 4009C01C len 00003FE4 (15 KiB): IRAM
 I (1461) esp_psram: Adding pool of 4096K of PSRAM memory to heap allocator
 I (1468) spi_flash: detected chip: generic
 I (1471) spi_flash: flash io: dio
 W (1474) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.
-W (1486) ADC: legacy driver is deprecated, please migrate to `esp_adc/adc_oneshot.h`
-W (1493) i2s(legacy): legacy i2s driver is deprecated, please migrate to use driver/i2s_std.h, driver/i2s_pdm.h or driver/i2s_tdm.h
-I (1506) main_task: Started on CPU0
-I (1516) esp_psram: Reserving pool of 32K of internal memory for DMA/internal allocations
-I (1516) main_task: Calling app_main()
-I (1516) HOTPIN: Starting HotPin Firmware
-I (1546) HOTPIN: Generated unique session ID: hotpin-8462e0-000000-bff4
-I (1546) PSRAM: PSRAM available: 8388608 bytes
-I (1546) GPIO: Initializing GPIO pins
-I (1546) gpio: GPIO[12]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 1| Pulldown: 0| Intr:0
-I (1556) gpio: GPIO[33]| InputEn: 0| OutputEn: 1| OpenDrain: 0| Pullup: 0| Pulldown: 0| Intr:0
-I (1566) GPIO: GPIO initialization complete
-I (1716) POOL: Allocated 256000 bytes chunk pool from PSRAM
-I (1766) WIFI: Initializing WiFi
-I (1776) wifi:wifi driver task: 3ffc90dc, prio:23, stack:6656, core=0
-I (1786) wifi:wifi firmware version: bea31f3
-I (1786) wifi:wifi certification version: v7.0
-I (1786) wifi:config NVS flash: enabled
-I (1786) wifi:config nano formatting: disabled
-I (1786) wifi:Init data frame dynamic rx buffer num: 32
-I (1796) wifi:Init static rx mgmt buffer num: 5
-I (1796) wifi:Init management short buffer num: 32
-I (1806) wifi:Init dynamic tx buffer num: 32
-I (1806) wifi:Init static rx buffer size: 1600
-I (1806) wifi:Init static rx buffer num: 10
-I (1816) wifi:Init dynamic rx buffer num: 32
-I (1816) wifi_init: rx ba win: 6
-I (1816) wifi_init: accept mbox: 6
-I (1826) wifi_init: tcpip mbox: 32
-I (1826) wifi_init: udp mbox: 6
-I (1826) wifi_init: tcp mbox: 6
-I (1836) wifi_init: tcp tx win: 5760
-I (1836) wifi_init: tcp rx win: 5760
-I (1836) wifi_init: tcp mss: 1440
-I (1846) wifi_init: WiFi IRAM OP enabled
-I (1846) wifi_init: WiFi RX IRAM OP enabled
-I (1846) WIFI: Starting WiFi...
-I (1856) phy_init: phy_version 4860,6b7a6e5,Feb  6 2025,14:47:07
-I (1926) phy_init: Saving new calibration data due to checksum failure or outdated calibration data, mode(0)
-I (2006) wifi:mode : sta (2c:bc:bb:84:62:e0)
-I (2006) wifi:enable tsf
-I (2006) WIFI: Connecting to WiFi network: wifi
-I (2006) WIFI: WiFi initialization complete
-I (2016) wifi:new:<11,0>, old:<1,0>, ap:<255,255>, sta:<11,0>, prof:1, snd_ch_cfg:0x0
-I (2016) wifi:state: init -> auth (0xb0)
-I (2566) HOTPIN: Waiting for IP address before starting WebSocket...
-I (2976) wifi:state: auth -> assoc (0x0)
-I (2986) wifi:state: assoc -> run (0x10)
-I (3036) wifi:connected with wifi, aid = 1, channel 11, BW20, bssid = ee:d4:b9:ed:90:50
-I (3036) wifi:security: WPA3-SAE, phy: bgn, rssi: -67
-I (3036) wifi:pm start, type: 1
+W (1487) ADC: legacy driver is deprecated, please migrate to `esp_adc/adc_oneshot.h`
+W (1494) i2s(legacy): legacy i2s driver is deprecated, please migrate to use driver/i2s_std.h, driver/i2s_pdm.h or driver/i2s_tdm.h
+I (1507) main_task: Started on CPU0
+I (1517) esp_psram: Reserving pool of 32K of internal memory for DMA/internal allocations
+I (1517) main_task: Calling app_main()
+I (1517) HOTPIN: Starting HotPin Firmware
+I (1547) HOTPIN: Generated unique session ID: hotpin-8462e0-000000-d3c4
+I (1547) PSRAM: PSRAM available: 8388608 bytes
+I (1547) GPIO: Initializing GPIO pins
+I (1547) gpio: GPIO[12]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 1| Pulldown: 0| Intr:0
+I (1557) gpio: GPIO[33]| InputEn: 0| OutputEn: 1| OpenDrain: 0| Pullup: 0| Pulldown: 0| Intr:0
+I (1567) GPIO: GPIO initialization complete
+I (1717) POOL: Allocated 256000 bytes chunk pool from PSRAM
+I (1767) WIFI: Initializing WiFi
+I (1777) wifi:wifi driver task: 3ffc9058, prio:23, stack:6656, core=0
+I (1787) wifi:wifi firmware version: bea31f3
+I (1787) wifi:wifi certification version: v7.0
+I (1787) wifi:config NVS flash: enabled
+I (1787) wifi:config nano formatting: disabled
+I (1787) wifi:Init data frame dynamic rx buffer num: 32
+I (1797) wifi:Init static rx mgmt buffer num: 5
+I (1797) wifi:Init management short buffer num: 32
+I (1807) wifi:Init dynamic tx buffer num: 32
+I (1807) wifi:Init static rx buffer size: 1600
+I (1817) wifi:Init static rx buffer num: 10
+I (1817) wifi:Init dynamic rx buffer num: 32
+I (1817) wifi_init: rx ba win: 6
+I (1827) wifi_init: accept mbox: 6
+I (1827) wifi_init: tcpip mbox: 32
+I (1827) wifi_init: udp mbox: 6
+I (1837) wifi_init: tcp mbox: 6
+I (1837) wifi_init: tcp tx win: 5760
+I (1837) wifi_init: tcp rx win: 5760
+I (1837) wifi_init: tcp mss: 1440
+I (1847) wifi_init: WiFi IRAM OP enabled
+I (1847) wifi_init: WiFi RX IRAM OP enabled
+I (1857) WIFI: Starting WiFi...
+I (1857) phy_init: phy_version 4860,6b7a6e5,Feb  6 2025,14:47:07
+Guru Meditation Error: Core  0 panic'ed (LoadProhibited). Exception was unhandled.
 
-I (3036) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us
-I (3046) wifi:<ba-add>idx:0 (ifx:0, ee:d4:b9:ed:90:50), tid:0, ssn:0, winSize:64
-I (3106) wifi:dp: 2, bi: 102400, li: 4, scale listen interval from 307200 us to 409600 us
-I (3106) wifi:AP's beacon interval = 102400 us, DTIM period = 2
-I (4086) esp_netif_handlers: sta ip: 10.143.111.105, mask: 255.255.255.0, gw: 10.143.111.248
-I (4166) HOTPIN: IP address obtained, initializing WebSocket
-I (4166) WS: Initializing WebSocket client
-I (4166) CONFIG: Initializing dynamic configuration management
-I (4166) CONFIG: Found pre-configured URL, applying authentication parameters without server fetch
-I (4176) CONFIG: Dynamic configuration initialized with pre-configured URL: ws://10.70.101.155:8000/ws?session=hotpin-8462e0-000000-bff4&token=mysecrettoken123
-I (4186) WS: Local WebSocket URL for client connections: ws://10.143.111.105:8000/ws
-I (4196) WS: Connect other devices to this URL to interact with this HotPin device on the local network
-I (4206) WS: Using WebSocket URL: ws://10.70.101.155:8000/ws?session=hotpin-8462e0-000000-bff4&token=mysecrettoken123
-I (4226) websocket_client: Started
-I (4226) WS: WebSocket client initialized
-I (4226) I2S: I2S initialized successfully
-I (4286) WS: WebSocket connected
-I (4296) WS: Server ready message received
-I (4326) WS: Starting WebSocket task - handling handshake and connection management
-I (4326) WS: WebSocket connected, performing handshake...
-I (4326) WS: Handshake message sent successfully
-I (4326) WS: Starting WebSocket message processing task
-W (4336) CAMERA: Camera task started but camera is disabled
-E (4336) WS: Failed to send WebSocket text: ERROR (0x4a)
-I (4336) HOTPIN: All tasks created, system ready
-I (5296) STATE: State changed: BOOTING -> IDLE
-I (6296) STATE: State changed: IDLE -> IDLE
-I (10616) STATE: Switching I2S to RX mode for recording
-I (10616) I2S: I2S driver uninstalled
-E (10616) AUDIO: I2S read failed: ESP_FAIL, bytes read: 0
-E (10616) WS: Failed to send WebSocket text: ERROR (0x97)
-I (10666) STATE: I2S configured for RX mode (recording)
-E (10666) WS: Failed to send WebSocket text: ERROR (0x26)
-I (10866) STATE: State changed: IDLE -> RECORDING
-E (10866) WS: Failed to send WebSocket text: ERROR (0x1c)
-W (10886) WS: Server requested re-record: Empty transcript
-I (11466) STATE: State changed: RECORDING -> PROCESSING
-I (12466) STATE: State changed: PROCESSING -> IDLE
-I (32866) STATE: Switching I2S to RX mode for recording
-I (32866) I2S: I2S driver uninstalled
-W (32876) AUDIO: I2S not initialized, waiting...
-I (32916) STATE: I2S configured for RX mode (recording)
-E (32916) WS: Failed to send WebSocket text: ERROR (0x27)
-I (33116) STATE: State changed: IDLE -> RECORDING
-E (33436) WS: Failed to send WebSocket text: ERROR (0x55)
-E (33476) WS: Failed to send WebSocket binary: ERROR (0x3e80)
-Guru Meditation Error: Core  1 panic'ed (StoreProhibited). Exception was unhandled.
-
-Core  1 register dump:
-PC      : 0x40092e8b  PS      : 0x00060333  A0      : 0x80092cf7  A1      : 0x3ffdb860
---- 0x40092e8b: block_link_next at C:/Espressif/frameworks/esp-idf-v5.4.2/components/heap/tlsf/tlsf_block_functions.h:169
---- (inlined by) block_mark_as_free at C:/Espressif/frameworks/esp-idf-v5.4.2/components/heap/tlsf/tlsf_block_functions.h:176
---- (inlined by) tlsf_free at C:/Espressif/frameworks/esp-idf-v5.4.2/components/heap/tlsf/tlsf.c:631
-A2      : 0x3f800014  A3      : 0x3f804774  A4      : 0x00000008  A5      : 0x3f4096d3
-A6      : 0x00000002  A7      : 0x3f80476c  A8      : 0xe7a45770  A9      : 0xa8241002
-A10     : 0x00000001  A11     : 0xffffffff  A12     : 0x3ffdb744  A13     : 0x00060323
-A14     : 0x3ffdb720  A15     : 0x0000abab  SAR     : 0x00000004  EXCCAUSE: 0x0000001d
-EXCVADDR: 0xe7a45770  LBEG    : 0x4008b88d  LEND    : 0x4008b89d  LCOUNT  : 0xfffffffe
---- 0x4008b88d: strlen at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/machine/xtensa/strlen.S:84
---- 0x4008b89d: strlen at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/machine/xtensa/strlen.S:96
+Core  0 register dump:
+PC      : 0x400d9174  PS      : 0x00060e30  A0      : 0x8008b50c  A1      : 0x3ffc8a30
+--- 0x400d9174: esp_vfs_write at C:/Espressif/frameworks/esp-idf-v5.4.2/components/vfs/vfs.c:945
+A2      : 0x3ffc90b4  A3      : 0x00000006  A4      : 0x3ffaed48  A5      : 0x0000006d
+A6      : 0x3ffc8e90  A7      : 0x3ffaec90  A8      : 0x3f8008cc  A9      : 0xffffffff
+A10     : 0x00000000  A11     : 0x00000000  A12     : 0x00060a20  A13     : 0x00060a23
+A14     : 0x00000001  A15     : 0x3ffaec90  SAR     : 0x00000004  EXCCAUSE: 0x0000001c
+EXCVADDR: 0xffffffff  LBEG    : 0x4008b8a9  LEND    : 0x4008b8b9  LCOUNT  : 0xfffffffd
+--- 0x4008b8a9: strlen at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/machine/xtensa/strlen.S:84
+--- 0x4008b8b9: strlen at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/machine/xtensa/strlen.S:96
 
 
-Backtrace: 0x40092e88:0x3ffdb860 0x40092cf4:0x3ffdb880 0x4008276f:0x3ffdb8a0 0x40095a75:0x3ffdb8c0 0x400deec6:0x3ffdb8e0 0x4008e6c9:0x3ffdb920
---- 0x40092e88: block_next at C:/Espressif/frameworks/esp-idf-v5.4.2/components/heap/tlsf/tlsf_block_functions.h:161
---- (inlined by) block_link_next at C:/Espressif/frameworks/esp-idf-v5.4.2/components/heap/tlsf/tlsf_block_functions.h:168
---- (inlined by) block_mark_as_free at C:/Espressif/frameworks/esp-idf-v5.4.2/components/heap/tlsf/tlsf_block_functions.h:176
---- (inlined by) tlsf_free at C:/Espressif/frameworks/esp-idf-v5.4.2/components/heap/tlsf/tlsf.c:631
---- 0x40092cf4: multi_heap_free_impl at C:/Espressif/frameworks/esp-idf-v5.4.2/components/heap/multi_heap.c:233
---- 0x4008276f: heap_caps_free at C:/Espressif/frameworks/esp-idf-v5.4.2/components/heap/heap_caps_base.c:76
---- 0x40095a75: free at C:/Espressif/frameworks/esp-idf-v5.4.2/components/newlib/heap.c:39
---- 0x400deec6: websocket_message_task at F:/Documents/HOTPIN/Re-Build/WebServer/hotpin-firmware/main/network_handling.c:675
---- 0x4008e6c9: vPortTaskWrapper at C:/Espressif/frameworks/esp-idf-v5.4.2/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+Backtrace: 0x400d9171:0x3ffc8a30 0x4008b509:0x3ffc8a50 0x4008a8d5:0x3ffc8a70 0x4008a92a:0x3ffc8a90 0x4008ae45:0x3ffc8ab0 0x4017629f:0x3ffc8ae0 0x40175ca6:0x3ffc8b00 0x40169f71:0x3ffc8e20 0x40094505:0x3ffc8e50 0x400944cd:0x3ffc8e80 0x4013b0ce:0x3ffc8ed0 0x4013b149:0x3ffc8f00 0x40183331:0x3ffc8f20 0x40122601:0x3ffc8f40 0x40122f6c:0x3ffc8f60 0x40120fb6:0x3ffc8f80 0x40096e9d:0x3ffc8fa0 0x4008e6e5:0x3ffc8fd0
+--- 0x400d9171: esp_vfs_write at C:/Espressif/frameworks/esp-idf-v5.4.2/components/vfs/vfs.c:942
+--- 0x4008b509: __swrite at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/stdio.c:94
+--- 0x4008a8d5: __sflush_r at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/fflush.c:224
+--- 0x4008a92a: _fflush_r at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/fflush.c:278
+--- 0x4008ae45: __sfvwrite_r at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/fvwrite.c:251
+--- 0x4017629f: __sprint_r at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/vfprintf.c:429
+--- (inlined by) __sprint_r at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/vfprintf.c:399
+--- 0x40175ca6: _vfprintf_r at
 
 
 
-
-ELF file SHA256: 372060bc2
+ELF file SHA256: 2ec79e02b
 
 Rebooting...
 I (13) boot: ESP-IDF v5.4.2-dirty 2nd stage bootloader
-I (13) boot: compile time Oct 30 2025 18:21:17
+I (13) boot: compile time Oct 30 2025 20:57:18
 I (13) boot: Multicore bootloader
 I (14) boot: chip revision: v3.1
 I (16) boot.esp32: SPI Speed      : 40MHz
@@ -253,49 +142,61 @@ I (41) boot:  0 nvs              WiFi data        01 02 00009000 00006000
 I (47) boot:  1 phy_init         RF data          01 01 0000f000 00001000
 I (54) boot:  2 factory          factory app      00 00 00010000 00100000
 I (60) boot: End of partition table
-I (64) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=26f4ch (159564) map
-I (126) esp_image: segment 1: paddr=00036f74 vaddr=3ff80000 size=0001ch (    28) load
-I (126) esp_image: segment 2: paddr=00036f98 vaddr=3ffb0000 size=040f8h ( 16632) load
-I (136) esp_image: segment 3: paddr=0003b098 vaddr=40080000 size=04f80h ( 20352) load
-I (145) esp_image: segment 4: paddr=00040020 vaddr=400d0020 size=b564ch (742988) map
-I (399) esp_image: segment 5: paddr=000f5674 vaddr=40084f80 size=16f58h ( 94040) load
+I (64) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=2716ch (160108) map
+I (126) esp_image: segment 1: paddr=00037194 vaddr=3ff80000 size=0001ch (    28) load
+I (126) esp_image: segment 2: paddr=000371b8 vaddr=3ffb0000 size=040f8h ( 16632) load
+I (136) esp_image: segment 3: paddr=0003b2b8 vaddr=40080000 size=04d60h ( 19808) load
+I (145) esp_image: segment 4: paddr=00040020 vaddr=400d0020 size=b57c8h (743368) map
+I (399) esp_image: segment 5: paddr=000f57f0 vaddr=40084d60 size=172bch ( 94908) load
 I (449) boot: Loaded app from partition at offset 0x10000
 I (449) boot: Disabling RNG early entropy source...
-I (459) quad_psram: This chip is ESP32-D0WD
-I (461) esp_psram: Found 8MB PSRAM device
-I (461) esp_psram: Speed: 40MHz
-I (461) esp_psram: PSRAM initialized, cache is in low/high (2-core) mode.
+I (460) quad_psram: This chip is ESP32-D0WD
+I (462) esp_psram: Found 8MB PSRAM device
+I (462) esp_psram: Speed: 40MHz
+I (462) esp_psram: PSRAM initialized, cache is in low/high (2-core) mode.
 W (467) esp_psram: Virtual address not enough for PSRAM, map as much as we can. 4MB is mapped
 I (475) cpu_start: Multicore app
-I (1383) esp_psram: SPI SRAM memory test OK
-I (1391) cpu_start: Pro cpu start user code
-I (1391) cpu_start: cpu freq: 240000000 Hz
-I (1391) app_init: Application information:
-I (1391) app_init: Project name:     hotpin-firmware
-I (1396) app_init: App version:      4bb67bd-dirty
-I (1401) app_init: Compile time:     Oct 30 2025 18:21:05
-I (1406) app_init: ELF file SHA256:  372060bc2...
-I (1410) app_init: ESP-IDF:          v5.4.2-dirty
+/builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/vfprintf.c:1774
+--- 0x40169f71: vprintf at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/vprintf.c:34
+--- 0x40094505: esp_log_writev at C:/Espressif/frameworks/esp-idf-v5.4.2/components/log/src/os/log_write.c:34
+--- 0x400944cd: esp_log_write at C:/Espressif/frameworks/esp-idf-v5.4.2/components/log/src/os/log_write.c:44
+--- 0x4013b0ce: esp_phy_load_cal_and_init at C:/Espressif/frameworks/esp-idf-v5.4.2/components/esp_phy/src/phy_init.c:897
+--- 0x4013b149: esp_phy_enable at C:/Espressif/frameworks/esp-idf-v5.4.2/components/esp_phy/src/phy_init.c:300
+--- 0x40183331: esp_phy_enable_wrapper at C:/Espressif/frameworks/esp-idf-v5.4.2/components/esp_wifi/esp32/esp_adapter.c:613
+--- 0x40122601: wifi_hw_start at ??:?
+--- 0x40122f6c: wifi_start_process at ??:?
+--- 0x40120fb6: ieee80211_ioctl_process at ??:?
+--- 0x40096e9d: ppTask at ??:?
+--- 0x4008e6e5: vPortTaskWrapper at C:/Espressif/frameworks/esp-idf-v5.4.2/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+I (1384) esp_psram: SPI SRAM memory test OK
+I (1392) cpu_start: Pro cpu start user code
+I (1392) cpu_start: cpu freq: 240000000 Hz
+I (1392) app_init: Application information:
+I (1392) app_init: Project name:     hotpin-firmware
+I (1397) app_init: App version:      f0a10b4-dirty
+I (1402) app_init: Compile time:     Oct 30 2025 20:57:03
+I (1407) app_init: ELF file SHA256:  2ec79e02b...
+I (1411) app_init: ESP-IDF:          v5.4.2-dirty
 I (1415) efuse_init: Min chip rev:     v0.0
 I (1419) efuse_init: Max chip rev:     v3.99
 I (1423) efuse_init: Chip rev:         v3.1
-I (1427) heap_init: Initializing. RAM available for dynamic allocation:
-I (1433) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
-I (1438) heap_init: At 3FFB8A40 len 000275C0 (157 KiB): DRAM
-I (1443) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
-I (1449) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
-I (1454) heap_init: At 4009BED8 len 00004128 (16 KiB): IRAM
-I (1460) esp_psram: Adding pool of 4096K of PSRAM memory to heap allocator
-I (1467) spi_flash: detected chip: generic
-I (1470) spi_flash: flash io: dio
-W (1473) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.
-W (1486) ADC: legacy driver is deprecated, please migrate to `esp_adc/adc_oneshot.h`
-W (1493) i2s(legacy): legacy i2s driver is deprecated, please migrate to use driver/i2s_std.h, driver/i2s_pdm.h or driver/i2s_tdm.h
+I (1428) heap_init: Initializing. RAM available for dynamic allocation:
+I (1434) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
+I (1439) heap_init: At 3FFB8A40 len 000275C0 (157 KiB): DRAM
+I (1444) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
+I (1450) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
+I (1455) heap_init: At 4009C01C len 00003FE4 (15 KiB): IRAM
+I (1461) esp_psram: Adding pool of 4096K of PSRAM memory to heap allocator
+I (1468) spi_flash: detected chip: generic
+I (1471) spi_flash: flash io: dio
+W (1474) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.
+W (1487) ADC: legacy driver is deprecated, please migrate to `esp_adc/adc_oneshot.h`
+W (1494) i2s(legacy): legacy i2s driver is deprecated, please migrate to use driver/i2s_std.h, driver/i2s_pdm.h or driver/i2s_tdm.h
 I (1506) main_task: Started on CPU0
 I (1516) esp_psram: Reserving pool of 32K of internal memory for DMA/internal allocations
 I (1516) main_task: Calling app_main()
 I (1516) HOTPIN: Starting HotPin Firmware
-I (1546) HOTPIN: Generated unique session ID: hotpin-8462e0-000000-e44b
+I (1546) HOTPIN: Generated unique session ID: hotpin-8462e0-000000-caf5
 I (1546) PSRAM: PSRAM available: 8388608 bytes
 I (1546) GPIO: Initializing GPIO pins
 I (1546) gpio: GPIO[12]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 1| Pulldown: 0| Intr:0
@@ -303,7 +204,7 @@ I (1556) gpio: GPIO[33]| InputEn: 0| OutputEn: 1| OpenDrain: 0| Pullup: 0| Pulld
 I (1566) GPIO: GPIO initialization complete
 I (1716) POOL: Allocated 256000 bytes chunk pool from PSRAM
 I (1766) WIFI: Initializing WiFi
-I (1776) wifi:wifi driver task: 3ffc90dc, prio:23, stack:6656, core=0
+I (1776) wifi:wifi driver task: 3ffc9058, prio:23, stack:6656, core=0
 I (1786) wifi:wifi firmware version: bea31f3
 I (1786) wifi:wifi certification version: v7.0
 I (1786) wifi:config NVS flash: enabled
@@ -313,75 +214,331 @@ I (1796) wifi:Init static rx mgmt buffer num: 5
 I (1796) wifi:Init management short buffer num: 32
 I (1806) wifi:Init dynamic tx buffer num: 32
 I (1806) wifi:Init static rx buffer size: 1600
-I (1806) wifi:Init static rx buffer num: 10
+I (1816) wifi:Init static rx buffer num: 10
 I (1816) wifi:Init dynamic rx buffer num: 32
 I (1816) wifi_init: rx ba win: 6
-I (1816) wifi_init: accept mbox: 6
+I (1826) wifi_init: accept mbox: 6
 I (1826) wifi_init: tcpip mbox: 32
 I (1826) wifi_init: udp mbox: 6
-I (1826) wifi_init: tcp mbox: 6
+I (1836) wifi_init: tcp mbox: 6
 I (1836) wifi_init: tcp tx win: 5760
 I (1836) wifi_init: tcp rx win: 5760
 I (1836) wifi_init: tcp mss: 1440
 I (1846) wifi_init: WiFi IRAM OP enabled
 I (1846) wifi_init: WiFi RX IRAM OP enabled
-I (1846) WIFI: Starting WiFi...
+I (1856) WIFI: Starting WiFi...
 I (1856) phy_init: phy_version 4860,6b7a6e5,Feb  6 2025,14:47:07
-I (1936) phy_init: Saving new calibration data due to checksum failure or outdated calibration data, mode(0)
-I (1956) wifi:mode : sta (2c:bc:bb:84:62:e0)
-I (1956) wifi:enable tsf
-I (1956) WIFI: Connecting to WiFi network: wifi
-I (1966) WIFI: WiFi initialization complete
-I (1996) wifi:new:<11,0>, old:<1,0>, ap:<255,255>, sta:<11,0>, prof:1, snd_ch_cfg:0x0
-I (2006) wifi:state: init -> auth (0xb0)
-I (2546) HOTPIN: Waiting for IP address before starting WebSocket...
-I (2916) wifi:state: auth -> assoc (0x0)
-I (2926) wifi:Association refused temporarily time 1100, comeback time 1200 (TUs)
-I (4156) wifi:state: assoc -> auth (0xb0)
-I (5046) wifi:state: auth -> assoc (0x0)
-I (5056) wifi:state: assoc -> run (0x10)
-I (5076) wifi:connected with wifi, aid = 1, channel 11, BW20, bssid = ee:d4:b9:ed:90:50
-I (5076) wifi:security: WPA3-SAE, phy: bgn, rssi: -64
-I (5076) wifi:pm start, type: 1
+Guru Meditation Error: Core  0 panic'ed (LoadProhibited). Exception was unhandled.
 
-I (5076) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us
-I (5086) wifi:<ba-add>idx:0 (ifx:0, ee:d4:b9:ed:90:50), tid:0, ssn:0, winSize:64
-I (5166) wifi:dp: 2, bi: 102400, li: 4, scale listen interval from 307200 us to 409600 us
-I (5176) wifi:AP's beacon interval = 102400 us, DTIM period = 2
-I (6116) esp_netif_handlers: sta ip: 10.143.111.105, mask: 255.255.255.0, gw: 10.143.111.248
-I (6146) HOTPIN: IP address obtained, initializing WebSocket
-I (6146) WS: Initializing WebSocket client
-I (6146) CONFIG: Initializing dynamic configuration management
-I (6146) CONFIG: Found pre-configured URL, applying authentication parameters without server fetch
-I (6156) CONFIG: Dynamic configuration initialized with pre-configured URL: ws://10.70.101.155:8000/ws?session=hotpin-8462e0-000000-e44b&token=mysecrettoken123
-I (6166) WS: Local WebSocket URL for client connections: ws://10.143.111.105:8000/ws
-I (6176) WS: Connect other devices to this URL to interact with this HotPin device on the local network
-I (6186) WS: Using WebSocket URL: ws://10.70.101.155:8000/ws?session=hotpin-8462e0-000000-e44b&token=mysecrettoken123
-I (6206) websocket_client: Started
-I (6206) WS: WebSocket client initialized
-I (6206) I2S: I2S initialized successfully
-E (6236) transport_ws: Sec-WebSocket-Accept not found
-E (6236) websocket_client: esp_transport_connect() failed with -1, transport_error=ESP_OK, tls_error_code=0, tls_flags=0, esp_ws_handshake_status_code=403, errno=119
-E (6236) WS: WebSocket error
-I (6246) STATE: State changed: BOOTING -> STALLED
-I (6246) WS: WebSocket error - scheduling reconnection
-I (6256) websocket_client: Reconnect after 10000 ms
-W (6256) WS: WebSocket disconnected
-I (6256) STATE: State changed: STALLED -> STALLED
-I (6266) WS: Waiting for server session cleanup...
-I (6306) WS: Starting WebSocket task - handling handshake and connection management
-I (6306) WS: Starting WebSocket message processing task
-W (6306) CAMERA: Camera task started but camera is disabled
-I (6306) HOTPIN: All tasks created, system ready
-I (11266) WS: Attempting WebSocket reconnection in 1 seconds...
-W (11306) WS: WebSocket connection not established after timeout, will continue to monitor
-W (11306) WS: WebSocket disconnected (failure 1/10), will continue to monitor
-W (11306) WS: WebSocket not connected, cannot send JSON
-E (11306) BUTTON: Failed to send reject message to server
-E (12266) websocket_client: The client has started
-E (12266) WS: WebSocket reconnection failed: ESP_FAIL
-I (12266) WS: Attempting WebSocket reconnection in 2 seconds...
-E (14266) websocket_client: The client has started
-E (14266) WS: WebSocket reconnection failed: ESP_FAIL
-I (14266) WS: Attempting WebSocket reconnection in 4 seconds...
-W (16306) WS: WebSocket disconnected (failure 2/10), will continue to monitor
+Core  0 register dump:
+PC      : 0x400d9174  PS      : 0x00060e30  A0      : 0x8008b50c  A1      : 0x3ffc8a30
+A2      : 0x3ffc90b4  A3      : 0x00000006  A4      : 0x3ffaed48  A5      : 0x0000006d
+A6      : 0x3ffc8e90  A7      : 0x3ffaec90  A8      : 0x3f8008cc  A9      : 0xffffffff
+A10     : 0x00000000  A11     : 0x00000000  A12     : 0x00060a20  A13     : 0x00060a23
+A14     : 0x00000001  A15     : 0x3ffaec90  SAR     : 0x00000004  EXCCAUSE: 0x0000001c
+EXCVADDR: 0xffffffff  LBEG    : 0x4008b8a9  LEND    : 0x4008b8b9  LCOUNT  : 0xfffffffd
+--- 0x400d9174: esp_vfs_write at C:/Espressif/frameworks/esp-idf-v5.4.2/components/vfs/vfs.c:945
+--- 0x4008b8a9: strlen at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/machine/xtensa/strlen.S:84
+--- 0x4008b8b9: strlen at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/machine/xtensa/strlen.S:96
+
+
+Backtrace: 0x400d9171:0x3ffc8a30 0x4008b509:0x3ffc8a50 0x4008a8d5:0x3ffc8a70 0x4008a92a:0x3ffc8a90 0x4008ae45:0x3ffc8ab0 0x4017629f:0x3ffc8ae0 0x40175ca6:0x3ffc8b00 0x40169f71:0x3ffc8e20 0x40094505:0x3ffc8e50 0x400944cd:0x3ffc8e80 0x4013b0ce:0x3ffc8ed0 0x4013b149:0x3ffc8f00 0x40183331:0x3ffc8f20 0x40122601:0x3ffc8f40 0x40122f6c:0x3ffc8f60 0x40120fb6:0x3ffc8f80 0x40096e9d:0x3ffc8fa0 0x4008e6e5:0x3ffc8fd0
+--- 0x400d9171: esp_vfs_write at C:/Espressif/frameworks/esp-idf-v5.4.2/components/vfs/vfs.c:942
+--- 0x4008b509: __swrite at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/stdio.c:94
+--- 0x4008a8d5: __sflush_r at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/fflush.c:224
+--- 0x4008a92a: _fflush_r at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/fflush.c:278
+--- 0x4008ae45: __sfvwrite_r at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/fvwrite.c:251
+--- 0x4017629f: __sprint_r at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/vfprintf.c:429
+--- (inlined by) __sprint_r at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/vfprintf.c:399
+--- 0x40175ca6: _vfprintf_r
+
+
+
+ELF file SHA256: 2ec79e02b
+
+Rebooting...
+I (13) boot: ESP-IDF v5.4.2-dirty 2nd stage bootloader
+I (13) boot: compile time Oct 30 2025 20:57:18
+I (13) boot: Multicore bootloader
+I (14) boot: chip revision: v3.1
+I (16) boot.esp32: SPI Speed      : 40MHz
+I (20) boot.esp32: SPI Mode       : DIO
+I (24) boot.esp32: SPI Flash Size : 2MB
+I (27) boot: Enabling RNG early entropy source...
+I (32) boot: Partition Table:
+I (34) boot: ## Label            Usage          Type ST Offset   Length
+I (41) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (47) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (54) boot:  2 factory          factory app      00 00 00010000 00100000
+I (60) boot: End of partition table
+I (64) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=2716ch (160108) map
+I (126) esp_image: segment 1: paddr=00037194 vaddr=3ff80000 size=0001ch (    28) load
+I (126) esp_image: segment 2: paddr=000371b8 vaddr=3ffb0000 size=040f8h ( 16632) load
+I (136) esp_image: segment 3: paddr=0003b2b8 vaddr=40080000 size=04d60h ( 19808) load
+I (145) esp_image: segment 4: paddr=00040020 vaddr=400d0020 size=b57c8h (743368) map
+I (399) esp_image: segment 5: paddr=000f57f0 vaddr=40084d60 size=172bch ( 94908) load
+ at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/vfprintf.c:1774
+--- 0x40169f71: vprintf at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/vprintf.c:34
+--- 0x40094505: esp_log_writev at C:/Espressif/frameworks/esp-idf-v5.4.2/components/log/src/os/log_write.c:34
+--- 0x400944cd: esp_log_write at C:/Espressif/frameworks/esp-idf-v5.4.2/components/log/src/os/log_write.c:44
+--- 0x4013b0ce: esp_phy_load_cal_and_init at C:/Espressif/frameworks/esp-idf-v5.4.2/components/esp_phy/src/phy_init.c:897
+--- 0x4013b149: esp_phy_enable at C:/Espressif/frameworks/esp-idf-v5.4.2/components/esp_phy/src/phy_init.c:300
+--- 0x40183331: esp_phy_enable_wrapper at C:/Espressif/frameworks/esp-idf-v5.4.2/components/esp_wifi/esp32/esp_adapter.c:613
+--- 0x40122601: wifi_hw_start at ??:?
+--- 0x40122f6c: wifi_start_process at ??:?
+--- 0x40120fb6: ieee80211_ioctl_process at ??:?
+--- 0x40096e9d: ppTask at ??:?
+--- 0x4008e6e5: vPortTaskWrapper at C:/Espressif/frameworks/esp-idf-v5.4.2/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+I (449) boot: Loaded app from partition at offset 0x10000
+I (449) boot: Disabling RNG early entropy source...
+I (460) quad_psram: This chip is ESP32-D0WD
+I (462) esp_psram: Found 8MB PSRAM device
+I (462) esp_psram: Speed: 40MHz
+I (462) esp_psram: PSRAM initialized, cache is in low/high (2-core) mode.
+W (467) esp_psram: Virtual address not enough for PSRAM, map as much as we can. 4MB is mapped
+I (475) cpu_start: Multicore app
+I (1384) esp_psram: SPI SRAM memory test OK
+I (1392) cpu_start: Pro cpu start user code
+I (1392) cpu_start: cpu freq: 240000000 Hz
+I (1392) app_init: Application information:
+I (1392) app_init: Project name:     hotpin-firmware
+I (1397) app_init: App version:      f0a10b4-dirty
+I (1401) app_init: Compile time:     Oct 30 2025 20:57:03
+I (1407) app_init: ELF file SHA256:  2ec79e02b...
+I (1411) app_init: ESP-IDF:          v5.4.2-dirty
+I (1415) efuse_init: Min chip rev:     v0.0
+I (1419) efuse_init: Max chip rev:     v3.99
+I (1423) efuse_init: Chip rev:         v3.1
+I (1428) heap_init: Initializing. RAM available for dynamic allocation:
+I (1434) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
+I (1439) heap_init: At 3FFB8A40 len 000275C0 (157 KiB): DRAM
+I (1444) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
+I (1450) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
+I (1455) heap_init: At 4009C01C len 00003FE4 (15 KiB): IRAM
+I (1461) esp_psram: Adding pool of 4096K of PSRAM memory to heap allocator
+I (1468) spi_flash: detected chip: generic
+I (1471) spi_flash: flash io: dio
+W (1474) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.
+W (1487) ADC: legacy driver is deprecated, please migrate to `esp_adc/adc_oneshot.h`
+W (1494) i2s(legacy): legacy i2s driver is deprecated, please migrate to use driver/i2s_std.h, driver/i2s_pdm.h or driver/i2s_tdm.h
+I (1506) main_task: Started on CPU0
+I (1516) esp_psram: Reserving pool of 32K of internal memory for DMA/internal allocations
+I (1516) main_task: Calling app_main()
+I (1516) HOTPIN: Starting HotPin Firmware
+I (1546) HOTPIN: Generated unique session ID: hotpin-8462e0-000000-247a
+I (1546) PSRAM: PSRAM available: 8388608 bytes
+I (1546) GPIO: Initializing GPIO pins
+I (1546) gpio: GPIO[12]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 1| Pulldown: 0| Intr:0
+I (1556) gpio: GPIO[33]| InputEn: 0| OutputEn: 1| OpenDrain: 0| Pullup: 0| Pulldown: 0| Intr:0
+I (1566) GPIO: GPIO initialization complete
+I (1716) POOL: Allocated 256000 bytes chunk pool from PSRAM
+I (1766) WIFI: Initializing WiFi
+I (1776) wifi:wifi driver task: 3ffc9058, prio:23, stack:6656, core=0
+I (1786) wifi:wifi firmware version: bea31f3
+I (1786) wifi:wifi certification version: v7.0
+I (1786) wifi:config NVS flash: enabled
+I (1786) wifi:config nano formatting: disabled
+I (1786) wifi:Init data frame dynamic rx buffer num: 32
+I (1796) wifi:Init static rx mgmt buffer num: 5
+I (1796) wifi:Init management short buffer num: 32
+I (1806) wifi:Init dynamic tx buffer num: 32
+I (1806) wifi:Init static rx buffer size: 1600
+I (1816) wifi:Init static rx buffer num: 10
+I (1816) wifi:Init dynamic rx buffer num: 32
+I (1816) wifi_init: rx ba win: 6
+I (1826) wifi_init: accept mbox: 6
+I (1826) wifi_init: tcpip mbox: 32
+I (1826) wifi_init: udp mbox: 6
+I (1836) wifi_init: tcp mbox: 6
+I (1836) wifi_init: tcp tx win: 5760
+I (1836) wifi_init: tcp rx win: 5760
+I (1836) wifi_init: tcp mss: 1440
+I (1846) wifi_init: WiFi IRAM OP enabled
+I (1846) wifi_init: WiFi RX IRAM OP enabled
+I (1856) WIFI: Starting WiFi...
+I (1856) phy_init: phy_version 4860,6b7a6e5,Feb  6 2025,14:47:07
+Guru Meditation Error: Core  0 panic'ed (LoadProhibited). Exception was unhandled.
+
+Core  0 register dump:
+PC      : 0x400d9174  PS      : 0x00060e30  A0      : 0x8008b50c  A1      : 0x3ffc8a30
+--- 0x400d9174: esp_vfs_write at C:/Espressif/frameworks/esp-idf-v5.4.2/components/vfs/vfs.c:945
+A2      : 0x3ffc90b4  A3      : 0x00000006  A4      : 0x3ffaed48  A5      : 0x0000006d
+A6      : 0x3ffc8e90  A7      : 0x3ffaec90  A8      : 0x3f8008cc  A9      : 0xffffffff
+A10     : 0x00000000  A11     : 0x00000000  A12     : 0x00060a20  A13     : 0x00060a23
+A14     : 0x00000001  A15     : 0x3ffaec90  SAR     : 0x00000004  EXCCAUSE: 0x0000001c
+EXCVADDR: 0xffffffff  LBEG    : 0x4008b8a9  LEND    : 0x4008b8b9  LCOUNT  : 0xfffffffd
+--- 0x4008b8a9: strlen at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/machine/xtensa/strlen.S:84
+--- 0x4008b8b9: strlen at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/machine/xtensa/strlen.S:96
+
+
+Backtrace: 0x400d9171:0x3ffc8a30 0x4008b509:0x3ffc8a50 0x4008a8d5:0x3ffc8a70 0x4008a92a:0x3ffc8a90 0x4008ae45:0x3ffc8ab0 0x4017629f:0x3ffc8ae0 0x40175ca6:0x3ffc8b00 0x40169f71:0x3ffc8e20 0x40094505:0x3ffc8e50 0x400944cd:0x3ffc8e80 0x4013b0ce:0x3ffc8ed0 0x4013b149:0x3ffc8f00 0x40183331:0x3ffc8f20 0x40122601:0x3ffc8f40 0x40122f6c:0x3ffc8f60 0x40120fb6:0x3ffc8f80 0x40096e9d:0x3ffc8fa0 0x4008e6e5:0x3ffc8fd0
+--- 0x400d9171: esp_vfs_write at C:/Espressif/frameworks/esp-idf-v5.4.2/components/vfs/vfs.c:942
+--- 0x4008b509: __swrite at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/stdio.c:94
+--- 0x4008a8d5: __sflush_r at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/fflush.c:224
+--- 0x4008a92a: _fflush_r at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/fflush.c:278
+--- 0x4008ae45: __sfvwrite_r at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/fvwrite.c:251
+--- 0x4017629f: __sprint_r at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/vfprintf.c:429
+--- (inlined by) __sprint_r at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/vfprintf.c
+
+
+
+ELF file SHA256: 2ec79e02b
+
+Rebooting...
+I (13) boot: ESP-IDF v5.4.2-dirty 2nd stage bootloader
+I (13) boot: compile time Oct 30 2025 20:57:18
+I (13) boot: Multicore bootloader
+I (14) boot: chip revision: v3.1
+I (16) boot.esp32: SPI Speed      : 40MHz
+I (20) boot.esp32: SPI Mode       : DIO
+I (24) boot.esp32: SPI Flash Size : 2MB
+I (27) boot: Enabling RNG early entropy source...
+I (32) boot: Partition Table:
+I (34) boot: ## Label            Usage          Type ST Offset   Length
+I (41) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (47) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (54) boot:  2 factory          factory app      00 00 00010000 00100000
+I (60) boot: End of partition table
+I (64) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=2716ch (160108) map
+:399
+--- 0x40175ca6: _vfprintf_r at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/vfprintf.c:1774
+--- 0x40169f71: vprintf at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/vprintf.c:34
+--- 0x40094505: esp_log_writev at C:/Espressif/frameworks/esp-idf-v5.4.2/components/log/src/os/log_write.c:34
+--- 0x400944cd: esp_log_write at C:/Espressif/frameworks/esp-idf-v5.4.2/components/log/src/os/log_write.c:44
+--- 0x4013b0ce: esp_phy_load_cal_and_init at C:/Espressif/frameworks/esp-idf-v5.4.2/components/esp_phy/src/phy_init.c:897
+--- 0x4013b149: esp_phy_enable at C:/Espressif/frameworks/esp-idf-v5.4.2/components/esp_phy/src/phy_init.c:300
+--- 0x40183331: esp_phy_enable_wrapper at C:/Espressif/frameworks/esp-idf-v5.4.2/components/esp_wifi/esp32/esp_adapter.c:613
+--- 0x40122601: wifi_hw_start at ??:?
+--- 0x40122f6c: wifi_start_process at ??:?
+--- 0x40120fb6: ieee80211_ioctl_process at ??:?
+--- 0x40096e9d: ppTask at ??:?
+--- 0x4008e6e5: vPortTaskWrapper at C:/Espressif/frameworks/esp-idf-v5.4.2/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+I (126) esp_image: segment 1: paddr=00037194 vaddr=3ff80000 size=0001ch (    28) load
+I (126) esp_image: segment 2: paddr=000371b8 vaddr=3ffb0000 size=040f8h ( 16632) load
+I (136) esp_image: segment 3: paddr=0003b2b8 vaddr=40080000 size=04d60h ( 19808) load
+I (145) esp_image: segment 4: paddr=00040020 vaddr=400d0020 size=b57c8h (743368) map
+I (399) esp_image: segment 5: paddr=000f57f0 vaddr=40084d60 size=172bch ( 94908) load
+I (449) boot: Loaded app from partition at offset 0x10000
+I (449) boot: Disabling RNG early entropy source...
+I (460) quad_psram: This chip is ESP32-D0WD
+I (462) esp_psram: Found 8MB PSRAM device
+I (462) esp_psram: Speed: 40MHz
+I (462) esp_psram: PSRAM initialized, cache is in low/high (2-core) mode.
+W (467) esp_psram: Virtual address not enough for PSRAM, map as much as we can. 4MB is mapped
+I (475) cpu_start: Multicore app
+I (1384) esp_psram: SPI SRAM memory test OK
+I (1392) cpu_start: Pro cpu start user code
+I (1392) cpu_start: cpu freq: 240000000 Hz
+I (1392) app_init: Application information:
+I (1392) app_init: Project name:     hotpin-firmware
+I (1397) app_init: App version:      f0a10b4-dirty
+I (1401) app_init: Compile time:     Oct 30 2025 20:57:03
+I (1407) app_init: ELF file SHA256:  2ec79e02b...
+I (1411) app_init: ESP-IDF:          v5.4.2-dirty
+I (1415) efuse_init: Min chip rev:     v0.0
+I (1419) efuse_init: Max chip rev:     v3.99
+I (1423) efuse_init: Chip rev:         v3.1
+I (1428) heap_init: Initializing. RAM available for dynamic allocation:
+I (1434) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
+I (1439) heap_init: At 3FFB8A40 len 000275C0 (157 KiB): DRAM
+I (1444) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
+I (1450) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
+I (1455) heap_init: At 4009C01C len 00003FE4 (15 KiB): IRAM
+I (1461) esp_psram: Adding pool of 4096K of PSRAM memory to heap allocator
+I (1468) spi_flash: detected chip: generic
+I (1471) spi_flash: flash io: dio
+W (1474) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.
+W (1487) ADC: legacy driver is deprecated, please migrate to `esp_adc/adc_oneshot.h`
+W (1494) i2s(legacy): legacy i2s driver is deprecated, please migrate to use driver/i2s_std.h, driver/i2s_pdm.h or driver/i2s_tdm.h
+I (1506) main_task: Started on CPU0
+I (1516) esp_psram: Reserving pool of 32K of internal memory for DMA/internal allocations
+I (1516) main_task: Calling app_main()
+I (1516) HOTPIN: Starting HotPin Firmware
+I (1546) HOTPIN: Generated unique session ID: hotpin-8462e0-000000-c6b6
+I (1546) PSRAM: PSRAM available: 8388608 bytes
+I (1546) GPIO: Initializing GPIO pins
+I (1546) gpio: GPIO[12]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 1| Pulldown: 0| Intr:0
+I (1556) gpio: GPIO[33]| InputEn: 0| OutputEn: 1| OpenDrain: 0| Pullup: 0| Pulldown: 0| Intr:0
+I (1566) GPIO: GPIO initialization complete
+I (1716) POOL: Allocated 256000 bytes chunk pool from PSRAM
+I (1766) WIFI: Initializing WiFi
+I (1776) wifi:wifi driver task: 3ffc9058, prio:23, stack:6656, core=0
+I (1786) wifi:wifi firmware version: bea31f3
+I (1786) wifi:wifi certification version: v7.0
+I (1786) wifi:config NVS flash: enabled
+I (1786) wifi:config nano formatting: disabled
+I (1786) wifi:Init data frame dynamic rx buffer num: 32
+I (1796) wifi:Init static rx mgmt buffer num: 5
+I (1796) wifi:Init management short buffer num: 32
+I (1806) wifi:Init dynamic tx buffer num: 32
+I (1806) wifi:Init static rx buffer size: 1600
+I (1816) wifi:Init static rx buffer num: 10
+I (1816) wifi:Init dynamic rx buffer num: 32
+I (1816) wifi_init: rx ba win: 6
+I (1826) wifi_init: accept mbox: 6
+I (1826) wifi_init: tcpip mbox: 32
+I (1826) wifi_init: udp mbox: 6
+I (1836) wifi_init: tcp mbox: 6
+I (1836) wifi_init: tcp tx win: 5760
+I (1836) wifi_init: tcp rx win: 5760
+I (1836) wifi_init: tcp mss: 1440
+I (1846) wifi_init: WiFi IRAM OP enabled
+I (1846) wifi_init: WiFi RX IRAM OP enabled
+I (1856) WIFI: Starting WiFi...
+I (1856) phy_init: phy_version 4860,6b7a6e5,Feb  6 2025,14:47:07
+Guru Meditation Error: Core  0 panic'ed (LoadProhibited). Exception was unhandled.
+
+Core  0 register dump:
+PC      : 0x400d9174  PS      : 0x00060e30  A0      : 0x8008b50c  A1      : 0x3ffc8a30
+--- 0x400d9174: esp_vfs_write at C:/Espressif/frameworks/esp-idf-v5.4.2/components/vfs/vfs.c:945
+A2      : 0x3ffc90b4  A3      : 0x00000006  A4      : 0x3ffaed48  A5      : 0x0000006d
+A6      : 0x3ffc8e90  A7      : 0x3ffaec90  A8      : 0x3f8008cc  A9      : 0xffffffff
+A10     : 0x00000000  A11     : 0x00000000  A12     : 0x00060a20  A13     : 0x00060a23
+A14     : 0x00000001  A15     : 0x3ffaec90  SAR     : 0x00000004  EXCCAUSE: 0x0000001c
+EXCVADDR: 0xffffffff  LBEG    : 0x4008b8a9  LEND    : 0x4008b8b9  LCOUNT  : 0xfffffffd
+--- 0x4008b8a9: strlen at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/machine/xtensa/strlen.S:84
+--- 0x4008b8b9: strlen at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/machine/xtensa/strlen.S:96
+
+
+Backtrace: 0x400d9171:0x3ffc8a30 0x4008b509:0x3ffc8a50 0x4008a8d5:0x3ffc8a70 0x4008a92a:0x3ffc8a90 0x4008ae45:0x3ffc8ab0 0x4017629f:0x3ffc8ae0 0x40175ca6:0x3ffc8b00 0x40169f71:0x3ffc8e20 0x40094505:0x3ffc8e50 0x400944cd:0x3ffc8e80 0x4013b0ce:0x3ffc8ed0 0x4013b149:0x3ffc8f00 0x40183331:0x3ffc8f20 0x40122601:0x3ffc8f40 0x40122f6c:0x3ffc8f60 0x40120fb6:0x3ffc8f80 0x40096e9d:0x3ffc8fa0 0x4008e6e5:0x3ffc8fd0
+--- 0x400d9171: esp_vfs_write at C:/Espressif/frameworks/esp-idf-v5.4.2/components/vfs/vfs.c:942
+--- 0x4008b509: __swrite at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/stdio.c:94
+--- 0x4008a8d5: __sflush_r at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/fflush.c:224
+--- 0x4008a92a: _fflush_r at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/fflush.c:278
+--- 0x4008ae45: __sfvwrite_r at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/fvwrite.c:251
+--- 0x4017629f: __sprint_r at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/vfprintf.c:429
+--- (inlined by) __sprint_r at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/vfprintf.c:399
+--- 0x40175ca6:
+
+
+
+ELF file SHA256: 2ec79e02b
+
+Rebooting...
+I (13) boot: ESP-IDF v5.4.2-dirty 2nd stage bootloader
+I (13) boot: compile time Oct 30 2025 20:57:18
+I (13) boot: Multicore bootloader
+I (14) boot: chip revision: v3.1
+I (16) boot.esp32: SPI Speed      : 40MHz
+I (20) boot.esp32: SPI Mode       : DIO
+I (24) boot.esp32: SPI Flash Size : 2MB
+I (27) boot: Enabling RNG early entropy source...
+I (32) boot: Partition Table:
+I (34) boot: ## Label            Usage          Type ST Offset   Length
+I (41) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (47) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (54) boot:  2 factory          factory app      00 00 00010000 00100000
+I (60) boot: End of partition table
+I (64) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=2716ch (160108) map
+_vfprintf_r at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/vfprintf.c:1774
+--- 0x40169f71: vprintf at /builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/stdio/vprintf.c:34
+--- 0x40094505: esp_log_writev at C:/Espressif/frameworks/esp-idf-v5.4.2/components/log/src/os/log_write.c:34
+--- 0x400944cd: esp_log_write at C:/Espressif/frameworks/esp-idf-v5.4.2/components/log/src/os/log_write.c:44
+--- 0x4013b0ce: esp_phy_load_cal_and_init at C:/Espressif/frameworks/esp-idf-v5.4.2/components/esp_phy/src/phy_init.c:897
+--- 0x4013b149: esp_phy_enable at C:/Espressif/frameworks/esp-idf-v5.4.2/components/esp_phy/src/phy_init.c:300
+--- 0x40183331: esp_phy_enable_wrapper at C:/Espressif/frameworks/esp-idf-v5.4.2/components/esp_wifi/esp32/esp_adapter.c:613
+--- 0x40122601: wifi_hw_start at ??:?
+--- 0x40122f6c: wifi_start_process at ??:?
+--- 0x40120fb6: ieee80211_ioctl_process at ??:?
+--- 0x40096e9d: ppTask at ??:?
+--- 0x4008e6e5: vPortTaskWrapper at C:/Espressif/frameworks/esp-idf-v5.4.2/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
