@@ -45,6 +45,14 @@ def validate_audio_chunk(chunk: bytes, expected_size: int = None) -> bool:
     if expected_size and len(chunk) != expected_size:
         return False
     
+    # Additional validation: reasonable chunk size (not too small or too large)
+    if len(chunk) < 32:  # Too small to be meaningful audio
+        return False
+    
+    # Max reasonable chunk size (should not exceed 512KB)
+    if len(chunk) > 512 * 1024:  # 512KB
+        return False
+    
     return True
 
 def validate_image_file(image_data: bytes, max_size: int, max_dimension: int) -> Dict[str, Any]:
@@ -77,7 +85,7 @@ def create_temp_file(prefix: str = "", suffix: str = "") -> str:
     return tempfile.mktemp(prefix=prefix, suffix=suffix, dir=Config.TEMP_DIR)
 
 def create_wave_file(audio_data: bytes, sample_rate: int = 16000, channels: int = 1, sample_width: int = 2) -> bytes:
-    """Create a WAV file from raw PCM audio data."""
+    """Create a WAV file from raw PCM audio data with proper format."""
     wav_buffer = io.BytesIO()
     
     with wave.open(wav_buffer, 'wb') as wav_file:

@@ -84,12 +84,8 @@ class TTSWorker:
                 if not self.engine:
                     return False
                 # Queue the utterance and block until it has been written
-                token = self.engine.connect('finished-utterance', lambda name, completed: None)
                 self.engine.save_to_file(text, output_path)
                 self.engine.runAndWait()
-
-                if token is not None:
-                    self.engine.disconnect(token)
 
             return os.path.exists(output_path) and os.path.getsize(output_path) > 0
         except Exception as e:

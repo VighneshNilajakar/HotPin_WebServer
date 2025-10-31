@@ -12,7 +12,7 @@
 #define WIFI_PASSWORD "123456780"
 
 // WebSocket Configuration
-#define WEBSOCKET_URL "ws://10.70.101.155:8000/ws"
+#define WEBSOCKET_URL "ws://10.91.158.164:8000/ws"
 #define WEBSOCKET_TOKEN "mysecrettoken123"
 
 // Audio Configuration

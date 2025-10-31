@@ -97,12 +97,13 @@ class Session:
     def update_state(self, new_state: SessionState):
         """Update the session state and log the transition."""
         old_state = self.state
-        self.state = new_state
-        self.log_event("state_change", {
-            "from": old_state.value,
-            "to": new_state.value
-        })
-        logger.info(f"Session {self.session_id}: {old_state.value} -> {new_state.value}")
+        if old_state != new_state:  # Only log if state actually changed
+            self.state = new_state
+            self.log_event("state_change", {
+                "from": old_state.value,
+                "to": new_state.value
+            })
+            logger.info(f"Session {self.session_id}: {old_state.value} -> {new_state.value}")
     
     def can_rerecord(self) -> bool:
         """Check if the session can request another re-record."""
@@ -139,15 +140,24 @@ class Session:
         
         # Calculate audio file size
         if self.audio_buffer.temp_file_path and os.path.exists(self.audio_buffer.temp_file_path):
-            total += os.path.getsize(self.audio_buffer.temp_file_path)
+            try:
+                total += os.path.getsize(self.audio_buffer.temp_file_path)
+            except OSError:
+                logger.warning(f"Could not access audio file for disk usage: {self.audio_buffer.temp_file_path}")
         
         # Calculate image file size
         if self.current_image_path and os.path.exists(self.current_image_path):
-            total += os.path.getsize(self.current_image_path)
+            try:
+                total += os.path.getsize(self.current_image_path)
+            except OSError:
+                logger.warning(f"Could not access image file for disk usage: {self.current_image_path}")
         
         # Calculate TTS file size
         if self.tts_file_path and os.path.exists(self.tts_file_path):
-            total += os.path.getsize(self.tts_file_path)
+            try:
+                total += os.path.getsize(self.tts_file_path)
+            except OSError:
+                logger.warning(f"Could not access TTS file for disk usage: {self.tts_file_path}")
         
         self.disk_usage_bytes = total
         logger.debug(f"Session {self.session_id} disk usage: {total} bytes")

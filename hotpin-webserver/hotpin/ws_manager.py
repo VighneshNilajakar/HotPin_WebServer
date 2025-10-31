@@ -59,8 +59,11 @@ class ConnectionManager:
     async def send_personal_message(self, message: dict, websocket: WebSocket):
         """Send a message to a specific WebSocket connection."""
         try:
-            await websocket.send_text(json.dumps(message))
+            await websocket.send_text(json.dumps(message, separators=(',', ':')))  # More compact JSON
         except WebSocketDisconnect:
+            self.disconnect(websocket)
+        except Exception as e:
+            logger.error(f"Error sending message to WebSocket: {e}")
             self.disconnect(websocket)
     
     async def broadcast(self, message: dict):

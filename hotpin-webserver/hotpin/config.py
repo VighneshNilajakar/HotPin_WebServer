@@ -82,11 +82,33 @@ class Config:
         if not os.path.exists(cls.TEMP_DIR):
             try:
                 os.makedirs(cls.TEMP_DIR, exist_ok=True)
-            except Exception:
-                errors.append(f"Cannot create temp directory: {cls.TEMP_DIR}")
+            except Exception as e:
+                errors.append(f"Cannot create temp directory {cls.TEMP_DIR}: {str(e)}")
+        
+        # Validate directory is writable
+        try:
+            test_file = os.path.join(cls.TEMP_DIR, ".write_test")
+            with open(test_file, 'w') as f:
+                f.write("test")
+            os.remove(test_file)
+        except Exception:
+            errors.append(f"Temp directory {cls.TEMP_DIR} is not writable")
         
         # Check if GROQ API key is provided
         if not cls.GROQ_API_KEY:
             errors.append("GROQ_API_KEY is not set in environment")
+        
+        # Validate port ranges
+        if not (1 <= cls.PORT <= 65535):
+            errors.append(f"PORT {cls.PORT} is not in valid range (1-65535)")
+        
+        if not (1 <= cls.WEBSOCKET_PORT <= 65535):
+            errors.append(f"WEBSOCKET_PORT {cls.WEBSOCKET_PORT} is not in valid range (1-65535)")
+        
+        # Validate chunk size (should be reasonable)
+        if cls.CHUNK_SIZE_BYTES <= 0:
+            errors.append("CHUNK_SIZE_BYTES must be > 0")
+        elif cls.CHUNK_SIZE_BYTES > 1024 * 1024:  # 1MB
+            errors.append("CHUNK_SIZE_BYTES seems too large (> 1MB)")
         
         return errors

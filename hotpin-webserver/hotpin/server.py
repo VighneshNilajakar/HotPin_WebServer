@@ -158,9 +158,16 @@ async def websocket_endpoint(websocket: WebSocket):
                 break
             except json.JSONDecodeError:
                 logger.error("Invalid JSON received from client")
+                try:
+                    await ws_manager.send_personal_message({
+                        "type": "error",
+                        "message": "Invalid JSON format"
+                    }, websocket)
+                except:
+                    pass  # Client might be disconnected
                 continue
             except Exception as e:
-                logger.error(f"Error processing message: {e}")
+                logger.error(f"Error processing message for session {session.session_id}: {e}")
                 # Try to send error to client
                 try:
                     await ws_manager.send_personal_message({
@@ -178,7 +185,18 @@ async def websocket_endpoint(websocket: WebSocket):
 
 async def process_client_message(websocket: WebSocket, session: Session, message: Dict[str, Any]):
     """Process a message from the client."""
-    msg_type = message.get("type")
+    if "type" not in message:
+        logger.warning(f"No 'type' field in message for session {session.session_id}")
+        await ws_manager.send_personal_message({
+            "type": "error",
+            "message": "Message missing 'type' field"
+        }, websocket)
+        return
+    
+    msg_type = message["type"]
+    
+    # Log message processing for debugging
+    logger.debug(f"Processing message type '{msg_type}' for session {session.session_id}")
     
     if msg_type == "hello":
         await handle_hello(websocket, session, message)
@@ -264,19 +282,36 @@ async def handle_audio_chunk_meta(websocket: WebSocket, session: Session, messag
     try:
         audio_chunk = await websocket.receive_bytes()
         
-        # Validate the chunk
-        if not validate_audio_chunk(audio_chunk, len_bytes):
+        # Validate the chunk size matches the metadata
+        if len(audio_chunk) != len_bytes:
+            logger.warning(f"Chunk size mismatch for session {session.session_id}: expected {len_bytes}, got {len(audio_chunk)}")
+            await ws_manager.send_personal_message({
+                "type": "error",
+                "message": f"Chunk size mismatch: expected {len_bytes}, got {len(audio_chunk)}"
+            }, websocket)
+            return
+        
+        # Validate the chunk format
+        if not validate_audio_chunk(audio_chunk):
             logger.warning(f"Invalid audio chunk received for session {session.session_id}")
+            await ws_manager.send_personal_message({
+                "type": "error",
+                "message": "Invalid audio chunk format"
+            }, websocket)
             return
         
         # Ingest the chunk
         success = await audio_ingestor.ingest_chunk(session, seq, audio_chunk)
         if not success:
             logger.error(f"Failed to ingest audio chunk for session {session.session_id}")
+            # The audio_ingestor already logs the specific error
             return
         
-        # Process with STT
-        stt_worker.accept_audio_chunk(session.session_id, audio_chunk)
+        # Process with STT (if STT is available)
+        if stt_worker.available:
+            stt_worker.accept_audio_chunk(session.session_id, audio_chunk)
+        else:
+            logger.warning(f"STT not available, skipping STT processing for session {session.session_id}")
         
         # Send acknowledgment every N chunks
         if session.audio_buffer.chunks_received % 4 == 0:  # Ack every 4 chunks
@@ -286,12 +321,20 @@ async def handle_audio_chunk_meta(websocket: WebSocket, session: Session, messag
                 "seq": seq
             }, websocket)
         
+    except WebSocketDisconnect:
+        logger.info(f"Client disconnected while receiving audio chunk for session {session.session_id}")
+        ws_manager.disconnect(websocket)
+        # Don't try to send error message since client is disconnected
+        return
     except Exception as e:
         logger.error(f"Error receiving audio chunk for session {session.session_id}: {e}")
-        await ws_manager.send_personal_message({
-            "type": "error",
-            "message": f"Error receiving audio chunk: {str(e)}"
-        }, websocket)
+        try:
+            await ws_manager.send_personal_message({
+                "type": "error",
+                "message": f"Error receiving audio chunk: {str(e)}"
+            }, websocket)
+        except:
+            pass  # Client might be disconnected
 
 async def handle_recording_stopped(websocket: WebSocket, session: Session, message: Dict[str, Any]):
     """Handle recording stopped message."""

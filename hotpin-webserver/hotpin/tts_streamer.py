@@ -55,10 +55,14 @@ class TTSStreamer:
                         "seq": seq,
                         "len_bytes": len(chunk_data)
                     }
-                    await send_chunk_callback(chunk_meta)
-                    
-                    # Send binary chunk data
-                    await send_chunk_callback(chunk_data, binary=True)
+                    try:
+                        await send_chunk_callback(chunk_meta)
+                        
+                        # Send binary chunk data
+                        await send_chunk_callback(chunk_data, binary=True)
+                    except Exception as e:
+                        self.logger.error(f"Error sending TTS chunk {seq} to session {session_id}: {e}")
+                        return False
                     
                     seq += 1
                     bytes_sent += len(chunk_data)

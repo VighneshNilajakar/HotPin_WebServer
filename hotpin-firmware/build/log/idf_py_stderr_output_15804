@@ -1,0 +1,17 @@
+[0;33m--- Warning: GDB cannot open serial ports accessed as COMx[0m
+[0;33m--- Using \\.\COM7 instead...[0m
+[0;33m--- esp-idf-monitor 1.7.0 on \\.\COM7 115200[0m
+[0;33m--- Quit: Ctrl+] | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H[0m
+[0m--- 0x40093000: [0;33mblock_is_free[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/heap/tlsf/tlsf_block_functions.h[0m[0m:[1;31m103[0m
+[0m--- (inlined by) [0;33mblock_merge_prev[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/heap/tlsf/tlsf_control_functions.h[0m[0m:[1;31m521[0m
+[0m--- (inlined by) [0;33mtlsf_free[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/heap/tlsf/tlsf.c[0m[0m:[1;31m632[0m
+[0m--- 0x4008b8a9: [0;33mstrlen[0m[0m at [0;32m/builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/machine/xtensa/strlen.S[0m[0m:[1;31m84[0m
+[0m--- 0x4008b8b9: [0;33mstrlen[0m[0m at [0;32m/builds/idf/crosstool-NG/.build/xtensa-esp-elf/src/newlib/newlib/libc/machine/xtensa/strlen.S[0m[0m:[1;31m96[0m
+[0m--- 0x40092ffd: [0;33mblock_merge_prev[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/heap/tlsf/tlsf_control_functions.h[0m[0m:[1;31m520[0m
+[0m--- (inlined by) [0;33mtlsf_free[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/heap/tlsf/tlsf.c[0m[0m:[1;31m632[0m
+[0m--- 0x40092e38: [0;33mmulti_heap_free_impl[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/heap/multi_heap.c[0m[0m:[1;31m233[0m
+[0m--- 0x4008278b: [0;33mheap_caps_free[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/heap/heap_caps_base.c[0m[0m:[1;31m76[0m
+[0m--- 0x40095bb9: [0;33mfree[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/newlib/heap.c[0m[0m:[1;31m39[0m
+[0m--- 0x400df04a: [0;33mwebsocket_message_task[0m[0m at [0;32mF:/Documents/HOTPIN/Re-Build/WebServer/hotpin-firmware/main/network_handling.c[0m[0m:[1;31m686[0m
+[0m--- 0x4008e6e5: [0;33mvPortTaskWrapper[0m[0m at [0;32mC:/Espressif/frameworks/esp-idf-v5.4.2/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c[0m[0m:[1;31m139[0m
+[0m

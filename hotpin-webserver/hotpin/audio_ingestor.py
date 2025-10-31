@@ -59,6 +59,13 @@ class AudioIngestor:
                     session.expected_seq = seq + 1
                     session.log_event("chunk_gap", {"expected": session.expected_seq - 1, "received": seq})
             
+            # Check if adding this chunk would exceed reasonable limits
+            new_total_bytes = session.audio_buffer.total_bytes + len(chunk_data)
+            max_recording_size = 50 * 1024 * 1024  # 50MB max recording size (adjustable)
+            if new_total_bytes > max_recording_size:
+                self.logger.error(f"Recording would exceed max size for session {session.session_id}: {new_total_bytes} > {max_recording_size}")
+                return False
+            
             # Write chunk to temp file
             with open(session.audio_buffer.temp_file_path, 'ab') as f:
                 f.write(chunk_data)
@@ -88,6 +95,9 @@ class AudioIngestor:
             
             return True
             
+        except OSError as e:
+            self.logger.error(f"OS error ingesting chunk for session {session.session_id}: {e}")
+            return False
         except Exception as e:
             self.logger.error(f"Error ingesting chunk for session {session.session_id}: {e}")
             return False
@@ -101,7 +111,7 @@ class AudioIngestor:
         
         # Check if sequence number is acceptable
         # Accept if it's the expected sequence or a reasonable gap (for lost packets)
-        max_acceptable_gap = 5  # Allow up to 5 chunks gap
+        max_acceptable_gap = 10  # Allow up to 10 chunks gap to be more forgiving
         if seq == session.expected_seq:
             return True
         elif seq > session.expected_seq and (seq - session.expected_seq) <= max_acceptable_gap:

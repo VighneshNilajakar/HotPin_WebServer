@@ -1,6 +1,7 @@
 """LLM client for HotPin WebServer using Groq API."""
 import asyncio
 import json
+import os
 import time
 from typing import Optional, Dict, Any, List
 import httpx
@@ -16,7 +17,7 @@ class LLMClient:
         self.logger = create_logger(self.__class__.__name__)
         self.api_key = Config.GROQ_API_KEY
         self.base_url = "https://api.groq.com/openai/v1/chat/completions"
-        self.default_model = "meta-llama/llama-4-maverick-17b-128e-instruct"
+        self.default_model = os.getenv("GROQ_MODEL", "llama-3.1-70b-versatile")  # Use a known available model
         self.client = httpx.AsyncClient(
             timeout=httpx.Timeout(60.0),  # 60 second timeout
             headers={"Authorization": f"Bearer {self.api_key}"}

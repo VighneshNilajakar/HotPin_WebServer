@@ -111,28 +111,35 @@ class STTWorker:
         # Combine audio chunks
         audio_data = b''.join(audio_chunks)
         
+        if len(audio_data) == 0:
+            self.logger.warning(f"Empty audio data in session {session_id}")
+            return ""
+        
         try:
             # Create temporary WAV file for Groq API
             with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as temp_wav:
                 temp_path = temp_wav.name
                 
-                # Write WAV file
+                # Write WAV file with proper format for Groq Whisper
                 with wave.open(temp_wav, 'wb') as wav_file:
                     wav_file.setnchannels(session.get('channels', 1))
-                    wav_file.setsampwidth(session.get('sample_width', 2))
-                    wav_file.setframerate(session.get('sample_rate', 16000))
+                    wav_file.setsampwidth(session.get('sample_width', 2))  # 16-bit
+                    wav_file.setframerate(session.get('sample_rate', 16000))  # 16kHz
                     wav_file.writeframes(audio_data)
             
             # Call Groq Whisper API
             try:
                 with open(temp_path, 'rb') as audio_file:
-                    transcription = self.client.audio.transcriptions.create(
-                        file=(temp_path, audio_file.read()),
-                        model="whisper-large-v3-turbo",  # Fast & accurate, $0.04/min
-                        response_format="json",
-                        language="en",  # Optimize for English (change if needed)
-                        temperature=0.0,  # Deterministic output
-                    )
+                    # Read the file content for the API call
+                    file_content = audio_file.read()
+                    
+                transcription = self.client.audio.transcriptions.create(
+                    file=("audio.wav", file_content),  # Provide proper filename
+                    model="whisper-large-v3-turbo",  # Fast & accurate, $0.04/min
+                    response_format="json",
+                    language=Config.STT_LANGUAGE,  # Use configured language
+                    temperature=Config.STT_TEMPERATURE,  # Use configured temperature
+                )
                 
                 text = transcription.text.strip()
                 
@@ -152,6 +159,8 @@ class STTWorker:
         
         except Exception as e:
             self.logger.error(f"Error during Groq Whisper transcription for {session_id}: {e}")
+            # Re-add the session to sessions in case of error
+            self.sessions[session_id] = session
             return None
     
     def set_partial_callback(self, session_id: str, callback: Callable):

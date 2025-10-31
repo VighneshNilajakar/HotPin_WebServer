@@ -1,0 +1,75 @@
+((venv) ) ~/HotPin_WebServer/hotpin-webserver $ python -m hotpin.server
+2025-10-31 00:12:25,123 - STTWorker - INFO - ✅ Groq Whisper STT Worker initialized
+2025-10-31 00:12:25,124 - STTWorker - INFO -    Model: whisper-large-v3-turbo (fast & accurate)
+2025-10-31 00:12:25,124 - STTWorker - INFO -    Pricing: $0.04/min (FREE tier available)
+2025-10-31 00:12:25,124 - STTWorker - INFO -    Same API key as LLM - no additional setup needed
+2025-10-31 00:12:25,205 - TTSWorker - ERROR - Failed to initialize TTS engine: This means you probably do not have eSpeak or eSpeak-ng installed!
+2025-10-31 00:12:25,208 - StorageManager - INFO - Temp directory ensured: ./temp
+zeroconf not available - mDNS advertising disabled
+/data/data/com.termux/files/home/HotPin_WebServer/hotpin-webserver/hotpin/server.py:58: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+/data/data/com.termux/files/home/HotPin_WebServer/hotpin-webserver/hotpin/server.py:93: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("shutdown")
+INFO:     Started server process [2937]
+INFO:     Waiting for application startup.
+
+==================================================
+HotPin Device WebSocket URL (QR Code):
+ws://10.91.158.164:8000/ws
+--------------------------------------------------
+                                 
+                                 
+    █▀▀▀▀▀█ ▄▀▄  ▀▀▀▀ █▀▀▀▀▀█    
+    █ ███ █ █▄██▄█▄▀▄ █ ███ █    
+    █ ▀▀▀ █  ▀█ ▄▀▄▀  █ ▀▀▀ █    
+    ▀▀▀▀▀▀▀ █ ▀ █ █ █ ▀▀▀▀▀▀▀    
+    ▀   ▄ ▀▄▀ █ ▀ ▄▀ █▀▄▄▀█▀     
+    ▀▄█▀ ▄▀█ █▀▀ ▄ ▄█▀▀▀█▀▄▄▀    
+    ▄▄▄▄▀▄▀▀▄▄▀ ▀██▀ █▀██▄ █▀    
+    █  █ ▀▀▄▀█▄█▀▄▀ ▄▄█  ▄▀█▀    
+    ▀  ▀▀▀▀ ▄█▀▀▄▄█ █▀▀▀██▀█▀    
+    █▀▀▀▀▀█    ▀▄█ ██ ▀ █▄▄ ▀    
+    █ ███ █  ▄▄ ▀ █ ██▀▀▀ █ █    
+    █ ▀▀▀ █  ▀██▀  █▀▀█ ▀▀▀ █    
+    ▀▀▀▀▀▀▀ ▀▀  ▀▀▀    ▀▀▀▀ ▀    
+                                 
+                                 
+==================================================
+
+Zeroconf not available, skipping mDNS advertisement
+2025-10-31 00:12:25,393 - StorageManager - INFO - Started storage cleanup task      
+2025-10-31 00:12:25,393 - hotpin.server - INFO - HotPin WebServer started
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     ('10.143.111.105', 62865) - "WebSocket /ws?session=hotpin-8462e0-000002-0f70&token=mysecrettoken123" [accepted]
+2025-10-31 00:15:50,005 - hotpin.ws_manager - INFO - New connection established for session hotpin-8462e0-000002-0f70
+2025-10-31 00:15:50,006 - SessionManager - INFO - Created new session: hotpin-8462e0-000002-0f70
+2025-10-31 00:15:50,007 - hotpin.session_manager - INFO - Session hotpin-8462e0-000002-0f70: disconnected -> connected
+INFO:     connection open
+2025-10-31 00:15:50,185 - hotpin.session_manager - INFO - Session hotpin-8462e0-000002-0f70: connected -> idle
+2025-10-31 00:16:07,111 - hotpin.session_manager - INFO - Session hotpin-8462e0-000002-0f70: idle -> recording
+2025-10-31 00:16:07,119 - AudioIngestor - INFO - Started recording session for hotpin-8462e0-000002-0f70, temp file: ./temp/audio_hotpin-8462e0-000002-0f70_1761849967.raw
+2025-10-31 00:16:07,123 - STTWorker - INFO - Started STT session for hotpin-8462e0-000002-0f70 (sample_rate=16000Hz)
+2025-10-31 00:16:07,125 - hotpin.server - INFO - Recording started for session hotpin-8462e0-000002-0f70
+2025-10-31 00:16:07,670 - hotpin.server - ERROR - Error processing message: 'text'
+2025-10-31 00:16:12,684 - hotpin.session_manager - INFO - Session hotpin-8462e0-000002-0f70: recording -> processing
+2025-10-31 00:16:12,692 - AudioIngestor - INFO - Finalized recording for session hotpin-8462e0-000002-0f70: 0.00s, 0 bytes
+2025-10-31 00:16:12,694 - STTWorker - WARNING - No audio data in session hotpin-8462e0-000002-0f70
+2025-10-31 00:16:12,695 - hotpin.server - WARNING - Empty transcript for session hotpin-8462e0-000002-0f70
+2025-10-31 00:16:12,698 - hotpin.session_manager - INFO - Session hotpin-8462e0-000002-0f70: processing -> idle
+INFO:     ('10.143.111.105', 64980) - "WebSocket /ws?session=hotpin-8462e0-000004-7c96&token=mysecrettoken123" 403
+INFO:     connection rejected (403 Forbidden)
+INFO:     connection closed
+2025-10-31 00:16:30,081 - hotpin.ws_manager - INFO - Connection disconnected for session hotpin-8462e0-000002-0f70
+2025-10-31 00:16:30,082 - hotpin.session_manager - INFO - Session hotpin-8462e0-000002-0f70: idle -> disconnected
+INFO:     connection closed

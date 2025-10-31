@@ -56,6 +56,12 @@ class ImageHandler:
             self.logger.info(f"Image uploaded successfully for session {session_id}: {temp_path}")
             return result
             
+        except OSError as e:
+            self.logger.error(f"OS error handling image upload for session {session_id}: {e}")
+            return {
+                "success": False,
+                "error": f"Failed to handle image upload (file system error): {str(e)}"
+            }
         except Exception as e:
             self.logger.error(f"Error handling image upload for session {session_id}: {e}")
             return {
