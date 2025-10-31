@@ -1,0 +1,605 @@
+ets Jul 29 2019 12:21:46
+
+rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:6276
+load:0x40078000,len:15736
+load:0x40080400,len:4
+load:0x40080404,len:3860
+entry 0x4008063c
+[0;32mI (29) boot: ESP-IDF v5.4.2-dirty 2nd stage bootloader[0m
+[0;32mI (29) boot: compile time Oct 31 2025 10:03:41[0m
+[0;32mI (30) boot: Multicore bootloader[0m
+[0;32mI (31) boot: chip revision: v3.1[0m
+[0;32mI (34) boot.esp32: SPI Speed      : 40MHz[0m
+[0;32mI (38) boot.esp32: SPI Mode       : DIO[0m
+[0;32mI (41) boot.esp32: SPI Flash Size : 2MB[0m
+[0;32mI (45) boot: Enabling RNG early entropy source...[0m
+[0;32mI (49) boot: Partition Table:[0m
+[0;32mI (52) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (58) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (65) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (71) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (78) boot: End of partition table[0m
+[0;32mI (81) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=2716ch (160108) map[0m
+[0;32mI (143) esp_image: segment 1: paddr=00037194 vaddr=3ff80000 size=0001ch (    28) load[0m
+[0;32mI (144) esp_image: segment 2: paddr=000371b8 vaddr=3ffb0000 size=040f8h ( 16632) load[0m
+[0;32mI (153) esp_image: segment 3: paddr=0003b2b8 vaddr=40080000 size=04d60h ( 19808) load[0m
+[0;32mI (163) esp_image: segment 4: paddr=00040020 vaddr=400d0020 size=b57d8h (743384) map[0m
+[0;32mI (417) esp_image: segment 5: paddr=000f5800 vaddr=40084d60 size=172bch ( 94908) load[0m
+[0;32mI (467) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (467) boot: Disabling RNG early entropy source...[0m
+[0;32mI (477) quad_psram: This chip is ESP32-D0WD[0m
+[0;32mI (479) esp_psram: Found 8MB PSRAM device[0m
+[0;32mI (479) esp_psram: Speed: 40MHz[0m
+[0;32mI (479) esp_psram: PSRAM initialized, cache is in low/high (2-core) mode.[0m
+[0;33mW (485) esp_psram: Virtual address not enough for PSRAM, map as much as we can. 4MB is mapped[0m
+[0;32mI (493) cpu_start: Multicore app[0m
+[0;32mI (1401) esp_psram: SPI SRAM memory test OK[0m
+[0;32mI (1409) cpu_start: Pro cpu start user code[0m
+[0;32mI (1409) cpu_start: cpu freq: 240000000 Hz[0m
+[0;32mI (1410) app_init: Application information:[0m
+[0;32mI (1410) app_init: Project name:     hotpin-firmware[0m
+[0;32mI (1414) app_init: App version:      bb354d2-dirty[0m
+[0;32mI (1419) app_init: Compile time:     Oct 31 2025 10:03:28[0m
+[0;32mI (1424) app_init: ELF file SHA256:  ed0897bbd...[0m
+[0;32mI (1429) app_init: ESP-IDF:          v5.4.2-dirty[0m
+[0;32mI (1433) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (1437) efuse_init: Max chip rev:     v3.99 [0m
+[0;32mI (1441) efuse_init: Chip rev:         v3.1[0m
+[0;32mI (1445) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (1451) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM[0m
+[0;32mI (1456) heap_init: At 3FFB8A40 len 000275C0 (157 KiB): DRAM[0m
+[0;32mI (1462) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM[0m
+[0;32mI (1467) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM[0m
+[0;32mI (1473) heap_init: At 4009C01C len 00003FE4 (15 KiB): IRAM[0m
+[0;32mI (1479) esp_psram: Adding pool of 4096K of PSRAM memory to heap allocator[0m
+[0;32mI (1486) spi_flash: detected chip: generic[0m
+[0;32mI (1489) spi_flash: flash io: dio[0m
+[0;33mW (1492) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;33mW (1504) ADC: legacy driver is deprecated, please migrate to `esp_adc/adc_oneshot.h`[0m
+[0;33mW (1511) i2s(legacy): legacy i2s driver is deprecated, please migrate to use driver/i2s_std.h, driver/i2s_pdm.h or driver/i2s_tdm.h[0m
+[0;32mI (1524) main_task: Started on CPU0[0m
+[0;32mI (1534) esp_psram: Reserving pool of 32K of internal memory for DMA/internal allocations[0m
+[0;32mI (1534) main_task: Calling app_main()[0m
+[0;32mI (1534) HOTPIN: Starting HotPin Firmware[0m
+[0;32mI (1564) HOTPIN: Generated unique session ID: hotpin-8462e0-000000-224d[0m
+[0;32mI (1564) PSRAM: PSRAM available: 8388608 bytes[0m
+[0;32mI (1564) GPIO: Initializing GPIO pins[0m
+[0;32mI (1564) gpio: GPIO[12]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 1| Pulldown: 0| Intr:0 [0m
+[0;32mI (1574) gpio: GPIO[33]| InputEn: 0| OutputEn: 1| OpenDrain: 0| Pullup: 0| Pulldown: 0| Intr:0 [0m
+[0;32mI (1584) GPIO: GPIO initialization complete[0m
+[0;32mI (1734) POOL: Allocated 256000 bytes chunk pool from PSRAM[0m
+[0;32mI (1784) WIFI: Initializing WiFi[0m
+[0;32mI (1794) wifi:wifi driver task: 3ffc90dc, prio:23, stack:6656, core=0[0m
+[0;32mI (1804) wifi:wifi firmware version: bea31f3[0m
+[0;32mI (1804) wifi:wifi certification version: v7.0[0m
+[0;32mI (1804) wifi:config NVS flash: enabled[0m
+[0;32mI (1804) wifi:config nano formatting: disabled[0m
+[0;32mI (1804) wifi:Init data frame dynamic rx buffer num: 32[0m
+[0;32mI (1814) wifi:Init static rx mgmt buffer num: 5[0m
+[0;32mI (1814) wifi:Init management short buffer num: 32[0m
+[0;32mI (1824) wifi:Init dynamic tx buffer num: 32[0m
+[0;32mI (1824) wifi:Init static rx buffer size: 1600[0m
+[0;32mI (1824) wifi:Init static rx buffer num: 10[0m
+[0;32mI (1834) wifi:Init dynamic rx buffer num: 32[0m
+[0;32mI (1834) wifi_init: rx ba win: 6[0m
+[0;32mI (1844) wifi_init: accept mbox: 6[0m
+[0;32mI (1844) wifi_init: tcpip mbox: 32[0m
+[0;32mI (1844) wifi_init: udp mbox: 6[0m
+[0;32mI (1844) wifi_init: tcp mbox: 6[0m
+[0;32mI (1854) wifi_init: tcp tx win: 5760[0m
+[0;32mI (1854) wifi_init: tcp rx win: 5760[0m
+[0;32mI (1854) wifi_init: tcp mss: 1440[0m
+[0;32mI (1864) wifi_init: WiFi IRAM OP enabled[0m
+[0;32mI (1864) wifi_init: WiFi RX IRAM OP enabled[0m
+[0;32mI (1874) WIFI: Starting WiFi...[0m
+[0;32mI (1874) phy_init: phy_version 4860,6b7a6e5,Feb  6 2025,14:47:07[0m
+Guru Meditation Error: Core  0 panic'ed (LoadProhibited). Exception was unhandled.
+
+Core  0 register dump:
+PC      : 0x400d9174  PS      : 0x00060e30  A0      : 0x8008b50c  A1      : 0x3ffc8ab0  
+A2      : 0x3ffc9138  A3      : 0x00000006  A4      : 0x3ffaed48  A5      : 0x0000006d  
+A6      : 0x3ffc8f10  A7      : 0x3ffaec90  A8      : 0x3f8008cc  A9      : 0xffffffff  
+A10     : 0x00000000  A11     : 0x00000000  A12     : 0x00060a20  A13     : 0x00060a23  
+A14     : 0x00000001  A15     : 0x3ffaec90  SAR     : 0x00000004  EXCCAUSE: 0x0000001c  
+EXCVADDR: 0xffffffff  LBEG    : 0x4008b8a9  LEND    : 0x4008b8b9  LCOUNT  : 0xfffffffd  
+
+
+Backtrace: 0x400d9171:0x3ffc8ab0 0x4008b509:0x3ffc8ad0 0x4008a8d5:0x3ffc8af0 0x4008a92a:0x3ffc8b10 0x4008ae45:0x3ffc8b30 0x401762af:0x3ffc8b60 0x40175cb6:0x3ffc8b80 0x40169f81:0x3ffc8ea0 0x40094505:0x3ffc8ed0 0x400944cd:0x3ffc8f00 0x4013b0de:0x3ffc8f50 0x4013b159:0x3ffc8f80 0x40183341:0x3ffc8fa0 0x40122611:0x3ffc8fc0 0x40122f7c:0x3ffc8fe0 0x40120fc6:0x3ffc9000 0x40096e9d:0x3ffc9020 0x4008e6e5:0x3ffc9050
+
+
+
+
+ELF file SHA256: ed0897bbd
+
+Rebooting...
+ets Jul 29 2019 12:21:46
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:6276
+load:0x40078000,len:15736
+load:0x40080400,len:4
+load:0x40080404,len:3860
+entry 0x4008063c
+[0;32mI (29) boot: ESP-IDF v5.4.2-dirty 2nd stage bootloader[0m
+[0;32mI (29) boot: compile time Oct 31 2025 10:03:41[0m
+[0;32mI (29) boot: Multicore bootloader[0m
+[0;32mI (31) boot: chip revision: v3.1[0m
+[0;32mI (34) boot.esp32: SPI Speed      : 40MHz[0m
+[0;32mI (38) boot.esp32: SPI Mode       : DIO[0m
+[0;32mI (41) boot.esp32: SPI Flash Size : 2MB[0m
+[0;32mI (45) boot: Enabling RNG early entropy source...[0m
+[0;32mI (49) boot: Partition Table:[0m
+[0;32mI (52) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (58) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (65) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (71) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (78) boot: End of partition table[0m
+[0;32mI (81) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=2716ch (160108) map[0m
+[0;32mI (143) esp_image: segment 1: paddr=00037194 vaddr=3ff80000 size=0001ch (    28) load[0m
+[0;32mI (144) esp_image: segment 2: paddr=000371b8 vaddr=3ffb0000 size=040f8h ( 16632) load[0m
+[0;32mI (153) esp_image: segment 3: paddr=0003b2b8 vaddr=40080000 size=04d60h ( 19808) load[0m
+[0;32mI (162) esp_image: segment 4: paddr=00040020 vaddr=400d0020 size=b57d8h (743384) map[0m
+[0;32mI (417) esp_image: segment 5: paddr=000f5800 vaddr=40084d60 size=172bch ( 94908) load[0m
+[0;32mI (467) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (467) boot: Disabling RNG early entropy source...[0m
+[0;32mI (477) quad_psram: This chip is ESP32-D0WD[0m
+[0;32mI (479) esp_psram: Found 8MB PSRAM device[0m
+[0;32mI (479) esp_psram: Speed: 40MHz[0m
+[0;32mI (479) esp_psram: PSRAM initialized, cache is in low/high (2-core) mode.[0m
+[0;33mW (485) esp_psram: Virtual address not enough for PSRAM, map as much as we can. 4MB is mapped[0m
+[0;32mI (493) cpu_start: Multicore app[0m
+[0;32mI (1401) esp_psram: SPI SRAM memory test OK[0m
+[0;32mI (1409) cpu_start: Pro cpu start user code[0m
+[0;32mI (1409) cpu_start: cpu freq: 240000000 Hz[0m
+[0;32mI (1409) app_init: Application information:[0m
+[0;32mI (1410) app_init: Project name:     hotpin-firmware[0m
+[0;32mI (1414) app_init: App version:      bb354d2-dirty[0m
+[0;32mI (1419) app_init: Compile time:     Oct 31 2025 10:03:28[0m
+[0;32mI (1424) app_init: ELF file SHA256:  ed0897bbd...[0m
+[0;32mI (1428) app_init: ESP-IDF:          v5.4.2-dirty[0m
+[0;32mI (1433) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (1437) efuse_init: Max chip rev:     v3.99 [0m
+[0;32mI (1441) efuse_init: Chip rev:         v3.1[0m
+[0;32mI (1445) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (1451) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM[0m
+[0;32mI (1456) heap_init: At 3FFB8A40 len 000275C0 (157 KiB): DRAM[0m
+[0;32mI (1462) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM[0m
+[0;32mI (1467) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM[0m
+[0;32mI (1473) heap_init: At 4009C01C len 00003FE4 (15 KiB): IRAM[0m
+[0;32mI (1479) esp_psram: Adding pool of 4096K of PSRAM memory to heap allocator[0m
+[0;32mI (1485) spi_flash: detected chip: generic[0m
+[0;32mI (1488) spi_flash: flash io: dio[0m
+[0;33mW (1492) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;33mW (1504) ADC: legacy driver is deprecated, please migrate to `esp_adc/adc_oneshot.h`[0m
+[0;33mW (1511) i2s(legacy): legacy i2s driver is deprecated, please migrate to use driver/i2s_std.h, driver/i2s_pdm.h or driver/i2s_tdm.h[0m
+[0;32mI (1524) main_task: Started on CPU0[0m
+[0;32mI (1534) esp_psram: Reserving pool of 32K of internal memory for DMA/internal allocations[0m
+[0;32mI (1534) main_task: Calling app_main()[0m
+[0;32mI (1534) HOTPIN: Starting HotPin Firmware[0m
+[0;32mI (1564) HOTPIN: Generated unique session ID: hotpin-8462e0-000000-341d[0m
+[0;32mI (1564) PSRAM: PSRAM available: 8388608 bytes[0m
+[0;32mI (1564) GPIO: Initializing GPIO pins[0m
+[0;32mI (1564) gpio: GPIO[12]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 1| Pulldown: 0| Intr:0 [0m
+[0;32mI (1574) gpio: GPIO[33]| InputEn: 0| OutputEn: 1| OpenDrain: 0| Pullup: 0| Pulldown: 0| Intr:0 [0m
+[0;32mI (1584) GPIO: GPIO initialization complete[0m
+[0;32mI (1734) POOL: Allocated 256000 bytes chunk pool from PSRAM[0m
+[0;32mI (1784) WIFI: Initializing WiFi[0m
+[0;32mI (1794) wifi:wifi driver task: 3ffc90dc, prio:23, stack:6656, core=0[0m
+[0;32mI (1804) wifi:wifi firmware version: bea31f3[0m
+[0;32mI (1804) wifi:wifi certification version: v7.0[0m
+[0;32mI (1804) wifi:config NVS flash: enabled[0m
+[0;32mI (1804) wifi:config nano formatting: disabled[0m
+[0;32mI (1804) wifi:Init data frame dynamic rx buffer num: 32[0m
+[0;32mI (1814) wifi:Init static rx mgmt buffer num: 5[0m
+[0;32mI (1814) wifi:Init management short buffer num: 32[0m
+[0;32mI (1824) wifi:Init dynamic tx buffer num: 32[0m
+[0;32mI (1824) wifi:Init static rx buffer size: 1600[0m
+[0;32mI (1824) wifi:Init static rx buffer num: 10[0m
+[0;32mI (1834) wifi:Init dynamic rx buffer num: 32[0m
+[0;32mI (1834) wifi_init: rx ba win: 6[0m
+[0;32mI (1844) wifi_init: accept mbox: 6[0m
+[0;32mI (1844) wifi_init: tcpip mbox: 32[0m
+[0;32mI (1844) wifi_init: udp mbox: 6[0m
+[0;32mI (1844) wifi_init: tcp mbox: 6[0m
+[0;32mI (1854) wifi_init: tcp tx win: 5760[0m
+[0;32mI (1854) wifi_init: tcp rx win: 5760[0m
+[0;32mI (1854) wifi_init: tcp mss: 1440[0m
+[0;32mI (1864) wifi_init: WiFi IRAM OP enabled[0m
+[0;32mI (1864) wifi_init: WiFi RX IRAM OP enabled[0m
+[0;32mI (1874) WIFI: Starting WiFi...[0m
+[0;32mI (1874) phy_init: phy_version 4860,6b7a6e5,Feb  6 2025,14:47:07[0m
+Guru Meditation Error: Core  0 panic'ed (LoadProhibited). Exception was unhandled.
+
+Core  0 register dump:
+PC      : 0x400d9174  PS      : 0x00060e30  A0      : 0x8008b50c  A1      : 0x3ffc8ab0  
+A2      : 0x3ffc9138  A3      : 0x00000006  A4      : 0x3ffaed48  A5      : 0x0000006d  
+A6      : 0x3ffc8f10  A7      : 0x3ffaec90  A8      : 0x3f8008cc  A9      : 0xffffffff  
+A10     : 0x00000000  A11     : 0x00000000  A12     : 0x00060a20  A13     : 0x00060a23  
+A14     : 0x00000001  A15     : 0x3ffaec90  SAR     : 0x00000004  EXCCAUSE: 0x0000001c  
+EXCVADDR: 0xffffffff  LBEG    : 0x4008b8a9  LEND    : 0x4008b8b9  LCOUNT  : 0xfffffffd  
+
+
+Backtrace: 0x400d9171:0x3ffc8ab0 0x4008b509:0x3ffc8ad0 0x4008a8d5:0x3ffc8af0 0x4008a92a:0x3ffc8b10 0x4008ae45:0x3ffc8b30 0x401762af:0x3ffc8b60 0x40175cb6:0x3ffc8b80 0x40169f81:0x3ffc8ea0 0x40094505:0x3ffc8ed0 0x400944cd:0x3ffc8f00 0x4013b0de:0x3ffc8f50 0x4013b159:0x3ffc8f80 0x40183341:0x3ffc8fa0 0x40122611:0x3ffc8fc0 0x40122f7c:0x3ffc8fe0 0x40120fc6:0x3ffc9000 0x40096e9d:0x3ffc9020 0x4008e6e5:0x3ffc9050
+
+
+
+
+ELF file SHA256: ed0897bbd
+
+Rebooting...
+ets Jul 29 2019 12:21:46
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:6276
+load:0x40078000,len:15736
+load:0x40080400,len:4
+load:0x40080404,len:3860
+entry 0x4008063c
+[0;32mI (29) boot: ESP-IDF v5.4.2-dirty 2nd stage bootloader[0m
+[0;32mI (29) boot: compile time Oct 31 2025 10:03:41[0m
+[0;32mI (29) boot: Multicore bootloader[0m
+[0;32mI (31) boot: chip revision: v3.1[0m
+[0;32mI (34) boot.esp32: SPI Speed      : 40MHz[0m
+[0;32mI (38) boot.esp32: SPI Mode       : DIO[0m
+[0;32mI (41) boot.esp32: SPI Flash Size : 2MB[0m
+[0;32mI (45) boot: Enabling RNG early entropy source...[0m
+[0;32mI (49) boot: Partition Table:[0m
+[0;32mI (52) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (58) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (65) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (71) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (78) boot: End of partition table[0m
+[0;32mI (81) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=2716ch (160108) map[0m
+[0;32mI (143) esp_image: segment 1: paddr=00037194 vaddr=3ff80000 size=0001ch (    28) load[0m
+[0;32mI (144) esp_image: segment 2: paddr=000371b8 vaddr=3ffb0000 size=040f8h ( 16632) load[0m
+[0;32mI (153) esp_image: segment 3: paddr=0003b2b8 vaddr=40080000 size=04d60h ( 19808) load[0m
+[0;32mI (162) esp_image: segment 4: paddr=00040020 vaddr=400d0020 size=b57d8h (743384) map[0m
+[0;32mI (417) esp_image: segment 5: paddr=000f5800 vaddr=40084d60 size=172bch ( 94908) load[0m
+[0;32mI (467) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (467) boot: Disabling RNG early entropy source...[0m
+[0;32mI (477) quad_psram: This chip is ESP32-D0WD[0m
+[0;32mI (479) esp_psram: Found 8MB PSRAM device[0m
+[0;32mI (479) esp_psram: Speed: 40MHz[0m
+[0;32mI (479) esp_psram: PSRAM initialized, cache is in low/high (2-core) mode.[0m
+[0;33mW (485) esp_psram: Virtual address not enough for PSRAM, map as much as we can. 4MB is mapped[0m
+[0;32mI (493) cpu_start: Multicore app[0m
+[0;32mI (1401) esp_psram: SPI SRAM memory test OK[0m
+[0;32mI (1409) cpu_start: Pro cpu start user code[0m
+[0;32mI (1409) cpu_start: cpu freq: 240000000 Hz[0m
+[0;32mI (1409) app_init: Application information:[0m
+[0;32mI (1410) app_init: Project name:     hotpin-firmware[0m
+[0;32mI (1414) app_init: App version:      bb354d2-dirty[0m
+[0;32mI (1419) app_init: Compile time:     Oct 31 2025 10:03:28[0m
+[0;32mI (1424) app_init: ELF file SHA256:  ed0897bbd...[0m
+[0;32mI (1428) app_init: ESP-IDF:          v5.4.2-dirty[0m
+[0;32mI (1433) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (1437) efuse_init: Max chip rev:     v3.99 [0m
+[0;32mI (1441) efuse_init: Chip rev:         v3.1[0m
+[0;32mI (1445) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (1451) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM[0m
+[0;32mI (1456) heap_init: At 3FFB8A40 len 000275C0 (157 KiB): DRAM[0m
+[0;32mI (1462) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM[0m
+[0;32mI (1467) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM[0m
+[0;32mI (1473) heap_init: At 4009C01C len 00003FE4 (15 KiB): IRAM[0m
+[0;32mI (1479) esp_psram: Adding pool of 4096K of PSRAM memory to heap allocator[0m
+[0;32mI (1485) spi_flash: detected chip: generic[0m
+[0;32mI (1488) spi_flash: flash io: dio[0m
+[0;33mW (1492) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;33mW (1504) ADC: legacy driver is deprecated, please migrate to `esp_adc/adc_oneshot.h`[0m
+[0;33mW (1511) i2s(legacy): legacy i2s driver is deprecated, please migrate to use driver/i2s_std.h, driver/i2s_pdm.h or driver/i2s_tdm.h[0m
+[0;32mI (1524) main_task: Started on CPU0[0m
+[0;32mI (1534) esp_psram: Reserving pool of 32K of internal memory for DMA/internal allocations[0m
+[0;32mI (1534) main_task: Calling app_main()[0m
+[0;32mI (1534) HOTPIN: Starting HotPin Firmware[0m
+[0;32mI (1564) HOTPIN: Generated unique session ID: hotpin-8462e0-000000-7a7d[0m
+[0;32mI (1564) PSRAM: PSRAM available: 8388608 bytes[0m
+[0;32mI (1564) GPIO: Initializing GPIO pins[0m
+[0;32mI (1564) gpio: GPIO[12]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 1| Pulldown: 0| Intr:0 [0m
+[0;32mI (1574) gpio: GPIO[33]| InputEn: 0| OutputEn: 1| OpenDrain: 0| Pullup: 0| Pulldown: 0| Intr:0 [0m
+[0;32mI (1584) GPIO: GPIO initialization complete[0m
+[0;32mI (1734) POOL: Allocated 256000 bytes chunk pool from PSRAM[0m
+[0;32mI (1784) WIFI: Initializing WiFi[0m
+[0;32mI (1794) wifi:wifi driver task: 3ffc90dc, prio:23, stack:6656, core=0[0m
+[0;32mI (1804) wifi:wifi firmware version: bea31f3[0m
+[0;32mI (1804) wifi:wifi certification version: v7.0[0m
+[0;32mI (1804) wifi:config NVS flash: enabled[0m
+[0;32mI (1804) wifi:config nano formatting: disabled[0m
+[0;32mI (1804) wifi:Init data frame dynamic rx buffer num: 32[0m
+[0;32mI (1814) wifi:Init static rx mgmt buffer num: 5[0m
+[0;32mI (1814) wifi:Init management short buffer num: 32[0m
+[0;32mI (1824) wifi:Init dynamic tx buffer num: 32[0m
+[0;32mI (1824) wifi:Init static rx buffer size: 1600[0m
+[0;32mI (1824) wifi:Init static rx buffer num: 10[0m
+[0;32mI (1834) wifi:Init dynamic rx buffer num: 32[0m
+[0;32mI (1834) wifi_init: rx ba win: 6[0m
+[0;32mI (1844) wifi_init: accept mbox: 6[0m
+[0;32mI (1844) wifi_init: tcpip mbox: 32[0m
+[0;32mI (1844) wifi_init: udp mbox: 6[0m
+[0;32mI (1844) wifi_init: tcp mbox: 6[0m
+[0;32mI (1854) wifi_init: tcp tx win: 5760[0m
+[0;32mI (1854) wifi_init: tcp rx win: 5760[0m
+[0;32mI (1854) wifi_init: tcp mss: 1440[0m
+[0;32mI (1864) wifi_init: WiFi IRAM OP enabled[0m
+[0;32mI (1864) wifi_init: WiFi RX IRAM OP enabled[0m
+[0;32mI (1874) WIFI: Starting WiFi...[0m
+[0;32mI (1874) phy_init: phy_version 4860,6b7a6e5,Feb  6 2025,14:47:07[0m
+Guru Meditation Error: Core  0 panic'ed (LoadProhibited). Exception was unhandled.
+
+Core  0 register dump:
+PC      : 0x400d9174  PS      : 0x00060e30  A0      : 0x8008b50c  A1      : 0x3ffc8ab0  
+A2      : 0x3ffc9138  A3      : 0x00000006  A4      : 0x3ffaed48  A5      : 0x0000006d  
+A6      : 0x3ffc8f10  A7      : 0x3ffaec90  A8      : 0x3f8008cc  A9      : 0xffffffff  
+A10     : 0x00000000  A11     : 0x00000000  A12     : 0x00060a20  A13     : 0x00060a23  
+A14     : 0x00000000  A15     : 0x3ffaec90  SAR     : 0x00000004  EXCCAUSE: 0x0000001c  
+EXCVADDR: 0xffffffff  LBEG    : 0x4008b8a9  LEND    : 0x4008b8b9  LCOUNT  : 0xfffffffd  
+
+
+Backtrace: 0x400d9171:0x3ffc8ab0 0x4008b509:0x3ffc8ad0 0x4008a8d5:0x3ffc8af0 0x4008a92a:0x3ffc8b10 0x4008ae45:0x3ffc8b30 0x401762af:0x3ffc8b60 0x40175cb6:0x3ffc8b80 0x40169f81:0x3ffc8ea0 0x40094505:0x3ffc8ed0 0x400944cd:0x3ffc8f00 0x4013b0de:0x3ffc8f50 0x4013b159:0x3ffc8f80 0x40183341:0x3ffc8fa0 0x40122611:0x3ffc8fc0 0x40122f7c:0x3ffc8fe0 0x40120fc6:0x3ffc9000 0x40096e9d:0x3ffc9020 0x4008e6e5:0x3ffc9050
+
+
+
+
+ELF file SHA256: ed0897bbd
+
+Rebooting...
+ets Jul 29 2019 12:21:46
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:6276
+load:0x40078000,len:15736
+load:0x40080400,len:4
+load:0x40080404,len:3860
+entry 0x4008063c
+[0;32mI (29) boot: ESP-IDF v5.4.2-dirty 2nd stage bootloader[0m
+[0;32mI (29) boot: compile time Oct 31 2025 10:03:41[0m
+[0;32mI (29) boot: Multicore bootloader[0m
+[0;32mI (31) boot: chip revision: v3.1[0m
+[0;32mI (34) boot.esp32: SPI Speed      : 40MHz[0m
+[0;32mI (38) boot.esp32: SPI Mode       : DIO[0m
+[0;32mI (41) boot.esp32: SPI Flash Size : 2MB[0m
+[0;32mI (45) boot: Enabling RNG early entropy source...[0m
+[0;32mI (49) boot: Partition Table:[0m
+[0;32mI (52) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (58) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (65) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (71) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (78) boot: End of partition table[0m
+[0;32mI (81) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=2716ch (160108) map[0m
+[0;32mI (143) esp_image: segment 1: paddr=00037194 vaddr=3ff80000 size=0001ch (    28) load[0m
+[0;32mI (144) esp_image: segment 2: paddr=000371b8 vaddr=3ffb0000 size=040f8h ( 16632) load[0m
+[0;32mI (153) esp_image: segment 3: paddr=0003b2b8 vaddr=40080000 size=04d60h ( 19808) load[0m
+[0;32mI (162) esp_image: segment 4: paddr=00040020 vaddr=400d0020 size=b57d8h (743384) map[0m
+[0;32mI (417) esp_image: segment 5: paddr=000f5800 vaddr=40084d60 size=172bch ( 94908) load[0m
+[0;32mI (467) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (467) boot: Disabling RNG early entropy source...[0m
+[0;32mI (477) quad_psram: This chip is ESP32-D0WD[0m
+[0;32mI (479) esp_psram: Found 8MB PSRAM device[0m
+[0;32mI (479) esp_psram: Speed: 40MHz[0m
+[0;32mI (479) esp_psram: PSRAM initialized, cache is in low/high (2-core) mode.[0m
+[0;33mW (485) esp_psram: Virtual address not enough for PSRAM, map as much as we can. 4MB is mapped[0m
+[0;32mI (493) cpu_start: Multicore app[0m
+[0;32mI (1401) esp_psram: SPI SRAM memory test OK[0m
+[0;32mI (1409) cpu_start: Pro cpu start user code[0m
+[0;32mI (1409) cpu_start: cpu freq: 240000000 Hz[0m
+[0;32mI (1409) app_init: Application information:[0m
+[0;32mI (1410) app_init: Project name:     hotpin-firmware[0m
+[0;32mI (1414) app_init: App version:      bb354d2-dirty[0m
+[0;32mI (1419) app_init: Compile time:     Oct 31 2025 10:03:28[0m
+[0;32mI (1424) app_init: ELF file SHA256:  ed0897bbd...[0m
+[0;32mI (1428) app_init: ESP-IDF:          v5.4.2-dirty[0m
+[0;32mI (1433) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (1437) efuse_init: Max chip rev:     v3.99 [0m
+[0;32mI (1441) efuse_init: Chip rev:         v3.1[0m
+[0;32mI (1445) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (1451) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM[0m
+[0;32mI (1456) heap_init: At 3FFB8A40 len 000275C0 (157 KiB): DRAM[0m
+[0;32mI (1462) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM[0m
+[0;32mI (1467) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM[0m
+[0;32mI (1473) heap_init: At 4009C01C len 00003FE4 (15 KiB): IRAM[0m
+[0;32mI (1479) esp_psram: Adding pool of 4096K of PSRAM memory to heap allocator[0m
+[0;32mI (1485) spi_flash: detected chip: generic[0m
+[0;32mI (1488) spi_flash: flash io: dio[0m
+[0;33mW (1492) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;33mW (1504) ADC: legacy driver is deprecated, please migrate to `esp_adc/adc_oneshot.h`[0m
+[0;33mW (1511) i2s(legacy): legacy i2s driver is deprecated, please migrate to use driver/i2s_std.h, driver/i2s_pdm.h or driver/i2s_tdm.h[0m
+[0;32mI (1524) main_task: Started on CPU0[0m
+[0;32mI (1534) esp_psram: Reserving pool of 32K of internal memory for DMA/internal allocations[0m
+[0;32mI (1534) main_task: Calling app_main()[0m
+[0;32mI (1534) HOTPIN: Starting HotPin Firmware[0m
+[0;32mI (1564) HOTPIN: Generated unique session ID: hotpin-8462e0-000000-1e50[0m
+[0;32mI (1564) PSRAM: PSRAM available: 8388608 bytes[0m
+[0;32mI (1564) GPIO: Initializing GPIO pins[0m
+[0;32mI (1564) gpio: GPIO[12]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 1| Pulldown: 0| Intr:0 [0m
+[0;32mI (1574) gpio: GPIO[33]| InputEn: 0| OutputEn: 1| OpenDrain: 0| Pullup: 0| Pulldown: 0| Intr:0 [0m
+[0;32mI (1584) GPIO: GPIO initialization complete[0m
+[0;32mI (1734) POOL: Allocated 256000 bytes chunk pool from PSRAM[0m
+[0;32mI (1784) WIFI: Initializing WiFi[0m
+[0;32mI (1794) wifi:wifi driver task: 3ffc90dc, prio:23, stack:6656, core=0[0m
+[0;32mI (1804) wifi:wifi firmware version: bea31f3[0m
+[0;32mI (1804) wifi:wifi certification version: v7.0[0m
+[0;32mI (1804) wifi:config NVS flash: enabled[0m
+[0;32mI (1804) wifi:config nano formatting: disabled[0m
+[0;32mI (1804) wifi:Init data frame dynamic rx buffer num: 32[0m
+[0;32mI (1814) wifi:Init static rx mgmt buffer num: 5[0m
+[0;32mI (1814) wifi:Init management short buffer num: 32[0m
+[0;32mI (1824) wifi:Init dynamic tx buffer num: 32[0m
+[0;32mI (1824) wifi:Init static rx buffer size: 1600[0m
+[0;32mI (1824) wifi:Init static rx buffer num: 10[0m
+[0;32mI (1834) wifi:Init dynamic rx buffer num: 32[0m
+[0;32mI (1834) wifi_init: rx ba win: 6[0m
+[0;32mI (1844) wifi_init: accept mbox: 6[0m
+[0;32mI (1844) wifi_init: tcpip mbox: 32[0m
+[0;32mI (1844) wifi_init: udp mbox: 6[0m
+[0;32mI (1844) wifi_init: tcp mbox: 6[0m
+[0;32mI (1854) wifi_init: tcp tx win: 5760[0m
+[0;32mI (1854) wifi_init: tcp rx win: 5760[0m
+[0;32mI (1854) wifi_init: tcp mss: 1440[0m
+[0;32mI (1864) wifi_init: WiFi IRAM OP enabled[0m
+[0;32mI (1864) wifi_init: WiFi RX IRAM OP enabled[0m
+[0;32mI (1874) WIFI: Starting WiFi...[0m
+[0;32mI (1874) phy_init: phy_version 4860,6b7a6e5,Feb  6 2025,14:47:07[0m
+Guru Meditation Error: Core  0 panic'ed (LoadProhibited). Exception was unhandled.
+
+Core  0 register dump:
+PC      : 0x400d9174  PS      : 0x00060e30  A0      : 0x8008b50c  A1      : 0x3ffc8ab0  
+A2      : 0x3ffc9138  A3      : 0x00000006  A4      : 0x3ffaed48  A5      : 0x0000006d  
+A6      : 0x3ffc8f10  A7      : 0x3ffaec90  A8      : 0x3f8008cc  A9      : 0xffffffff  
+A10     : 0x00000000  A11     : 0x00000000  A12     : 0x00060a20  A13     : 0x00060a23  
+A14     : 0x00000001  A15     : 0x3ffaec90  SAR     : 0x00000004  EXCCAUSE: 0x0000001c  
+EXCVADDR: 0xffffffff  LBEG    : 0x4008b8a9  LEND    : 0x4008b8b9  LCOUNT  : 0xfffffffd  
+
+
+Backtrace: 0x400d9171:0x3ffc8ab0 0x4008b509:0x3ffc8ad0 0x4008a8d5:0x3ffc8af0 0x4008a92a:0x3ffc8b10 0x4008ae45:0x3ffc8b30 0x401762af:0x3ffc8b60 0x40175cb6:0x3ffc8b80 0x40169f81:0x3ffc8ea0 0x40094505:0x3ffc8ed0 0x400944cd:0x3ffc8f00 0x4013b0de:0x3ffc8f50 0x4013b159:0x3ffc8f80 0x40183341:0x3ffc8fa0 0x40122611:0x3ffc8fc0 0x40122f7c:0x3ffc8fe0 0x40120fc6:0x3ffc9000 0x40096e9d:0x3ffc9020 0x4008e6e5:0x3ffc9050
+
+
+
+
+ELF file SHA256: ed0897bbd
+
+Rebooting...
+ets Jul 29 2019 12:21:46
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:6276
+load:0x40078000,len:15736
+load:0x40080400,len:4
+load:0x40080404,len:3860
+entry 0x4008063c
+[0;32mI (29) boot: ESP-IDF v5.4.2-dirty 2nd stage bootloader[0m
+[0;32mI (29) boot: compile time�ets Jul 29 2019 12:21:46[0m
+
+rst:0x1 (POWERON_RESET),boot:0x33 (SPI_FAST_FLASH_BOOT)
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+ets Jul 29 2019 12:21:46
+
+rst:0x10 (RTCWDT_RTC_RESET),boot:0x33 (SPI_FAST_FLASH_BOOT)
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+ets Jul 29 2019 12:21:46
+
+rst:0x10 (RTCWDT_RTC_RESET),boot:0x33 (SPI_FAST_FLASH_BOOT)
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+ets Jul 29 2019 12:21:46
+
+rst:0x10 (RTCWDT_RTC_RESET),boot:0x33 (SPI_FAST_FLASH_BOOT)
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+ets Jul 29 2019 12:21:46
+
+rst:0x10 (RTCWDT_RTC_RESET),boot:0x33 (SPI_FAST_FLASH_BOOT)
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+ets Jul 29 2019 12:21:46
+
+rst:0x1 (POWERON_RESET),boot:0x33 (SPI_FAST_FLASH_BOOT)
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+ets Jul 29 2019 12:21:46
+
+rst:0x10 (RTCWDT_RTC_RESET),boot:0x33 (SPI_FAST_FLASH_BOOT)
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+ets Jul 29 2019 12:21:46
+
+rst:0x10 (RTCWDT_RTC_RESET),boot:0x33 (SPI_FAST_FLASH_BOOT)
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+ets Jul 29 2019 12:21:46
+
+rst:0x10 (RTCWDT_RTC_RESET),boot:0x33 (SPI_FAST_FLASH_BOOT)
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+ets Jul 29 2019 12:21:46
+
+rst:0x1 (POWERON_RESET),boot:0x33 (SPI_FAST_FLASH_BOOT)
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+ets Jul 29 2019 12:21:46
+
+rst:0x10 (RTCWDT_RTC_RESET),boot:0x33 (SPI_FAST_FLASH_BOOT)
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+ets Jul 29 2019 12:21:46
+
+rst:0x10 (RTCWDT_RTC_RESET),boot:0x33 (SPI_FAST_FLASH_BOOT)
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff
+invalid header: 0xffffffff

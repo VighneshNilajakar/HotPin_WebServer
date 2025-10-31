@@ -17,15 +17,27 @@ bool init_wifi() {
     ESP_LOGI("WIFI", "Initializing WiFi");
     
     // Initialize TCP/IP stack
-    ESP_ERROR_CHECK(esp_netif_init());
-    ESP_ERROR_CHECK(esp_event_loop_create_default());
+    esp_err_t err = esp_netif_init();
+    if (err != ESP_OK) {
+        ESP_LOGE("WIFI", "Failed to initialize TCP/IP stack: %s", esp_err_to_name(err));
+        return false;
+    }
+    
+    err = esp_event_loop_create_default();
+    if (err != ESP_OK) {
+        ESP_LOGE("WIFI", "Failed to create default event loop: %s", esp_err_to_name(err));
+        return false;
+    }
 
     // Initialize default station
     esp_netif_create_default_wifi_sta();
 
-    // WiFi configuration with error checking
+    // WiFi configuration with error checking - use a safer config with proper defaults
     wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
-    esp_err_t err = esp_wifi_init(&cfg);
+    cfg.nvs_enable = true;  // Enable NVS for WiFi
+    cfg.nvs_flash_init = true;
+    
+    err = esp_wifi_init(&cfg);
     if (err != ESP_OK) {
         ESP_LOGE("WIFI", "Failed to initialize WiFi: %s", esp_err_to_name(err));
         return false;
@@ -35,39 +47,43 @@ bool init_wifi() {
     err = esp_wifi_set_mode(WIFI_MODE_STA);
     if (err != ESP_OK) {
         ESP_LOGE("WIFI", "Failed to set WiFi mode: %s", esp_err_to_name(err));
+        esp_wifi_deinit();
         return false;
     }
 
     // WiFi station configuration with validation
-    wifi_config_t wifi_config = {
-        .sta = {
-            .ssid = CONFIG_ESP_WIFI_SSID,
-            .password = CONFIG_ESP_WIFI_PASSWORD,
-            .threshold.authmode = WIFI_AUTH_WPA2_PSK,
-        },
-    };
+    wifi_config_t wifi_config = {0};  // Initialize to zero to avoid garbage values
+    memset(&wifi_config, 0, sizeof(wifi_config));  // Ensure all fields are zeroed
+    
+    // Use config.h values but with safety checks
+    strlcpy((char*)wifi_config.sta.ssid, CONFIG_ESP_WIFI_SSID, sizeof(wifi_config.sta.ssid));
+    strlcpy((char*)wifi_config.sta.password, CONFIG_ESP_WIFI_PASSWORD, sizeof(wifi_config.sta.password));
+    wifi_config.sta.threshold.authmode = WIFI_AUTH_WPA2_PSK;
     
     // Validate that SSID is set
     if (strlen((char*)wifi_config.sta.ssid) == 0) {
         ESP_LOGW("WIFI", "WiFi SSID is empty, skipping WiFi connection");
-        ESP_LOGW("WIFI", "Please set CONFIG_ESP_WIFI_SSID in menuconfig or Kconfig.projbuild");
+        ESP_LOGW("WIFI", "Please set WIFI_SSID in config.h");
         // Continue with WiFi initialized but not connected
     } else {
         // Validate that the SSID length is acceptable
         if (strlen((char*)wifi_config.sta.ssid) > 32) {
             ESP_LOGE("WIFI", "WiFi SSID too long (max 32 characters)");
+            esp_wifi_deinit();
             return false;
         }
         
         // Validate password length if provided
         if (strlen((char*)wifi_config.sta.password) > 64) {
             ESP_LOGE("WIFI", "WiFi password too long (max 64 characters)");
+            esp_wifi_deinit();
             return false;
         }
         
         err = esp_wifi_set_config(WIFI_IF_STA, &wifi_config);
         if (err != ESP_OK) {
             ESP_LOGE("WIFI", "Failed to set WiFi configuration: %s", esp_err_to_name(err));
+            esp_wifi_deinit();
             return false;
         }
         
@@ -76,15 +92,19 @@ bool init_wifi() {
         err = esp_wifi_start();
         if (err != ESP_OK) {
             ESP_LOGE("WIFI", "Failed to start WiFi: %s", esp_err_to_name(err));
+            esp_wifi_deinit();
             return false;
         }
         
         // Only connect if password is provided
         if (strlen((char*)wifi_config.sta.password) > 0) {
             ESP_LOGI("WIFI", "Connecting to WiFi network: %s", wifi_config.sta.ssid);
+            vTaskDelay(pdMS_TO_TICKS(100)); // Small delay to let driver settle
+            
             err = esp_wifi_connect();
             if (err != ESP_OK) {
                 ESP_LOGE("WIFI", "Failed to connect to WiFi: %s", esp_err_to_name(err));
+                esp_wifi_deinit();
                 return false;
             }
         } else {

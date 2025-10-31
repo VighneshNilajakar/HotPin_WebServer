@@ -102,10 +102,33 @@ void app_main()
         return;
     }
 
-    // Small delay to let memory allocation settle
-    vTaskDelay(pdMS_TO_TICKS(50));
+    // Initialize WiFi (most power intensive operation) first to avoid PSRAM conflicts
+    // Use error checking to catch initialization failures
+    vTaskDelay(pdMS_TO_TICKS(100)); // Small delay before WiFi init
+    
+    // Check available heap memory before WiFi initialization
+    size_t free_heap_before = esp_get_free_heap_size();
+    ESP_LOGI("HOTPIN", "Free heap before WiFi init: %d bytes", free_heap_before);
+    
+    // Check if we have enough memory for WiFi initialization
+    if (free_heap_before < 100000) {  // Less than 100KB available
+        ESP_LOGW("HOTPIN", "Low memory before WiFi init: %d bytes, attempting to proceed", free_heap_before);
+    }
+    
+    if (!init_wifi()) {
+        ESP_LOGE("HOTPIN", "Failed to initialize WiFi");
+        // Continue but without WiFi connectivity
+        // The system can still operate in local mode
+    }
+    
+    vTaskDelay(pdMS_TO_TICKS(500)); // Additional delay after WiFi init to let it settle
+    size_t free_heap_after = esp_get_free_heap_size();
+    ESP_LOGI("HOTPIN", "Free heap after WiFi init: %d bytes", free_heap_after);
 
-    // Initialize chunk pool (depends on q_free_chunks being created)
+    // Small delay to let memory allocation settle after WiFi
+    vTaskDelay(pdMS_TO_TICKS(100));
+
+    // Initialize chunk pool (depends on q_free_chunks being created) - after WiFi to reduce memory pressure
     if (!init_chunk_pool()) {
         ESP_LOGE("HOTPIN", "Failed to initialize chunk pool");
         return;
@@ -113,14 +136,6 @@ void app_main()
 
     // Small delay to let memory pool initialization settle
     vTaskDelay(pdMS_TO_TICKS(50));
-
-    // Initialize WiFi (most power intensive operation) after other components
-    // Use error checking to catch initialization failures
-    if (!init_wifi()) {
-        ESP_LOGE("HOTPIN", "Failed to initialize WiFi");
-        // Continue but without WiFi connectivity
-        // The system can still operate in local mode
-    }
 
     // Small delay after WiFi initialization to let power stabilize
     vTaskDelay(pdMS_TO_TICKS(200));

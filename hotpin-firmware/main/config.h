@@ -7,12 +7,12 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-// WiFi Configuration
-#define WIFI_SSID "wifi"
-#define WIFI_PASSWORD "123456780"
+// WiFi Configuration (using actual values instead of CONFIG_ macros)
+#define CONFIG_ESP_WIFI_SSID "wifi"
+#define CONFIG_ESP_WIFI_PASSWORD "123456780"
 
 // WebSocket Configuration
-#define WEBSOCKET_URL "ws://10.91.158.164:8000/ws"
+#define WEBSOCKET_URL "ws://10.89.246.235:8000/ws"
 #define WEBSOCKET_TOKEN "mysecrettoken123"
 
 // Audio Configuration
@@ -24,5 +24,9 @@
 
 // Debug Configuration
 #define LOG_LEVEL "INFO"
+
+// WiFi Configuration (backward compatibility)
+#define WIFI_SSID CONFIG_ESP_WIFI_SSID
+#define WIFI_PASSWORD CONFIG_ESP_WIFI_PASSWORD
 
 #endif // CONFIG_H
